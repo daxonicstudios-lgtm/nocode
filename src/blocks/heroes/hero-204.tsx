@@ -1,5 +1,5 @@
 import type { BlockProps } from "@/blocks/types";
-import { Terminal, Github, BookOpen } from "lucide-react";
+import { Terminal, GitBranch, BookOpen } from "lucide-react";
 
 const codeEditorKeyframes = `
 @keyframes typeLine204_1 {
@@ -99,7 +99,7 @@ export default function Hero204(props: BlockProps) {
                   color: "#ffffff",
                 }}
               >
-                <Github className="w-4 h-4" />
+                <GitBranch className="w-4 h-4" />
                 {buttonText}
               </a>
               <a

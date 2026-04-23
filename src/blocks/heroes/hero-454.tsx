@@ -1,7 +1,7 @@
 "use client";
 
 import type { BlockProps } from "@/blocks/types";
-import { Sparkles, Rocket, Ferris​Wheel, Star, Ticket, Users, Zap } from "lucide-react";
+import { Sparkles, Rocket, CircleDot, Star, Ticket, Users, Zap } from "lucide-react";
 
 export default function Hero454(props: BlockProps) {
   const {

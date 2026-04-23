@@ -1,7 +1,7 @@
 "use client";
 
 import type { BlockProps } from "@/blocks/types";
-import { Camera, Instagram, ArrowUpRight } from "lucide-react";
+import { Camera, Image, ArrowUpRight } from "lucide-react";
 
 export default function Hero289(props: BlockProps) {
   const {
@@ -94,7 +94,7 @@ export default function Hero289(props: BlockProps) {
             <span>Commercial</span>
           </div>
           <a href="#" className="flex items-center gap-2 text-xs opacity-40 hover:opacity-60 transition-opacity">
-            <Instagram className="w-4 h-4" />
+            <Image className="w-4 h-4" />
             <span className="hidden sm:inline">@photographer</span>
           </a>
         </div>

@@ -1,5 +1,5 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowUpRight, Github, Dribbble, Linkedin } from "lucide-react";
+import { ArrowUpRight, GitBranch, Pen, Link } from "lucide-react";
 
 const drawStyles = `
 .draw-underline-236 {
@@ -155,7 +155,7 @@ export default function Hero236(props: BlockProps) {
       <div className="mt-auto flex items-center justify-between pt-8">
         <p className="text-xs opacity-30">Based in Lagos, working globally</p>
         <div className="flex items-center gap-5">
-          {[Github, Dribbble, Linkedin].map((Icon, i) => (
+          {[GitBranch, Pen, Link].map((Icon, i) => (
             <a key={i} href="#" className="social-icon-236 opacity-40">
               <Icon className="w-5 h-5" />
             </a>

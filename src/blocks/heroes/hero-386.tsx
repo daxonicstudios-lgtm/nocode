@@ -27,15 +27,14 @@ export default function Hero386(props: BlockProps) {
     { stage: "Hired", count: 5 },
   ];
 
+  const Users = UserPlus;
+
   const cultureValues = [
     { icon: Heart, label: "Wellbeing First" },
     { icon: Users, label: "Diverse & Inclusive" },
     { icon: Star, label: "Growth-Oriented" },
     { icon: Building2, label: "Remote-Friendly" },
   ];
-
-  // Use Users2 instead of Users for the culture section to avoid needing another import
-  const Users = UserPlus;
 
   return (
     <section

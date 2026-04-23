@@ -84,6 +84,10 @@ export interface EditorTheme {
   accent: string;
   background: string;
   foreground: string;
+  border: string;
+  card: string;
+  cardForeground: string;
+  muted: string;
 }
 
 export interface BlockCategory {
