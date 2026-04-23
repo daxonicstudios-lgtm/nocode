@@ -457,7 +457,7 @@
 
 ### D-100: Navbars Batch 1 — Simple & centered (navbar-001 to navbar-050)
 - **Who:** DAX
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** dax
 - **Push to:** stay
 - **Depends on:** S-001 (needs BlockProps type)
