@@ -257,7 +257,7 @@
 
 ### D-009: Marketing Page Polish
 - **Who:** DAX
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** dax
 - **Push to:** testing
 - **Depends on:** D-008
