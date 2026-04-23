@@ -236,7 +236,7 @@
 
 ### D-007: Admin Mobile Menu
 - **Who:** DAX
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** dax
 - **Push to:** testing
 - **Depends on:** D-002 (needs DropdownMenu)
