@@ -41,7 +41,7 @@
 
 ### S-004: Data Fetch Helpers
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-003
