@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useEditorStore } from "@/stores/editor-store";
 import BlockRenderer from "@/components/editor/BlockRenderer";
 import BlockPicker from "@/components/editor/BlockPicker";
+import BlockPropsEditor from "@/components/editor/BlockPropsEditor";
 import { Plus } from "lucide-react";
 
 export default function EditorPage() {
@@ -196,6 +197,13 @@ export default function EditorPage() {
             )}
           </div>
         </main>
+
+        {/* Block Props Editor — right panel */}
+        {selectedBlockId && (
+          <aside className="w-64 flex-shrink-0 overflow-y-auto border-l">
+            <BlockPropsEditor />
+          </aside>
+        )}
       </div>
     </div>
   );
