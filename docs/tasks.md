@@ -317,7 +317,7 @@
 
 ### S-104: Heroes Batch 5 — Interactive & animated (hero-201 to hero-250)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
