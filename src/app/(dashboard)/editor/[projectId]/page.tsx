@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useEditorStore } from "@/stores/editor-store";
 import BlockRenderer from "@/components/editor/BlockRenderer";
+import BlockPicker from "@/components/editor/BlockPicker";
+import { Plus } from "lucide-react";
 
 export default function EditorPage() {
   const { projectId } = useParams<{ projectId: string }>();
+  const [pickerOpen, setPickerOpen] = useState(false);
   const {
     projectName,
     theme,
@@ -63,6 +66,13 @@ export default function EditorPage() {
         </div>
         <div className="flex items-center gap-2">
           <button
+            onClick={() => setPickerOpen(!pickerOpen)}
+            className="inline-flex h-8 items-center gap-1 rounded-md border px-3 text-xs font-medium hover:bg-accent"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Add Block</span>
+          </button>
+          <button
             onClick={saveBlocks}
             disabled={saving}
             className="inline-flex h-8 items-center rounded-md border px-3 text-xs font-medium hover:bg-accent disabled:opacity-50"
@@ -105,6 +115,9 @@ export default function EditorPage() {
       )}
 
       <div className="flex flex-1 overflow-hidden">
+        {/* Block Picker */}
+        <BlockPicker open={pickerOpen} onClose={() => setPickerOpen(false)} />
+
         {/* Sidebar - Block list & settings */}
         <aside className="hidden w-64 flex-shrink-0 overflow-y-auto border-r md:block">
           <div className="p-4">
