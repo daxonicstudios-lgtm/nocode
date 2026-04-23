@@ -9,11 +9,13 @@ import BlockPropsEditor from "@/components/editor/BlockPropsEditor";
 import DragDropWrapper from "@/components/editor/DragDropWrapper";
 import PageTabs from "@/components/editor/PageTabs";
 import MobileSidebar from "@/components/editor/MobileSidebar";
+import PublishDialog from "@/components/editor/PublishDialog";
 import { Plus } from "lucide-react";
 
 export default function EditorPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [publishOpen, setPublishOpen] = useState(false);
   const {
     projectName,
     theme,
@@ -25,7 +27,6 @@ export default function EditorPage() {
     saving,
     loadProject,
     saveBlocks,
-    publishProject,
   } = useEditorStore();
 
   useEffect(() => {
@@ -81,7 +82,7 @@ export default function EditorPage() {
             Preview
           </a>
           <button
-            onClick={publishProject}
+            onClick={() => setPublishOpen(true)}
             className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90"
           >
             Publish
@@ -186,6 +187,8 @@ export default function EditorPage() {
           </aside>
         )}
       </div>
+
+      <PublishDialog open={publishOpen} onClose={() => setPublishOpen(false)} />
     </div>
   );
 }

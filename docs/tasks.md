@@ -142,7 +142,7 @@
 
 ### S-014: Publish Dialog & Notification System
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-009

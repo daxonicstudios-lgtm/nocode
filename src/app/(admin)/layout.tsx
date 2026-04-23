@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import NotificationBell from "@/components/admin/NotificationBell";
 
 const navLinks = [
   { href: "/admin/components", label: "Components", icon: Layers },
@@ -24,10 +25,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="flex min-h-screen">
       {/* Desktop sidebar */}
       <aside className="hidden w-60 flex-shrink-0 border-r bg-muted/30 md:block">
-        <div className="flex h-14 items-center border-b px-4">
+        <div className="flex h-14 items-center justify-between border-b px-4">
           <Link href="/admin/components" className="text-lg font-bold">
             NoCode Admin
           </Link>
+          <NotificationBell />
         </div>
         <nav className="space-y-1 p-4">
           {navLinks.map(({ href, label }) => (
@@ -48,26 +50,29 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/components" className="text-lg font-bold">
             Admin
           </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              aria-label="Open navigation menu"
-              className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted"
-            >
-              <Menu className="h-5 w-5" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              {navLinks.map(({ href, label, icon: Icon }) => (
-                <DropdownMenuItem
-                  key={href}
-                  onClick={() => router.push(href)}
-                  className="gap-2"
-                >
-                  <Icon className="h-4 w-4" />
-                  {label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center gap-2">
+            <NotificationBell />
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                aria-label="Open navigation menu"
+                className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted"
+              >
+                <Menu className="h-5 w-5" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {navLinks.map(({ href, label, icon: Icon }) => (
+                  <DropdownMenuItem
+                    key={href}
+                    onClick={() => router.push(href)}
+                    className="gap-2"
+                  >
+                    <Icon className="h-4 w-4" />
+                    {label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </header>
 
         <main className="flex-1 overflow-y-auto">{children}</main>
