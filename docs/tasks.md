@@ -246,7 +246,7 @@
 
 ### D-008: Dashboard User Menu & Footer
 - **Who:** DAX
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** dax
 - **Push to:** testing
 - **Depends on:** D-002 (needs DropdownMenu, Avatar)
