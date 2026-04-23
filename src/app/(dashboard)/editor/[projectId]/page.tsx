@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useParams } from "next/navigation";
 import { useEditorStore } from "@/stores/editor-store";
 import BlockRenderer from "@/components/editor/BlockRenderer";
@@ -10,7 +10,7 @@ import DragDropWrapper from "@/components/editor/DragDropWrapper";
 import PageTabs from "@/components/editor/PageTabs";
 import MobileSidebar from "@/components/editor/MobileSidebar";
 import PublishDialog from "@/components/editor/PublishDialog";
-import { Plus } from "lucide-react";
+import { Plus, Undo2, Redo2 } from "lucide-react";
 
 export default function EditorPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -27,7 +27,38 @@ export default function EditorPage() {
     saving,
     loadProject,
     saveBlocks,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    deleteSelectedBlock,
   } = useEditorStore();
+
+  // Keyboard shortcuts: Ctrl+Z, Ctrl+Shift+Z, Delete/Backspace
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      // Ignore if typing in an input/textarea
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "z") {
+        e.preventDefault();
+        redo();
+      } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") {
+        e.preventDefault();
+        undo();
+      } else if (e.key === "Delete" || e.key === "Backspace") {
+        e.preventDefault();
+        deleteSelectedBlock();
+      }
+    },
+    [undo, redo, deleteSelectedBlock]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   useEffect(() => {
     if (projectId) {
@@ -60,6 +91,22 @@ export default function EditorPage() {
           )}
         </div>
         <div className="flex items-center gap-2">
+          <button
+            onClick={undo}
+            disabled={!canUndo}
+            title="Undo (Ctrl+Z)"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md border text-xs hover:bg-accent disabled:opacity-30"
+          >
+            <Undo2 className="h-3.5 w-3.5" />
+          </button>
+          <button
+            onClick={redo}
+            disabled={!canRedo}
+            title="Redo (Ctrl+Shift+Z)"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md border text-xs hover:bg-accent disabled:opacity-30"
+          >
+            <Redo2 className="h-3.5 w-3.5" />
+          </button>
           <button
             onClick={() => setPickerOpen(!pickerOpen)}
             className="hidden h-8 items-center gap-1 rounded-md border px-3 text-xs font-medium hover:bg-accent sm:inline-flex"

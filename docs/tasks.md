@@ -162,7 +162,7 @@
 
 ### S-016: Editor — Undo/Redo & Auto-Save
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-013
