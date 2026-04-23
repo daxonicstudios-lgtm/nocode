@@ -21,7 +21,7 @@
 
 ### S-002: Block Renderer Component
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
