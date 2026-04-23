@@ -487,6 +487,17 @@
 - **What to do:** Build 500 footer variants: simple single-row, 2/3/4/5 column, dark, light, with newsletter signup, mega-footer, minimal, with social icons, with app download buttons, with map, with recent posts, with contact info, stacked, with awards, with trust badges, industry-specific.
 - **Done when:** 500 files. All mobile responsive. Visually distinct.
 
+### D-999: Cross-category sample pass — 3 variants per untouched category (Session 1: Core Sections)
+- **Who:** DAX
+- **Status:** [x]
+- **Branch:** dax
+- **Push to:** testing
+- **Depends on:** S-001
+- **Files to create:** 81 `.tsx` files + 27 `index.ts` barrels across: `features/`, `about/`, `services/`, `pricing/`, `testimonials/`, `cta/`, `faq/`, `contact/`, `teams/`, `stats/`, `blog/`, `galleries/`, `portfolio/`, `steps/`, `newsletter/`, `logos/`, `comparison/`, `timeline/`, `video/`, `maps/`, `download/`, `trust/`, `banners/`, `dividers/`, `content/`, `events/`, `careers/`. Plus registry.ts barrel imports.
+- **What to do:** Thin-slice build — 3 visually distinct samples per each untouched core section category so every category is representable in the editor for end-to-end testing, before committing to the full ~7,000 core section components. Each category gets its own barrel file that calls `registerBlocks()`; registry.ts imports all 27 barrels.
+- **Done when:** 81 sample files compile. All 27 new categories appear in the BlockPicker. Typecheck passes (existing hero-454.tsx unicode bug is out of scope).
+- **Notes:** Follow-up sessions D-999b/c/d will cover e-commerce/forms, dashboards/templates/animations, and 28 industries (375 sample blocks total when done).
+
 ### DAX — About (300), Services (300), Testimonials (300), Contact (300)
 
 ### D-120: About — All 300 variants
