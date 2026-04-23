@@ -11,7 +11,7 @@
 
 ### S-001: Block Types & Registry System
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** —
