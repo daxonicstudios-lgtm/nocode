@@ -206,7 +206,7 @@
 
 ### D-004: Admin Components Page — Wire Up
 - **Who:** DAX
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** dax
 - **Push to:** testing
 - **Depends on:** D-001, D-002 (needs Card, Badge, Select, Skeleton)
