@@ -1,12 +1,13 @@
 "use client";
 
 import { Suspense } from "react";
-import type { PageBlock, Block } from "@/types";
+import type { PageBlock, Block, EditorTheme } from "@/types";
 import { getBlockComponent } from "@/blocks/registry";
 
 interface BlockRendererProps {
   pageBlock: PageBlock;
   block: Block;
+  theme?: EditorTheme;
 }
 
 function BlockSkeleton() {
@@ -32,7 +33,7 @@ function MissingBlock({ slug, name }: { slug: string; name: string }) {
   );
 }
 
-export default function BlockRenderer({ pageBlock, block }: BlockRendererProps) {
+export default function BlockRenderer({ pageBlock, block, theme }: BlockRendererProps) {
   const Component = getBlockComponent(block.slug);
 
   if (!Component) {
@@ -41,7 +42,10 @@ export default function BlockRenderer({ pageBlock, block }: BlockRendererProps) 
 
   return (
     <Suspense fallback={<BlockSkeleton />}>
-      <Component {...(pageBlock.custom_props as Record<string, unknown>)} />
+      <Component
+        theme={theme}
+        {...(pageBlock.custom_props as Record<string, unknown>)}
+      />
     </Suspense>
   );
 }
