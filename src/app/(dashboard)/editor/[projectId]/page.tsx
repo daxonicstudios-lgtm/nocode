@@ -7,6 +7,8 @@ import BlockRenderer from "@/components/editor/BlockRenderer";
 import BlockPicker from "@/components/editor/BlockPicker";
 import BlockPropsEditor from "@/components/editor/BlockPropsEditor";
 import DragDropWrapper from "@/components/editor/DragDropWrapper";
+import PageTabs from "@/components/editor/PageTabs";
+import MobileSidebar from "@/components/editor/MobileSidebar";
 import { Plus } from "lucide-react";
 
 export default function EditorPage() {
@@ -19,9 +21,6 @@ export default function EditorPage() {
     blocks,
     selectedBlockId,
     selectBlock,
-    pages,
-    activePageId,
-    setActivePage,
     loading,
     saving,
     loadProject,
@@ -34,14 +33,6 @@ export default function EditorPage() {
       loadProject(projectId);
     }
   }, [projectId, loadProject]);
-
-  // Load blocks when switching pages
-  useEffect(() => {
-    if (activePageId && projectId) {
-      // blocks are loaded in loadProject for initial page,
-      // for page switches we reload
-    }
-  }, [activePageId, projectId]);
 
   if (loading) {
     return (
@@ -59,6 +50,7 @@ export default function EditorPage() {
       {/* Editor Toolbar */}
       <div className="flex items-center justify-between border-b px-4 py-2">
         <div className="flex items-center gap-2">
+          <MobileSidebar onOpenPicker={() => setPickerOpen(true)} />
           <span className="text-sm font-medium">
             {projectName || `Project ${projectId}`}
           </span>
@@ -69,10 +61,10 @@ export default function EditorPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setPickerOpen(!pickerOpen)}
-            className="inline-flex h-8 items-center gap-1 rounded-md border px-3 text-xs font-medium hover:bg-accent"
+            className="hidden h-8 items-center gap-1 rounded-md border px-3 text-xs font-medium hover:bg-accent sm:inline-flex"
           >
             <Plus className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Add Block</span>
+            Add Block
           </button>
           <button
             onClick={saveBlocks}
@@ -84,7 +76,7 @@ export default function EditorPage() {
           <a
             href={`/preview/${projectId}`}
             target="_blank"
-            className="inline-flex h-8 items-center rounded-md border px-3 text-xs font-medium hover:bg-accent"
+            className="hidden h-8 items-center rounded-md border px-3 text-xs font-medium hover:bg-accent sm:inline-flex"
           >
             Preview
           </a>
@@ -98,29 +90,13 @@ export default function EditorPage() {
       </div>
 
       {/* Page Tabs */}
-      {pages.length > 1 && (
-        <div className="flex gap-1 overflow-x-auto border-b px-4 py-1">
-          {pages.map((page) => (
-            <button
-              key={page.id}
-              onClick={() => setActivePage(page.id)}
-              className={`whitespace-nowrap rounded-t px-3 py-1.5 text-xs font-medium transition-colors ${
-                activePageId === page.id
-                  ? "bg-background border border-b-0 text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {page.name}
-            </button>
-          ))}
-        </div>
-      )}
+      <PageTabs />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Block Picker */}
         <BlockPicker open={pickerOpen} onClose={() => setPickerOpen(false)} />
 
-        {/* Sidebar - Block list & settings */}
+        {/* Sidebar - Block list & settings (desktop only) */}
         <aside className="hidden w-64 flex-shrink-0 overflow-y-auto border-r md:block">
           <div className="p-4">
             <h3 className="mb-3 text-sm font-semibold">Theme Colors</h3>
@@ -203,9 +179,9 @@ export default function EditorPage() {
           </div>
         </main>
 
-        {/* Block Props Editor — right panel */}
+        {/* Block Props Editor — right panel (desktop only) */}
         {selectedBlockId && (
-          <aside className="w-64 flex-shrink-0 overflow-y-auto border-l">
+          <aside className="hidden w-64 flex-shrink-0 overflow-y-auto border-l md:block">
             <BlockPropsEditor />
           </aside>
         )}
