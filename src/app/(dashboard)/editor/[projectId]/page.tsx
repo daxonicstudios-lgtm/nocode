@@ -6,6 +6,7 @@ import { useEditorStore } from "@/stores/editor-store";
 import BlockRenderer from "@/components/editor/BlockRenderer";
 import BlockPicker from "@/components/editor/BlockPicker";
 import BlockPropsEditor from "@/components/editor/BlockPropsEditor";
+import DragDropWrapper from "@/components/editor/DragDropWrapper";
 import { Plus } from "lucide-react";
 
 export default function EditorPage() {
@@ -176,22 +177,26 @@ export default function EditorPage() {
               </div>
             ) : (
               <div>
-                {blocks.map((pageBlock) => (
-                  <div
+                {blocks.map((pageBlock, index) => (
+                  <DragDropWrapper
                     key={pageBlock.id}
-                    onClick={() => selectBlock(pageBlock.id)}
-                    className={`cursor-pointer transition-all ${
-                      selectedBlockId === pageBlock.id
-                        ? "ring-2 ring-primary ring-offset-2"
-                        : "hover:ring-1 hover:ring-primary/30"
-                    }`}
+                    index={index}
+                    blockId={pageBlock.id}
                   >
-                    <BlockRenderer
-                      pageBlock={pageBlock}
-                      block={pageBlock.block}
-                      theme={theme}
-                    />
-                  </div>
+                    <div
+                      className={`cursor-pointer transition-all ${
+                        selectedBlockId === pageBlock.id
+                          ? "ring-2 ring-primary ring-offset-2"
+                          : "hover:ring-1 hover:ring-primary/30"
+                      }`}
+                    >
+                      <BlockRenderer
+                        pageBlock={pageBlock}
+                        block={pageBlock.block}
+                        theme={theme}
+                      />
+                    </div>
+                  </DragDropWrapper>
                 ))}
               </div>
             )}
