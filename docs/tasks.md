@@ -121,7 +121,7 @@
 
 ### S-012: Editor — Drag & Drop Reordering
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-007
