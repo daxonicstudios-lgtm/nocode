@@ -3,6 +3,11 @@ import { createClient } from "@/lib/supabase/client";
 import type { EditorTheme, PageBlock, ProjectPage, Block } from "@/types";
 import type { PageBlockWithMeta } from "@/lib/api/projects";
 
+const MAX_HISTORY = 50;
+const AUTO_SAVE_DELAY = 5000;
+
+type BlockSnapshot = PageBlockWithMeta[];
+
 interface EditorState {
   // Current project
   projectId: string | null;
@@ -23,6 +28,15 @@ interface EditorState {
   loading: boolean;
   saving: boolean;
 
+  // Undo/redo history
+  history: BlockSnapshot[];
+  historyIndex: number;
+  canUndo: boolean;
+  canRedo: boolean;
+
+  // Auto-save
+  isDirty: boolean;
+
   // Actions
   setProject: (id: string, name: string) => void;
   setPages: (pages: ProjectPage[]) => void;
@@ -34,6 +48,9 @@ interface EditorState {
   addBlock: (block: PageBlockWithMeta) => void;
   removeBlock: (blockId: string) => void;
   updateBlockProps: (blockId: string, props: Record<string, unknown>) => void;
+  undo: () => void;
+  redo: () => void;
+  deleteSelectedBlock: () => void;
 
   // Async actions
   loadProject: (projectId: string) => Promise<void>;
@@ -49,6 +66,31 @@ const defaultTheme: EditorTheme = {
   foreground: "#0f172a",
 };
 
+let autoSaveTimer: ReturnType<typeof setTimeout> | null = null;
+
+function pushHistory(state: EditorState, newBlocks: PageBlockWithMeta[]): Partial<EditorState> {
+  const history = state.history.slice(0, state.historyIndex + 1);
+  history.push(structuredClone(newBlocks));
+  if (history.length > MAX_HISTORY) history.shift();
+  return {
+    history,
+    historyIndex: history.length - 1,
+    canUndo: history.length > 1,
+    canRedo: false,
+    isDirty: true,
+  };
+}
+
+function scheduleAutoSave(get: () => EditorState) {
+  if (autoSaveTimer) clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    const state = get();
+    if (state.isDirty && !state.saving) {
+      state.saveBlocks();
+    }
+  }, AUTO_SAVE_DELAY);
+}
+
 export const useEditorStore = create<EditorState>((set, get) => ({
   projectId: null,
   projectName: "",
@@ -59,6 +101,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   theme: defaultTheme,
   loading: false,
   saving: false,
+  history: [],
+  historyIndex: -1,
+  canUndo: false,
+  canRedo: false,
+  isDirty: false,
 
   setProject: (id, name) => set({ projectId: id, projectName: name }),
 
@@ -66,41 +113,103 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
   setActivePage: (pageId) => set({ activePageId: pageId }),
 
-  setBlocks: (blocks) => set({ blocks }),
+  setBlocks: (blocks) =>
+    set({
+      blocks,
+      history: [structuredClone(blocks)],
+      historyIndex: 0,
+      canUndo: false,
+      canRedo: false,
+    }),
 
   selectBlock: (blockId) => set({ selectedBlockId: blockId }),
 
   updateTheme: (partial) =>
     set((state) => ({ theme: { ...state.theme, ...partial } })),
 
-  reorderBlocks: (fromIndex, toIndex) =>
+  reorderBlocks: (fromIndex, toIndex) => {
     set((state) => {
       const newBlocks = [...state.blocks];
       const [moved] = newBlocks.splice(fromIndex, 1);
       newBlocks.splice(toIndex, 0, moved);
+      const orderedBlocks = newBlocks.map((b, i) => ({ ...b, sort_order: i }));
       return {
-        blocks: newBlocks.map((b, i) => ({ ...b, sort_order: i })),
+        blocks: orderedBlocks,
+        ...pushHistory(state, orderedBlocks),
       };
-    }),
+    });
+    scheduleAutoSave(get);
+  },
 
-  addBlock: (block) =>
-    set((state) => ({ blocks: [...state.blocks, block] })),
+  addBlock: (block) => {
+    set((state) => {
+      const newBlocks = [...state.blocks, block];
+      return {
+        blocks: newBlocks,
+        ...pushHistory(state, newBlocks),
+      };
+    });
+    scheduleAutoSave(get);
+  },
 
-  removeBlock: (blockId) =>
-    set((state) => ({
-      blocks: state.blocks.filter((b) => b.id !== blockId),
-      selectedBlockId:
-        state.selectedBlockId === blockId ? null : state.selectedBlockId,
-    })),
+  removeBlock: (blockId) => {
+    set((state) => {
+      const newBlocks = state.blocks.filter((b) => b.id !== blockId);
+      return {
+        blocks: newBlocks,
+        selectedBlockId:
+          state.selectedBlockId === blockId ? null : state.selectedBlockId,
+        ...pushHistory(state, newBlocks),
+      };
+    });
+    scheduleAutoSave(get);
+  },
 
-  updateBlockProps: (blockId, props) =>
-    set((state) => ({
-      blocks: state.blocks.map((b) =>
+  updateBlockProps: (blockId, props) => {
+    set((state) => {
+      const newBlocks = state.blocks.map((b) =>
         b.id === blockId
           ? { ...b, custom_props: { ...b.custom_props, ...props } }
           : b
-      ),
-    })),
+      );
+      return {
+        blocks: newBlocks,
+        ...pushHistory(state, newBlocks),
+      };
+    });
+    scheduleAutoSave(get);
+  },
+
+  undo: () =>
+    set((state) => {
+      if (state.historyIndex <= 0) return state;
+      const newIndex = state.historyIndex - 1;
+      return {
+        blocks: structuredClone(state.history[newIndex]),
+        historyIndex: newIndex,
+        canUndo: newIndex > 0,
+        canRedo: true,
+        isDirty: true,
+      };
+    }),
+
+  redo: () =>
+    set((state) => {
+      if (state.historyIndex >= state.history.length - 1) return state;
+      const newIndex = state.historyIndex + 1;
+      return {
+        blocks: structuredClone(state.history[newIndex]),
+        historyIndex: newIndex,
+        canUndo: true,
+        canRedo: newIndex < state.history.length - 1,
+        isDirty: true,
+      };
+    }),
+
+  deleteSelectedBlock: () => {
+    const { selectedBlockId, removeBlock } = get();
+    if (selectedBlockId) removeBlock(selectedBlockId);
+  },
 
   loadProject: async (projectId: string) => {
     set({ loading: true });
@@ -182,7 +291,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       }
     }
 
-    set({ saving: false });
+    set({ saving: false, isDirty: false });
   },
 
   publishProject: async () => {
