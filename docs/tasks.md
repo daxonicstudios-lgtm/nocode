@@ -111,7 +111,7 @@
 
 ### S-011: Editor — Block Props Editor
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-007
