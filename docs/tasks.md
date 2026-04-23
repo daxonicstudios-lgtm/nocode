@@ -327,7 +327,7 @@
 
 ### S-105: Heroes Batch 6-10 (hero-251 to hero-500)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
