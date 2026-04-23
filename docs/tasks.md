@@ -277,7 +277,7 @@
 
 ### S-100: Heroes Batch 1 — Centered layouts (hero-001 to hero-050)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
