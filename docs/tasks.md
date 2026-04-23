@@ -297,7 +297,7 @@
 
 ### S-102: Heroes Batch 3 — Fullscreen & video backgrounds (hero-101 to hero-150)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
