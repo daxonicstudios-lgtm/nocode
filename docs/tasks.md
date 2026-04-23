@@ -152,7 +152,7 @@
 
 ### S-015: Admin Settings & Middleware Protection
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-009
