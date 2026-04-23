@@ -101,7 +101,7 @@
 
 ### S-010: Editor — Block Picker
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-007
