@@ -91,7 +91,7 @@
 
 ### S-009: Admin API Routes
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-003
