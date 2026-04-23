@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { UserMenu } from "@/components/shared/user-menu";
+import { Footer } from "@/components/shared/footer";
 
 export default function DashboardLayout({
   children,
@@ -15,14 +17,16 @@ export default function DashboardLayout({
           <nav className="flex items-center gap-4">
             <Link
               href="/projects"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground"
+              className="hidden text-sm font-medium text-muted-foreground hover:text-foreground sm:inline"
             >
               My Projects
             </Link>
+            <UserMenu />
           </nav>
         </div>
       </header>
       <main className="flex-1">{children}</main>
+      <Footer />
     </div>
   );
 }
