@@ -71,7 +71,7 @@
 
 ### S-007: Editor — Data Loading & Block Rendering
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-002, S-004, S-006
