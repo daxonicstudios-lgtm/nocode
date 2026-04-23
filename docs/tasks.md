@@ -467,7 +467,7 @@
 
 ### D-101: Navbars Batch 2-10 (navbar-051 to navbar-500)
 - **Who:** DAX
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** dax
 - **Push to:** testing
 - **Depends on:** S-001
