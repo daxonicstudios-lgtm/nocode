@@ -277,7 +277,7 @@
 
 ### S-100: Heroes Batch 1 — Centered layouts (hero-001 to hero-050)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -287,7 +287,7 @@
 
 ### S-101: Heroes Batch 2 — Split layouts (hero-051 to hero-100)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -297,7 +297,7 @@
 
 ### S-102: Heroes Batch 3 — Fullscreen & video backgrounds (hero-101 to hero-150)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -307,7 +307,7 @@
 
 ### S-103: Heroes Batch 4 — Industry-specific (hero-151 to hero-200)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -317,7 +317,7 @@
 
 ### S-104: Heroes Batch 5 — Interactive & animated (hero-201 to hero-250)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -327,7 +327,7 @@
 
 ### S-105: Heroes Batch 6-10 (hero-251 to hero-500)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
