@@ -131,7 +131,7 @@
 
 ### S-013: Editor — Page Tabs & Mobile Sidebar
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-010, S-011, S-012
