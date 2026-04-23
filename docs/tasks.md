@@ -216,7 +216,7 @@
 
 ### D-005: Admin Users Page — Wire Up
 - **Who:** DAX
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** dax
 - **Push to:** stay
 - **Depends on:** D-001 (needs Badge)
