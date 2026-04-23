@@ -196,7 +196,7 @@
 
 ### D-003: Shared Components
 - **Who:** DAX
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** dax
 - **Push to:** testing
 - **Depends on:** D-001
