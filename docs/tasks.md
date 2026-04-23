@@ -11,7 +11,7 @@
 
 ### S-001: Block Types & Registry System
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** —
@@ -21,7 +21,7 @@
 
 ### S-002: Block Renderer Component
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -31,7 +31,7 @@
 
 ### S-003: Supabase Admin Client
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** —
@@ -41,7 +41,7 @@
 
 ### S-004: Data Fetch Helpers
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-003
@@ -51,7 +51,7 @@
 
 ### S-005: Complete AI API Route
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-003, S-004
@@ -61,7 +61,7 @@
 
 ### S-006: Projects Page — Wire Up
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-005
@@ -71,7 +71,7 @@
 
 ### S-007: Editor — Data Loading & Block Rendering
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-002, S-004, S-006
@@ -81,7 +81,7 @@
 
 ### S-008: Preview Page — Server Rendering
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-002, S-004
@@ -91,7 +91,7 @@
 
 ### S-009: Admin API Routes
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-003
@@ -101,7 +101,7 @@
 
 ### S-010: Editor — Block Picker
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-007
@@ -111,7 +111,7 @@
 
 ### S-011: Editor — Block Props Editor
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-007
@@ -121,7 +121,7 @@
 
 ### S-012: Editor — Drag & Drop Reordering
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-007

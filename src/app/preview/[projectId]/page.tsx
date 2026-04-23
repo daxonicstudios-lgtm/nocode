@@ -1,16 +1,65 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
+import { fetchProjectWithDetails } from "@/lib/api/projects";
+import BlockRenderer from "@/components/editor/BlockRenderer";
 
 interface PreviewPageProps {
   params: Promise<{ projectId: string }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
-export default async function PreviewPage({ params }: PreviewPageProps) {
+export async function generateMetadata({
+  params,
+}: PreviewPageProps): Promise<Metadata> {
   const { projectId } = await params;
+  const result = await fetchProjectWithDetails(projectId);
 
-  // TODO: Fetch project data from Supabase
-  // const supabase = await createClient();
-  // const { data: project } = await supabase.from("projects").select("*").eq("id", projectId).single();
-  // if (!project) notFound();
+  if (!result) {
+    return { title: "Project Not Found" };
+  }
+
+  return {
+    title: result.project.name,
+    description: result.project.description ?? `Preview of ${result.project.name}`,
+    openGraph: {
+      title: result.project.name,
+      description: result.project.description ?? `Preview of ${result.project.name}`,
+      type: "website",
+    },
+  };
+}
+
+export default async function PreviewPage({ params, searchParams }: PreviewPageProps) {
+  const { projectId } = await params;
+  const { page: pageSlug } = await searchParams;
+
+  const result = await fetchProjectWithDetails(projectId);
+
+  if (!result) {
+    notFound();
+  }
+
+  const { project, pages, pageBlocks } = result;
+
+  // Find the target page: use query param, homepage, or first page
+  const targetPage = pageSlug
+    ? pages.find((p) => p.slug === pageSlug)
+    : pages.find((p) => p.is_homepage) ?? pages[0];
+
+  if (!targetPage) {
+    notFound();
+  }
+
+  const blocks = pageBlocks[targetPage.id] ?? [];
+
+  // Build a simple theme from the project (could be stored in project metadata later)
+  const theme = {
+    primary: "#0f172a",
+    secondary: "#64748b",
+    accent: "#3b82f6",
+    background: "#ffffff",
+    foreground: "#0f172a",
+  };
 
   return (
     <div className="relative min-h-screen">
@@ -21,12 +70,23 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
 
       {/* Preview Content */}
       <main>
-        <div className="flex min-h-screen flex-col items-center justify-center p-8 text-center">
-          <h1 className="text-2xl font-bold">Preview: {projectId}</h1>
-          <p className="mt-2 text-muted-foreground">
-            This is where the assembled blocks will render.
-          </p>
-        </div>
+        {blocks.length === 0 ? (
+          <div className="flex min-h-screen flex-col items-center justify-center p-8 text-center">
+            <h1 className="text-2xl font-bold">{project.name}</h1>
+            <p className="mt-2 text-gray-500">
+              This project has no blocks yet.
+            </p>
+          </div>
+        ) : (
+          blocks.map((pageBlock) => (
+            <BlockRenderer
+              key={pageBlock.id}
+              pageBlock={pageBlock}
+              block={pageBlock.block}
+              theme={theme}
+            />
+          ))
+        )}
       </main>
     </div>
   );
