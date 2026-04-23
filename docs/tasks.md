@@ -287,7 +287,7 @@
 
 ### S-101: Heroes Batch 2 — Split layouts (hero-051 to hero-100)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
