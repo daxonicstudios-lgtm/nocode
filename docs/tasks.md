@@ -176,7 +176,7 @@
 
 ### D-001: shadcn/ui Components — Batch 1
 - **Who:** DAX
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** dax
 - **Push to:** stay
 - **Depends on:** —
