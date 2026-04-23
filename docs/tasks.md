@@ -31,7 +31,7 @@
 
 ### S-003: Supabase Admin Client
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** —
