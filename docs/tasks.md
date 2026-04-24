@@ -371,7 +371,7 @@
 
 ### S-130: CTA — All 300 variants (cta-001 to cta-300)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
