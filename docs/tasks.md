@@ -728,23 +728,23 @@
 ### SONIC — Dashboard Components (1,760 total)
 
 ### S-400: Dashboard Layouts — 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/dash-layouts/dash-layouts-001.tsx` through `dash-layouts-150.tsx`
 
 ### S-410: Dashboard Sidebars — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/dash-sidebars/dash-sidebars-001.tsx` through `dash-sidebars-100.tsx`
 
 ### S-420: Dashboard Tables — 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/dash-tables/dash-tables-001.tsx` through `dash-tables-150.tsx`
 
 ### S-430: Dashboard Charts — 200 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/dash-charts/dash-charts-001.tsx` through `dash-charts-200.tsx`
 
 ### S-440: Dashboard Profiles — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/dash-profiles/dash-profiles-001.tsx` through `dash-profiles-100.tsx`
 
 ### S-450: Dashboard Settings — 100 | S-460: Notifications — 80 | S-470: File Upload — 80 | S-480: Kanban — 80 | S-490: Calendar — 80 | S-491: Search — 60 | S-492: Empty States — 60 | S-493: Onboarding — 80 | S-494: Chat — 100 | S-495: Activity Feed — 60 | S-496: Tasks — 80 | S-497: Inbox — 80 | S-498: User Management — 60 | S-499: Billing — 60
