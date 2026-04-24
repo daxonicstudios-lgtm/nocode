@@ -381,7 +381,7 @@
 
 ### S-140: Blog — All 300 variants (blog-001 to blog-300)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
