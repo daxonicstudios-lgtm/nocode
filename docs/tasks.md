@@ -349,7 +349,7 @@
 
 ### S-111: Features Batch 2-8 (features-051 to features-400)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
