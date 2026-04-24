@@ -433,7 +433,7 @@
 
 ### S-190: Download/App Promo — All 150 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -443,7 +443,7 @@
 
 ### S-200: Content Blocks — All 200 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
