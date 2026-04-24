@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseUserPrompt } from "@/lib/ai/agent";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getBlocksByQuery } from "@/blocks/registry";
 
 function generateSlug(name: string): string {
   return name
@@ -133,6 +132,7 @@ export async function POST(request: NextRequest) {
             }
 
             // Fallback 2: use registry-based matching (blocks not in DB yet)
+            const { getBlocksByQuery } = await import("@/blocks/registry");
             const registryBlocks = getBlocksByQuery({
               category: blockSelection.category,
               tags: blockSelection.tags.length > 0 ? blockSelection.tags : undefined,
