@@ -391,7 +391,7 @@
 
 ### S-150: Portfolio — All 300 variants (portfolio-001 to portfolio-300)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
