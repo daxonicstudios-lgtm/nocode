@@ -1,7 +1,7 @@
 "use client";
 
 import type { BlockProps } from "@/blocks/types";
-import { Pen, Calendar, Instagram, ChevronRight, Flame } from "lucide-react";
+import { Pen, Calendar, Image, ChevronRight, Flame } from "lucide-react";
 
 export default function Hero333(props: BlockProps) {
   const {
@@ -72,7 +72,7 @@ export default function Hero333(props: BlockProps) {
                 className="inline-flex items-center gap-2 px-7 py-3.5 border font-bold text-sm uppercase tracking-wider hover:bg-white/5 transition-colors"
                 style={{ borderColor: theme?.foreground ? `${theme.foreground}30` : "#E8E8E830" }}
               >
-                <Instagram className="w-4 h-4" />
+                <Image className="w-4 h-4" />
                 View Portfolio
               </a>
             </div>

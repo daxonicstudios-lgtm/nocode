@@ -59,6 +59,10 @@ export default async function PreviewPage({ params, searchParams }: PreviewPageP
     accent: "#3b82f6",
     background: "#ffffff",
     foreground: "#0f172a",
+    border: "#e2e8f0",
+    card: "#ffffff",
+    cardForeground: "#0f172a",
+    muted: "#f1f5f9",
   };
 
   return (

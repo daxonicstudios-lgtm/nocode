@@ -339,7 +339,7 @@
 
 ### S-110: Features Batch 1 — Grid layouts (features-001 to features-050)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -349,7 +349,7 @@
 
 ### S-111: Features Batch 2-8 (features-051 to features-400)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001

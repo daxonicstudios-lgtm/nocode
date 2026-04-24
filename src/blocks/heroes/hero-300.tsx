@@ -1,7 +1,7 @@
 "use client";
 
 import type { BlockProps } from "@/blocks/types";
-import { Mail, ArrowRight, Github, Linkedin, Code2, Palette, Database, Smartphone, CircleDot } from "lucide-react";
+import { Mail, ArrowRight, GitBranch, Link, Code2, Palette, Database, Smartphone, CircleDot } from "lucide-react";
 
 export default function Hero300(props: BlockProps) {
   const {
@@ -99,7 +99,7 @@ export default function Hero300(props: BlockProps) {
 
             {/* Socials */}
             <div className="flex items-center gap-4">
-              {[Github, Linkedin].map((Icon, i) => (
+              {[GitBranch, Link].map((Icon, i) => (
                 <a
                   key={i}
                   href="#"

@@ -1,7 +1,7 @@
 "use client";
 
 import type { BlockProps } from "@/blocks/types";
-import { Terminal, Copy, ChevronRight, Github, Zap } from "lucide-react";
+import { Terminal, Copy, ChevronRight, GitBranch, Zap } from "lucide-react";
 
 export default function Hero312(props: BlockProps) {
   const {
@@ -81,7 +81,7 @@ export default function Hero312(props: BlockProps) {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-medium border transition-opacity hover:opacity-70"
                 style={{ borderColor: `${theme?.foreground || "#fff"}20` }}
               >
-                <Github className="w-4 h-4" />
+                <GitBranch className="w-4 h-4" />
                 View on GitHub
               </button>
             </div>
