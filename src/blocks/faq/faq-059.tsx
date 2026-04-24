@@ -1,3 +1,4 @@
+"use client";
 import type { BlockProps } from "@/blocks/types";
 import { useState } from "react";
 

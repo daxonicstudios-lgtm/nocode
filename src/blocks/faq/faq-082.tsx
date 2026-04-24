@@ -1,3 +1,4 @@
+"use client";
 import type { BlockProps } from "@/blocks/types";
 import { Search } from "lucide-react";
 import { useState } from "react";
