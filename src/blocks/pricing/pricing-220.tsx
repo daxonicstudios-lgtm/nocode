@@ -1,53 +1,45 @@
-"use client";
 import type { BlockProps } from "@/blocks/types";
-import { useState } from "react";
-import { Check, Star } from "lucide-react";
+import { Check } from "lucide-react";
 
-const defaultItems = [
-  { title: "Starter", description: "$11", label: "Creators", value: "1 seat,5GB,Basic tools" },
-  { title: "Pro", description: "$29", label: "Creators", value: "1 seat,100GB,All tools,Analytics,Priority support" },
-  { title: "Team", description: "$59", label: "Businesses", value: "10 seats,500GB,Collaboration,Admin panel,API" },
-  { title: "Enterprise", description: "$149", label: "Businesses", value: "Unlimited,2TB,SSO,SLA,Dedicated manager,Custom integrations" },
-  { title: "Education", description: "$5", label: "Non-profit", value: "10 seats,50GB,Core features,Discounted rate" },
-  { title: "NGO", description: "$15", label: "Non-profit", value: "50 seats,200GB,All features,Dedicated support" },
+const DEFAULT_ITEMS = [
+  { title: "Basic", value: "$29", description: "Getting started", items: "Core features,Standard support,Basic reporting" },
+  { title: "Professional", value: "$59", description: "Most popular", items: "All Basic features,Priority support,Advanced reporting,Custom branding,Integrations" },
+  { title: "Premium", value: "$99", description: "Full access", items: "All Pro features,Dedicated support,Custom solutions,API access,White-label,SLA guarantee" },
 ];
 
 export default function Pricing220(props: BlockProps) {
-  const { theme, heading = "Plans for Everyone", subheading = "Special rates for non-profits and education", buttonText = "Get Started", buttonUrl = "#", items = defaultItems } = props;
-  const primary = theme?.primary || "#f59e0b";
-  const tabs = Array.from(new Set(items.map((it) => it.label || "General")));
-  const [active, setActive] = useState(tabs[0]);
-  const filtered = items.filter((it) => (it.label || "General") === active);
+  const { theme, heading = "Saas Pricing", subheading = "Professional plans tailored for saas", buttonText = "Get Started", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-16 px-4">
-      <div className="max-w-5xl mx-auto text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-8">{subheading}</p>
-        <div className="inline-flex gap-1 rounded-2xl p-1.5" style={{ backgroundColor: `${primary}15` }}>
-          {tabs.map((tab) => (
-            <button key={tab} onClick={() => setActive(tab)} className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all" style={{ backgroundColor: active === tab ? primary : "transparent", color: active === tab ? "#fff" : (theme?.foreground || "#333") }}>{tab}</button>
-          ))}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
         </div>
-      </div>
-      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filtered.map((item, i) => {
-          const features = (item.value || "").split(",").filter(Boolean);
-          const best = i === filtered.length - 1;
-          return (
-            <div key={i} className="rounded-2xl border-2 p-8 flex flex-col relative" style={{ borderColor: best ? primary : (theme?.accent || "#e5e7eb") }}>
-              {best && <Star className="absolute top-4 right-4 w-5 h-5" style={{ color: primary }} />}
-              <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-              <p className="text-4xl font-extrabold mb-6" style={{ color: primary }}>{item.description}<span className="text-sm font-normal opacity-40">/mo</span></p>
-              <ul className="space-y-2 mb-8 flex-1">
-                {features.map((f, j) => (
-                  <li key={j} className="flex items-center gap-2 text-sm opacity-80"><Check className="w-4 h-4" style={{ color: primary }} />{f.trim()}</li>
-                ))}
-              </ul>
-              <a href={buttonUrl} className="block text-center py-3 rounded-xl font-semibold text-white" style={{ backgroundColor: primary }}>{buttonText}</a>
-            </div>
-          );
-        })}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const featured = i === 1;
+            return (
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-lg border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
+                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
+                <h3 className="text-lg font-bold">{tier.title}</h3>
+                <p className="text-sm opacity-50 mt-1">{tier.description}</p>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
+                </div>
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
+                  ))}
+                </ul>
+                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

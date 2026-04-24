@@ -1,59 +1,43 @@
 import type { BlockProps } from "@/blocks/types";
-import { Layers, Check } from "lucide-react";
+import { Check } from "lucide-react";
 
-const defaultItems = [
-  { title: "Starter", description: "$8/mo", label: "monthly", value: "1 Project:$3,500MB Storage:$1,Standard Theme:$2,Community Support:$2" },
-  { title: "Pro", description: "$28/mo", label: "monthly", value: "10 Projects:$8,5GB Storage:$4,All Themes:$5,Email Support:$3,CDN:$4,Backups:$4" },
-  { title: "Max", description: "$55/mo", label: "monthly", value: "50 Projects:$12,50GB Storage:$8,All Themes:$5,Priority Support:$8,CDN:$4,Backups:$4,Custom CSS:$7,Staging:$7" },
+const DEFAULT_ITEMS = [
+  { title: "Standard", value: "$19", description: "For individuals", items: "5 projects,10GB storage,Email support,Basic analytics" },
+  { title: "Premium", value: "$49", description: "For professionals", items: "Unlimited projects,100GB storage,Priority support,Advanced analytics,API access,Custom domain" },
 ];
 
 export default function Pricing055(props: BlockProps) {
-  const {
-    theme,
-    heading = "Build Your Perfect Plan",
-    subheading = "Each feature adds a specific cost — total is always clear",
-    buttonText = "Start Now",
-    buttonUrl = "#",
-    items = defaultItems,
-  } = props;
+  const { theme, heading = "Choose your plan", subheading = "Simple pricing, no hidden fees", buttonText = "Select Plan", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
-      <div className="max-w-5xl mx-auto text-center mb-14">
-        <Layers size={32} className="mx-auto mb-4" style={{ color: theme?.primary || "#0ea5e9" }} />
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 max-w-lg mx-auto">{subheading}</p>
-      </div>
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {items.map((item, i) => {
-          const features = (item.value || "").split(",").filter(Boolean);
-          return (
-            <div key={i} className="relative rounded-2xl overflow-hidden flex flex-col" style={{ border: `2px solid ${i === 2 ? theme?.primary || "#0ea5e9" : theme?.accent || "#e5e7eb"}` }}>
-              {i === 2 && (
-                <div className="text-center text-xs font-bold uppercase tracking-widest py-1 text-white" style={{ backgroundColor: theme?.primary || "#0ea5e9" }}>Best Value</div>
-              )}
-              <div className="p-6 flex flex-col flex-1">
-                <h3 className="text-lg font-bold mb-1">{item.title}</h3>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-4xl font-black" style={{ color: theme?.primary || "#0ea5e9" }}>{item.description}</span>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {items.slice(0, 2).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const isPremium = i === 1;
+            return (
+              <div key={i} className="rounded-2xl p-8 flex flex-col" style={{ backgroundColor: isPremium ? theme?.primary ?? "#4f46e5" : theme?.accent ?? "#f8fafc", color: isPremium ? "#fff" : undefined }}>
+                <h3 className="text-xl font-bold">{tier.title}</h3>
+                <p className={`text-sm mt-1 ${isPremium ? "opacity-70" : "opacity-60"}`}>{tier.description}</p>
+                <div className="mt-5 flex items-baseline gap-1">
+                  <span className="text-5xl font-black">{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
                 </div>
-                <p className="text-xs opacity-50 mb-5">{item.label}</p>
-                <div className="flex-1 divide-y" style={{ borderColor: theme?.accent || "#f3f4f6" }}>
-                  {features.map((f, j) => {
-                    const [name, price] = f.split(":");
-                    return (
-                      <div key={j} className="flex items-center justify-between py-2 text-sm">
-                        <span className="flex items-center gap-1.5"><Check size={13} style={{ color: theme?.primary || "#0ea5e9" }} />{name.trim()}</span>
-                        <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: (theme?.primary || "#0ea5e9") + "15", color: theme?.primary || "#0ea5e9" }}>{price?.trim()}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-                <a href={buttonUrl} className="mt-6 block text-center py-3 rounded-xl font-semibold text-white" style={{ backgroundColor: theme?.primary || "#0ea5e9" }}>{buttonText}</a>
+                <ul className="mt-6 space-y-3 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" /> {f.trim()}</li>
+                  ))}
+                </ul>
+                <a href="#" className="mt-8 block text-center py-3 rounded-xl font-bold text-sm" style={{ backgroundColor: isPremium ? "#fff" : theme?.primary ?? "#4f46e5", color: isPremium ? theme?.primary ?? "#4f46e5" : "#fff" }}>{buttonText}</a>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

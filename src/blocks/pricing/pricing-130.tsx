@@ -1,36 +1,41 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check } from "lucide-react";
-
-const DEFAULT_ITEMS = [
-  { title: "Monthly", value: "$29", description: "Billed monthly", items: "Full platform access,Unlimited projects,Priority support,All integrations,API access" },
-];
+import { useState } from "react";
 
 export default function Pricing130(props: BlockProps) {
-  const { theme, heading = "Value-Driven Pricing", subheading = "One straightforward plan with everything you need.", buttonText = "Start Now", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Pay as you go", subheading = "Only pay for what you use. No surprises.", buttonText = "Get Started" } = props;
+  const [quantity, setQuantity] = useState(1000);
 
-  const plan = items[0];
-  const features = typeof plan?.items === "string" ? plan.items.split(",") : (plan?.items as string[] ?? []);
+  const unitPrice = 0.005;
+  const total = (quantity * unitPrice).toFixed(2);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-24">
-      <div className="max-w-lg mx-auto text-center">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-2xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
         <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-10 rounded-2xl border p-10" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          <h3 className="text-xl font-bold">{plan?.title}</h3>
-          <div className="mt-4 flex items-baseline justify-center gap-1">
-            <span className="text-5xl font-black" style={{ color: theme?.primary }}>{plan?.value}</span>
-            <span className="text-sm opacity-50">/mo</span>
+        <div className="mt-10 rounded-2xl p-8" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+          <label className="text-sm font-medium opacity-60">Monthly usage</label>
+          <input
+            type="range"
+            min={100}
+            max={100000}
+            step={100}
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className="w-full mt-3 accent-indigo-500"
+          />
+          <div className="flex justify-between text-xs opacity-40 mt-1">
+            <span>100</span><span>100,000</span>
           </div>
-          <p className="text-xs opacity-40 mt-1">{plan?.description}</p>
-          <ul className="mt-8 space-y-3 text-left">
-            {features.map((f: string, j: number) => (
-              <li key={j} className="flex items-center gap-3 text-sm">
-                <Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary ?? "#22c55e" }} /> {f.trim()}
-              </li>
-            ))}
-          </ul>
-          <a href="#" className="mt-8 block py-3 rounded-xl font-bold text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
+          <div className="mt-6">
+            <span className="text-sm opacity-60">{quantity.toLocaleString()} requests/mo</span>
+            <div className="mt-2 flex items-baseline justify-center gap-1">
+              <span className="text-5xl font-black" style={{ color: theme?.primary }}>${total}</span>
+              <span className="text-sm opacity-50">/mo</span>
+            </div>
+            <p className="text-xs opacity-40 mt-2">${unitPrice} per request</p>
+          </div>
+          <a href="#" className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
         </div>
       </div>
     </section>

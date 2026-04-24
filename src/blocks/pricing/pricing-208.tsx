@@ -1,45 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check, Award } from "lucide-react";
+import { Check } from "lucide-react";
 
-const defaultItems = [
-  { title: "Starter", description: "$11", label: "per month", value: "3 seats,15GB,Email support" },
-  { title: "Business", description: "$39", label: "per month", value: "15 seats,150GB,Chat support,Advanced reports,Integrations,Custom branding" },
-  { title: "Enterprise", description: "$99", label: "per month", value: "Unlimited seats,2TB,Phone support,SLA,Onboarding" },
+const DEFAULT_ITEMS = [
+  { title: "Basic", value: "$29", description: "Getting started", items: "Core features,Standard support,Basic reporting" },
+  { title: "Professional", value: "$59", description: "Most popular", items: "All Basic features,Priority support,Advanced reporting,Custom branding,Integrations" },
+  { title: "Premium", value: "$99", description: "Full access", items: "All Pro features,Dedicated support,Custom solutions,API access,White-label,SLA guarantee" },
 ];
 
 export default function Pricing208(props: BlockProps) {
-  const { theme, heading = "Scale Without Limits", subheading = "30-day money-back guarantee on all plans", buttonText = "Start Now", buttonUrl = "#", items = defaultItems } = props;
-  const primary = theme?.primary || "#0ea5e9";
-  const accent = theme?.accent || "#f97316";
+  const { theme, heading = "Saas Pricing", subheading = "Professional plans tailored for saas", buttonText = "Get Started", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
-      <div className="max-w-5xl mx-auto text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold mb-3">{heading}</h2>
-        <p className="opacity-60">{subheading}</p>
-      </div>
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {items.map((item, i) => {
-          const best = i === 1;
-          const features = (item.value || "").split(",").filter(Boolean);
-          return (
-            <div key={i} className="rounded-3xl p-[2px] flex flex-col" style={{ background: best ? `linear-gradient(135deg, ${primary}, ${accent})` : (theme?.accent || "#e5e7eb") }}>
-              <div className="rounded-3xl p-8 flex flex-col flex-1 h-full" style={{ backgroundColor: theme?.background || "#fff" }}>
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold">{item.title}</h3>
-                  {best && <Award className="w-5 h-5" style={{ color: accent }} />}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const featured = i === 1;
+            return (
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-lg border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
+                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
+                <h3 className="text-lg font-bold">{tier.title}</h3>
+                <p className="text-sm opacity-50 mt-1">{tier.description}</p>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
                 </div>
-                <p className="text-4xl font-extrabold mb-1" style={{ color: primary }}>{item.description}<span className="text-base font-normal opacity-40">/{item.label?.replace("per ", "")}</span></p>
-                <ul className="space-y-2 my-6 flex-1">
-                  {features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-2 text-sm opacity-80"><Check className="w-4 h-4 shrink-0" style={{ color: primary }} />{f.trim()}</li>
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
                   ))}
                 </ul>
-                <a href={buttonUrl} className="block text-center py-3 rounded-xl font-semibold text-white" style={{ background: best ? `linear-gradient(135deg, ${primary}, ${accent})` : primary }}>{buttonText}</a>
+                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

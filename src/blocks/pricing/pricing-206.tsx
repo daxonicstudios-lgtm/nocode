@@ -1,51 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check, Sparkles } from "lucide-react";
+import { Check } from "lucide-react";
 
-const defaultItems = [
-  { title: "Lite", description: "$10", label: "per month", value: "2 projects,5GB,Basic support" },
-  { title: "Plus", description: "$35", label: "per month", value: "20 projects,100GB,Priority support,Custom domain,Webhooks,Team access" },
-  { title: "Max", description: "$70", label: "per month", value: "Unlimited,500GB,24/7 support,Dedicated manager" },
+const DEFAULT_ITEMS = [
+  { title: "Basic", value: "$29", description: "Getting started", items: "Core features,Standard support,Basic reporting" },
+  { title: "Professional", value: "$59", description: "Most popular", items: "All Basic features,Priority support,Advanced reporting,Custom branding,Integrations" },
+  { title: "Premium", value: "$99", description: "Full access", items: "All Pro features,Dedicated support,Custom solutions,API access,White-label,SLA guarantee" },
 ];
 
 export default function Pricing206(props: BlockProps) {
-  const { theme, heading = "Supercharge Your Workflow", subheading = "Pick a plan and start building today", buttonText = "Subscribe", buttonUrl = "#", items = defaultItems } = props;
+  const { theme, heading = "Saas Pricing", subheading = "Professional plans tailored for saas", buttonText = "Get Started", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
-      <div className="max-w-5xl mx-auto text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold mb-3">{heading}</h2>
-        <p className="opacity-60">{subheading}</p>
-      </div>
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {items.map((item, i) => {
-          const rec = i === 1;
-          const features = (item.value || "").split(",").filter(Boolean);
-          return (
-            <div key={i} className={`relative rounded-2xl p-8 flex flex-col border ${rec ? "overflow-hidden" : ""}`} style={{ borderColor: rec ? "transparent" : (theme?.accent || "#e5e7eb") }}>
-              {rec && (
-                <>
-                  <div className="absolute inset-0 rounded-2xl animate-pulse" style={{ background: `linear-gradient(135deg, ${theme?.primary || "#6366f1"}, ${theme?.accent || "#ec4899"})`, padding: "2px" }}>
-                    <div className="w-full h-full rounded-2xl" style={{ backgroundColor: theme?.background || "#fff" }} />
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl opacity-20 blur-xl" style={{ background: `linear-gradient(135deg, ${theme?.primary || "#6366f1"}, ${theme?.accent || "#ec4899"})` }} />
-                </>
-              )}
-              <div className="relative z-10 flex flex-col flex-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-lg font-bold">{item.title}</h3>
-                  {rec && <Sparkles className="w-4 h-4" style={{ color: theme?.primary || "#6366f1" }} />}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const featured = i === 1;
+            return (
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-lg border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
+                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
+                <h3 className="text-lg font-bold">{tier.title}</h3>
+                <p className="text-sm opacity-50 mt-1">{tier.description}</p>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
                 </div>
-                <p className="text-4xl font-extrabold mb-1" style={{ color: theme?.primary || "#6366f1" }}>{item.description}<span className="text-sm font-normal opacity-50">/{item.label?.replace("per ", "")}</span></p>
-                <ul className="space-y-2 my-6 flex-1">
-                  {features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-2 text-sm opacity-80"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary || "#6366f1" }} />{f.trim()}</li>
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
                   ))}
                 </ul>
-                <a href={buttonUrl} className="block text-center py-3 rounded-xl font-semibold text-white" style={{ backgroundColor: theme?.primary || "#6366f1" }}>{buttonText}</a>
+                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

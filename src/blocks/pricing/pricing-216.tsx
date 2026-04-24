@@ -1,51 +1,45 @@
-"use client";
 import type { BlockProps } from "@/blocks/types";
-import { useState } from "react";
 import { Check } from "lucide-react";
 
-const defaultItems = [
-  { title: "Individual Basic", description: "$9", label: "Individual", value: "1 user,5GB,Email support" },
-  { title: "Individual Pro", description: "$19", label: "Individual", value: "1 user,50GB,Priority support,Custom domain" },
-  { title: "Team Starter", description: "$29", label: "Team", value: "5 users,50GB,Shared workspace,Chat support" },
-  { title: "Team Pro", description: "$59", label: "Team", value: "20 users,200GB,Admin panel,Analytics,Priority support" },
-  { title: "Enterprise", description: "$149", label: "Enterprise", value: "Unlimited users,2TB,SSO,SLA,Dedicated manager" },
-  { title: "Enterprise Plus", description: "$299", label: "Enterprise", value: "Custom infra,Compliance,Training,Custom contracts" },
+const DEFAULT_ITEMS = [
+  { title: "Basic", value: "$29", description: "Getting started", items: "Core features,Standard support,Basic reporting" },
+  { title: "Professional", value: "$59", description: "Most popular", items: "All Basic features,Priority support,Advanced reporting,Custom branding,Integrations" },
+  { title: "Premium", value: "$99", description: "Full access", items: "All Pro features,Dedicated support,Custom solutions,API access,White-label,SLA guarantee" },
 ];
 
 export default function Pricing216(props: BlockProps) {
-  const { theme, heading = "Plans for Every Team Size", subheading = "Switch categories to find your plan", buttonText = "Get Started", buttonUrl = "#", items = defaultItems } = props;
-  const primary = theme?.primary || "#2563eb";
-  const tabs = Array.from(new Set(items.map((it) => it.label || "General")));
-  const [active, setActive] = useState(tabs[0]);
-  const filtered = items.filter((it) => (it.label || "General") === active);
+  const { theme, heading = "Saas Pricing", subheading = "Professional plans tailored for saas", buttonText = "Get Started", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-16 px-4">
-      <div className="max-w-5xl mx-auto text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-8">{subheading}</p>
-        <div className="inline-flex gap-1 p-1 rounded-xl" style={{ backgroundColor: `${primary}10` }}>
-          {tabs.map((tab) => (
-            <button key={tab} onClick={() => setActive(tab)} className="px-5 py-2 rounded-lg text-sm font-medium transition-colors" style={{ backgroundColor: active === tab ? primary : "transparent", color: active === tab ? "#fff" : (theme?.foreground || "#111") }}>{tab}</button>
-          ))}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
         </div>
-      </div>
-      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filtered.map((item, i) => {
-          const features = (item.value || "").split(",").filter(Boolean);
-          return (
-            <div key={i} className="rounded-2xl border p-8 flex flex-col" style={{ borderColor: theme?.accent || "#e5e7eb" }}>
-              <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-              <p className="text-4xl font-extrabold mb-1" style={{ color: primary }}>{item.description}<span className="text-sm font-normal opacity-50">/mo</span></p>
-              <ul className="space-y-2 my-6 flex-1">
-                {features.map((f, j) => (
-                  <li key={j} className="flex items-center gap-2 text-sm opacity-80"><Check className="w-4 h-4" style={{ color: primary }} />{f.trim()}</li>
-                ))}
-              </ul>
-              <a href={buttonUrl} className="block text-center py-3 rounded-lg font-medium text-white" style={{ backgroundColor: primary }}>{buttonText}</a>
-            </div>
-          );
-        })}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const featured = i === 1;
+            return (
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-lg border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
+                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
+                <h3 className="text-lg font-bold">{tier.title}</h3>
+                <p className="text-sm opacity-50 mt-1">{tier.description}</p>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
+                </div>
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
+                  ))}
+                </ul>
+                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

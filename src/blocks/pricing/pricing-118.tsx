@@ -1,46 +1,52 @@
 import type { BlockProps } from "@/blocks/types";
-import { Activity } from "lucide-react";
+import { Check, X } from "lucide-react";
+
+const DEFAULT_ITEMS = [
+  { title: "Feature", value: "free,pro,business" },
+  { title: "Projects", value: "3,Unlimited,Unlimited" },
+  { title: "Storage", value: "1GB,50GB,Unlimited" },
+  { title: "Custom Domain", value: "no,yes,yes" },
+  { title: "Analytics", value: "Basic,Advanced,Advanced" },
+  { title: "Priority Support", value: "no,yes,yes" },
+  { title: "API Access", value: "no,yes,yes" },
+  { title: "SSO/SAML", value: "no,no,yes" },
+  { title: "SLA", value: "no,no,yes" },
+];
 
 export default function Pricing118(props: BlockProps) {
-  const {
-    theme,
-    heading = "API Pricing",
-    subheading = "Metered billing based on API calls",
-    bodyText,
-    buttonText = "View Docs",
-    buttonUrl = "#",
-    imageUrl,
-    items = [
-      { title: "Hobby", value: "Free", label: "15", description: "1,000 calls/day" },
-      { title: "Developer", value: "$19/mo", label: "45", description: "50,000 calls/day" },
-      { title: "Production", value: "$99/mo", label: "85", description: "1M calls/day" },
-    ],
-  } = props;
+  const { theme, heading = "Compare all features", subheading = "Find the plan that fits", items = DEFAULT_ITEMS } = props;
+
+  const plans = ["Free", "Pro", "Business"];
+  const prices = ["$0", "$29", "$79"];
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <Activity className="w-8 h-8 mx-auto mb-3" style={{ color: theme?.primary }} />
-          <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-          <p className="opacity-60 text-sm">{subheading}</p>
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {items.map((item, i) => {
-            const pct = parseInt(item.label || "0", 10);
+        <div className="rounded-2xl border overflow-hidden" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          <div className="grid grid-cols-4 gap-0 p-4 border-b" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.accent ?? "#f8fafc" }}>
+            <div />
+            {plans.map((p, i) => (
+              <div key={i} className="text-center">
+                <div className="font-bold">{p}</div>
+                <div className="text-2xl font-black mt-1" style={{ color: theme?.primary }}>{prices[i]}</div>
+                <div className="text-xs opacity-40">/month</div>
+              </div>
+            ))}
+          </div>
+          {items.slice(1).map((row, i) => {
+            const vals = (row.value ?? "").split(",");
             return (
-              <div key={i} className="rounded-2xl p-6 text-center" style={{ backgroundColor: theme?.accent }}>
-                <h3 className="font-bold text-lg mb-1">{item.title}</h3>
-                <p className="text-xs opacity-60 mb-4">{item.description}</p>
-                <div className="relative w-20 h-20 mx-auto mb-4">
-                  <svg viewBox="0 0 36 36" className="w-20 h-20 -rotate-90">
-                    <circle cx="18" cy="18" r="16" fill="none" stroke={theme?.background || "#e5e7eb"} strokeWidth="3" />
-                    <circle cx="18" cy="18" r="16" fill="none" stroke={theme?.primary || "#3b82f6"} strokeWidth="3" strokeDasharray={`${pct} ${100 - pct}`} strokeLinecap="round" />
-                  </svg>
-                  <span className="absolute inset-0 flex items-center justify-center text-xs font-bold">{pct}%</span>
-                </div>
-                <p className="text-2xl font-bold mb-4" style={{ color: theme?.primary }}>{item.value}</p>
-                <a href={buttonUrl} className="text-sm font-medium underline" style={{ color: theme?.primary }}>{buttonText}</a>
+              <div key={i} className="grid grid-cols-4 gap-0 px-4 py-3 border-b last:border-0 text-sm" style={{ borderColor: theme?.secondary ?? "#f3f4f6" }}>
+                <div className="font-medium">{row.title}</div>
+                {vals.map((v, j) => (
+                  <div key={j} className="text-center">
+                    {v.trim() === "yes" ? <Check className="w-4 h-4 mx-auto text-green-500" /> : v.trim() === "no" ? <X className="w-4 h-4 mx-auto opacity-20" /> : <span>{v.trim()}</span>}
+                  </div>
+                ))}
               </div>
             );
           })}

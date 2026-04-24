@@ -1,40 +1,41 @@
 import type { BlockProps } from "@/blocks/types";
+import { useState } from "react";
 
 export default function Pricing123(props: BlockProps) {
-  const {
-    theme,
-    heading = "Our Plans",
-    subheading = "Simple pricing, powerful features",
-    bodyText,
-    buttonText = "Choose",
-    buttonUrl = "#",
-    imageUrl,
-    items = [
-      { title: "Free", value: "$0", description: "1 project, community support" },
-      { title: "Growth", value: "$24", description: "10 projects, live chat" },
-      { title: "Business", value: "$59", description: "Unlimited, phone support" },
-    ],
-  } = props;
+  const { theme, heading = "Pay as you go", subheading = "Only pay for what you use. No surprises.", buttonText = "Get Started" } = props;
+  const [quantity, setQuantity] = useState(1000);
+
+  const unitPrice = 0.005;
+  const total = (quantity * unitPrice).toFixed(2);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-2">{heading}</h2>
-        <p className="text-center opacity-60 mb-12">{subheading}</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.map((item, i) => (
-            <div key={i} className="group rounded-xl p-6 sm:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border" style={{ borderColor: theme?.accent }}>
-              <div className="w-full h-1 rounded-full mb-6 transition-all duration-300 group-hover:h-2" style={{ backgroundColor: theme?.primary }} />
-              <h3 className="font-bold text-xl mb-1">{item.title}</h3>
-              <p className="text-sm opacity-60 mb-6">{item.description}</p>
-              <p className="text-4xl font-extrabold mb-1" style={{ color: theme?.primary }}>
-                {item.value}<span className="text-base font-normal opacity-50">/mo</span>
-              </p>
-              <a href={buttonUrl} className="mt-6 block text-center rounded-lg py-3 font-semibold border-2 transition-colors duration-300 group-hover:text-white" style={{ borderColor: theme?.primary, color: theme?.primary, backgroundColor: "transparent" }}>
-                {buttonText}
-              </a>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+        <p className="mt-3 opacity-60">{subheading}</p>
+        <div className="mt-10 rounded-2xl p-8" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+          <label className="text-sm font-medium opacity-60">Monthly usage</label>
+          <input
+            type="range"
+            min={100}
+            max={100000}
+            step={100}
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className="w-full mt-3 accent-indigo-500"
+          />
+          <div className="flex justify-between text-xs opacity-40 mt-1">
+            <span>100</span><span>100,000</span>
+          </div>
+          <div className="mt-6">
+            <span className="text-sm opacity-60">{quantity.toLocaleString()} requests/mo</span>
+            <div className="mt-2 flex items-baseline justify-center gap-1">
+              <span className="text-5xl font-black" style={{ color: theme?.primary }}>${total}</span>
+              <span className="text-sm opacity-50">/mo</span>
             </div>
-          ))}
+            <p className="text-xs opacity-40 mt-2">${unitPrice} per request</p>
+          </div>
+          <a href="#" className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
         </div>
       </div>
     </section>

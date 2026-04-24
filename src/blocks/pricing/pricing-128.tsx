@@ -1,46 +1,41 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check } from "lucide-react";
-
-const DEFAULT_ITEMS = [
-  { title: "Standard", value: "$19", description: "Great for personal use", items: "5 projects,10GB storage,Email support,Basic features" },
-  { title: "Premium", value: "$49", description: "For professionals and teams", items: "Unlimited projects,100GB storage,Priority support,All features,API access,Custom integrations" },
-];
+import { useState } from "react";
 
 export default function Pricing128(props: BlockProps) {
-  const { theme, heading = "Select a Plan", subheading = "No contracts. Cancel anytime.", buttonText = "Select Plan", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Pay as you go", subheading = "Only pay for what you use. No surprises.", buttonText = "Get Started" } = props;
+  const [quantity, setQuantity] = useState(1000);
+
+  const unitPrice = 0.005;
+  const total = (quantity * unitPrice).toFixed(2);
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {items.slice(0, 2).map((tier, i) => {
-            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
-            const isPremium = i === 1;
-            return (
-              <div key={i} className="rounded-2xl p-8 flex flex-col" style={{ backgroundColor: isPremium ? theme?.primary ?? "#4f46e5" : theme?.accent ?? "#f8fafc", color: isPremium ? "#fff" : undefined }}>
-                <h3 className="text-xl font-bold">{tier.title}</h3>
-                <p className={`text-sm mt-1 ${isPremium ? "opacity-70" : "opacity-60"}`}>{tier.description}</p>
-                <div className="mt-5 flex items-baseline gap-1">
-                  <span className="text-5xl font-black">{tier.value}</span>
-                  <span className="text-sm opacity-50">/mo</span>
-                </div>
-                <ul className="mt-6 space-y-3 flex-1">
-                  {features.map((f: string, j: number) => (
-                    <li key={j} className="flex items-center gap-2 text-sm">
-                      <Check className="w-4 h-4 shrink-0" /> {f.trim()}
-                    </li>
-                  ))}
-                </ul>
-                <a href="#" className="mt-8 block text-center py-3 rounded-xl font-bold text-sm" style={{ backgroundColor: isPremium ? "#fff" : theme?.primary ?? "#4f46e5", color: isPremium ? theme?.primary ?? "#4f46e5" : "#fff" }}>
-                  {buttonText}
-                </a>
-              </div>
-            );
-          })}
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+        <p className="mt-3 opacity-60">{subheading}</p>
+        <div className="mt-10 rounded-2xl p-8" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+          <label className="text-sm font-medium opacity-60">Monthly usage</label>
+          <input
+            type="range"
+            min={100}
+            max={100000}
+            step={100}
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className="w-full mt-3 accent-indigo-500"
+          />
+          <div className="flex justify-between text-xs opacity-40 mt-1">
+            <span>100</span><span>100,000</span>
+          </div>
+          <div className="mt-6">
+            <span className="text-sm opacity-60">{quantity.toLocaleString()} requests/mo</span>
+            <div className="mt-2 flex items-baseline justify-center gap-1">
+              <span className="text-5xl font-black" style={{ color: theme?.primary }}>${total}</span>
+              <span className="text-sm opacity-50">/mo</span>
+            </div>
+            <p className="text-xs opacity-40 mt-2">${unitPrice} per request</p>
+          </div>
+          <a href="#" className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
         </div>
       </div>
     </section>

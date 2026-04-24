@@ -1,49 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
-import { CircleCheck, Users, Briefcase, Rocket } from "lucide-react";
+import { Check } from "lucide-react";
 
-const defaultItems = [
-  { title: "Individual", description: "$12/mo", label: "1 seat included", value: "5 projects,10GB,Basic analytics" },
-  { title: "Small Team", description: "$36/mo", label: "5 seats included", value: "25 projects,100GB,Advanced analytics,Shared workspace" },
-  { title: "Business", description: "$89/mo", label: "20 seats included", value: "Unlimited,500GB,Custom reports,API,Priority support" },
+const DEFAULT_ITEMS = [
+  { title: "Basic", value: "$29", description: "Getting started", items: "Core features,Standard support,Basic reporting" },
+  { title: "Professional", value: "$59", description: "Most popular", items: "All Basic features,Priority support,Advanced reporting,Custom branding,Integrations" },
+  { title: "Premium", value: "$99", description: "Full access", items: "All Pro features,Dedicated support,Custom solutions,API access,White-label,SLA guarantee" },
 ];
 
-const icons = [Users, Briefcase, Rocket];
-
 export default function Pricing213(props: BlockProps) {
-  const { theme, heading = "Plans for Every Stage", subheading = "Upgrade or downgrade anytime", buttonText = "Choose", buttonUrl = "#", items = defaultItems } = props;
-  const primary = theme?.primary || "#0891b2";
+  const { theme, heading = "Saas Pricing", subheading = "Professional plans tailored for saas", buttonText = "Get Started", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-16 px-4">
-      <div className="max-w-4xl mx-auto text-center mb-10">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60">{subheading}</p>
-      </div>
-      <div className="max-w-4xl mx-auto space-y-3">
-        {items.map((item, i) => {
-          const features = (item.value || "").split(",").filter(Boolean);
-          const Icon = icons[i % icons.length];
-          return (
-            <div key={i} className="flex flex-col md:flex-row md:items-center gap-4 rounded-2xl border p-5 hover:shadow-md transition-shadow" style={{ borderColor: theme?.accent || "#e5e7eb" }}>
-              <div className="flex items-center gap-3 md:w-44 shrink-0">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${primary}15` }}>
-                  <Icon className="w-5 h-5" style={{ color: primary }} />
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const featured = i === 1;
+            return (
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-lg border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
+                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
+                <h3 className="text-lg font-bold">{tier.title}</h3>
+                <p className="text-sm opacity-50 mt-1">{tier.description}</p>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
                 </div>
-                <div>
-                  <h3 className="font-bold text-sm">{item.title}</h3>
-                  <p className="text-xs opacity-50">{item.label}</p>
-                </div>
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
+                  ))}
+                </ul>
+                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
               </div>
-              <p className="md:w-28 shrink-0 text-2xl font-extrabold" style={{ color: primary }}>{item.description}</p>
-              <div className="flex flex-wrap gap-2 flex-1">
-                {features.map((f, j) => (
-                  <span key={j} className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full" style={{ backgroundColor: `${primary}10`, color: primary }}><CircleCheck className="w-3 h-3" />{f.trim()}</span>
-                ))}
-              </div>
-              <a href={buttonUrl} className="shrink-0 px-5 py-2 rounded-lg font-medium text-sm text-white" style={{ backgroundColor: primary }}>{buttonText}</a>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

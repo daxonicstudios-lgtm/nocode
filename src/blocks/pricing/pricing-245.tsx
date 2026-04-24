@@ -1,20 +1,19 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check, GraduationCap } from "lucide-react";
+import { Check } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Single Course", value: "$49", description: "Starting from", items: "Core service,Basic support,Standard scheduling" },
-  { title: "All Access", value: "$19", description: "Most popular", items: "Full service,Priority booking,Dedicated specialist,Follow-up included,Member perks" },
-  { title: "Team License", value: "$149", description: "Ultimate experience", items: "All services,VIP access,Personal consultant,Exclusive perks,Priority support,Premium extras,Loyalty rewards" },
+  { title: "Basic", value: "$29", description: "Getting started", items: "Core features,Standard support,Basic reporting" },
+  { title: "Professional", value: "$59", description: "Most popular", items: "All Basic features,Priority support,Advanced reporting,Custom branding,Integrations" },
+  { title: "Premium", value: "$99", description: "Full access", items: "All Pro features,Dedicated support,Custom solutions,API access,White-label,SLA guarantee" },
 ];
 
 export default function Pricing245(props: BlockProps) {
-  const { theme, heading = "Education Pricing", subheading = "Professional education services at competitive rates", buttonText = "Book Now", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Education Pricing", subheading = "Professional plans tailored for education", buttonText = "Get Started", items = DEFAULT_ITEMS } = props;
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
-          <GraduationCap className="w-8 h-8 mx-auto mb-3" style={{ color: theme?.primary }} />
           <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
           <p className="mt-3 opacity-60">{subheading}</p>
         </div>
@@ -23,12 +22,13 @@ export default function Pricing245(props: BlockProps) {
             const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
             const featured = i === 1;
             return (
-              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-xl border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-lg border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
                 {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
                 <h3 className="text-lg font-bold">{tier.title}</h3>
                 <p className="text-sm opacity-50 mt-1">{tier.description}</p>
                 <div className="mt-4 flex items-baseline gap-1">
                   <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
                 </div>
                 <ul className="mt-6 space-y-2.5 flex-1">
                   {features.map((f: string, j: number) => (

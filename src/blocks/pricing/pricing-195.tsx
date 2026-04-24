@@ -1,14 +1,21 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 const DEFAULT_ITEMS = [
-  { title: "Basic", value: "$12", description: "Best for individuals", items: "3 projects,5GB storage,Community support" },
-  { title: "Team", value: "$36", description: "Best for small teams", items: "20 projects,50GB storage,Priority support,Collaboration tools" },
-  { title: "Business", value: "$72", description: "Best for companies", items: "Unlimited projects,500GB storage,24/7 support,Advanced security,Custom branding" },
+  { title: "Pro", value: "$29", items: "Unlimited projects,Priority support,50GB storage,Custom domain" },
+  { title: "Business", value: "$69", items: "Everything in Pro,SSO,Audit logs,SLA,API access,Dedicated manager" },
+];
+
+const faqs = [
+  { q: "Can I switch plans later?", a: "Yes, upgrade or downgrade at any time. Changes take effect immediately." },
+  { q: "Is there a free trial?", a: "Every plan comes with a 14-day free trial. No credit card required." },
+  { q: "What payment methods do you accept?", a: "We accept all major credit cards, PayPal, and bank transfers for annual plans." },
 ];
 
 export default function Pricing195(props: BlockProps) {
-  const { theme, heading = "Scale Your Way", subheading = "Scale at your own pace", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Simple, transparent pricing", subheading = "No hidden fees. Cancel anytime.", items = DEFAULT_ITEMS } = props;
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
@@ -17,34 +24,38 @@ export default function Pricing195(props: BlockProps) {
           <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
           <p className="mt-3 opacity-60">{subheading}</p>
         </div>
-        <div className="space-y-4">
-          {items.slice(0, 3).map((tier, i) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          {items.slice(0, 2).map((tier, i) => {
             const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
             return (
-              <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-6 rounded-xl border p-6" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-                <div className="sm:w-40 shrink-0">
-                  <h3 className="font-bold text-lg">{tier.title}</h3>
-                  <div className="flex items-baseline gap-1 mt-1">
-                    <span className="text-3xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
-                    <span className="text-xs opacity-50">/mo</span>
-                  </div>
+              <div key={i} className="rounded-2xl border p-8 flex flex-col" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                <h3 className="text-xl font-bold">{tier.title}</h3>
+                <div className="mt-3 flex items-baseline gap-1">
+                  <span className="text-4xl font-black" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm opacity-60 mb-2">{tier.description}</p>
-                  <div className="flex flex-wrap gap-x-4 gap-y-1">
-                    {features.map((f: string, j: number) => (
-                      <span key={j} className="flex items-center gap-1 text-sm">
-                        <Check className="w-3.5 h-3.5" style={{ color: theme?.primary ?? "#22c55e" }} /> {f.trim()}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <a href="#" className="inline-flex items-center gap-1 font-semibold text-sm shrink-0" style={{ color: theme?.primary ?? "#6366f1" }}>
-                  Select <ArrowRight className="w-4 h-4" />
-                </a>
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
+                  ))}
+                </ul>
+                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Get Started</a>
               </div>
             );
           })}
+        </div>
+        <div>
+          <h3 className="text-xl font-bold mb-6 text-center">Frequently asked questions</h3>
+          <div className="space-y-2">
+            {faqs.map((faq, i) => (
+              <div key={i} className="rounded-xl border overflow-hidden" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between p-4 text-left font-medium text-sm">
+                  {faq.q} <ChevronDown className={`w-4 h-4 transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
+                </button>
+                {openFaq === i && <div className="px-4 pb-4 text-sm opacity-60">{faq.a}</div>}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

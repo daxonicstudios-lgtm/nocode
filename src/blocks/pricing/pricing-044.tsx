@@ -1,20 +1,19 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check, UtensilsCrossed } from "lucide-react";
+import { Check } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Casual Dining", value: "$30", description: "Starting from", items: "Core service,Basic support,Standard scheduling" },
-  { title: "Chef's Table", value: "$75", description: "Most popular", items: "Full service,Priority booking,Dedicated specialist,Follow-up included,Member perks" },
-  { title: "Private Event", value: "$150", description: "Ultimate experience", items: "All services,VIP access,Personal consultant,Exclusive perks,Priority support,Premium extras,Loyalty rewards" },
+  { title: "Starter", value: "$0", description: "For side projects", items: "1 project,Community support,500MB storage" },
+  { title: "Pro", value: "$29", description: "For growing teams", items: "Unlimited projects,Priority support,100GB storage,Custom domain,Integrations" },
+  { title: "Business", value: "$79", description: "For organizations", items: "Everything in Pro,SSO & audit logs,Dedicated support,99.9% SLA,Custom contracts" },
 ];
 
 export default function Pricing044(props: BlockProps) {
-  const { theme, heading = "Restaurant Pricing", subheading = "Professional restaurant services at competitive rates", buttonText = "Book Now", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Plans for every team", subheading = "Start free, upgrade when ready", buttonText = "Get Started", items = DEFAULT_ITEMS } = props;
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12">
-          <UtensilsCrossed className="w-8 h-8 mx-auto mb-3" style={{ color: theme?.primary }} />
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-14">
           <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
           <p className="mt-3 opacity-60">{subheading}</p>
         </div>
@@ -23,19 +22,20 @@ export default function Pricing044(props: BlockProps) {
             const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
             const featured = i === 1;
             return (
-              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-xl border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
-                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-xl ring-2" : "border"}`} style={{ borderColor: theme?.secondary ?? "#e5e7eb", ...(featured ? { boxShadow: `0 0 0 2px ${theme?.primary ?? "#6366f1"}` } : {}) }}>
+                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-4" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Recommended</span>}
                 <h3 className="text-lg font-bold">{tier.title}</h3>
                 <p className="text-sm opacity-50 mt-1">{tier.description}</p>
                 <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-4xl font-extrabold" style={{ color: featured ? theme?.primary : undefined }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
                 </div>
                 <ul className="mt-6 space-y-2.5 flex-1">
                   {features.map((f: string, j: number) => (
-                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary ?? "#22c55e" }} /> {f.trim()}</li>
                   ))}
                 </ul>
-                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
+                <a href="#" className="mt-6 block text-center py-2.5 rounded-xl font-semibold text-sm" style={{ backgroundColor: featured ? theme?.primary ?? "#6366f1" : "transparent", color: featured ? "#fff" : theme?.primary ?? "#6366f1", border: featured ? "none" : `1px solid ${theme?.primary ?? "#6366f1"}` }}>{buttonText}</a>
               </div>
             );
           })}

@@ -1,44 +1,47 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check } from "lucide-react";
+import { Check, Quote } from "lucide-react";
 
-const defaultItems = [
-  { title: "Starter", description: "$9/mo", label: "#3b82f6", value: "3 projects,5GB storage,Email support" },
-  { title: "Growth", description: "$29/mo", label: "#8b5cf6", value: "15 projects,50GB storage,Chat support,API access" },
-  { title: "Business", description: "$59/mo", label: "#ec4899", value: "Unlimited projects,200GB storage,Phone support,API access,Analytics,SSO" },
+const DEFAULT_ITEMS = [
+  { title: "Starter", value: "$15", items: "3 projects,Basic support,5GB storage" },
+  { title: "Pro", value: "$39", items: "Unlimited projects,Priority support,100GB storage,Custom domain,API" },
+  { title: "Business", value: "$89", items: "Everything in Pro,SSO,Audit logs,SLA,Dedicated manager" },
 ];
 
 export default function Pricing161(props: BlockProps) {
-  const { theme, heading = "Simple Plans, Clear Pricing", subheading = "No hidden fees, no surprises", buttonText = "Get Started", buttonUrl = "#", items = defaultItems } = props;
-  const colors = ["#3b82f6", "#8b5cf6", "#ec4899"];
+  const { theme, heading = "Trusted by thousands", subheading = "See why teams choose us", bodyText = "Switching to this platform cut our costs by 40% and saved us 20 hours a week.", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
-      <div className="max-w-5xl mx-auto text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-70">{subheading}</p>
-      </div>
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        {items.map((item, i) => {
-          const features = (item.value || "").split(",").filter(Boolean);
-          const color = theme?.primary || colors[i % colors.length];
-          return (
-            <div key={i} className="rounded-xl overflow-hidden border flex flex-col" style={{ borderColor: theme?.accent || "#e5e7eb" }}>
-              <div className="py-4 px-6 text-white font-bold text-lg" style={{ backgroundColor: color }}>
-                {item.title}
-              </div>
-              <div className="p-6 flex flex-col flex-1">
-                <p className="text-3xl font-extrabold mb-1" style={{ color }}>{item.description}</p>
-                <p className="text-xs opacity-50 mb-5">per month</p>
-                <ul className="space-y-2 flex-1 mb-6">
-                  {features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color }} />{f.trim()}</li>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="max-w-xl mx-auto mb-12 text-center rounded-xl p-6" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+          <Quote className="w-6 h-6 mx-auto mb-2 opacity-20" />
+          <p className="italic opacity-80">{bodyText}</p>
+          <p className="mt-3 text-sm font-semibold opacity-60">— Sarah K., CTO at TechStart</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            return (
+              <div key={i} className="rounded-2xl border p-7 flex flex-col" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                <h3 className="font-bold text-lg">{tier.title}</h3>
+                <div className="mt-3 flex items-baseline gap-1">
+                  <span className="text-3xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
+                </div>
+                <ul className="mt-5 space-y-2 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
                   ))}
                 </ul>
-                <a href={buttonUrl} className="block text-center py-2.5 rounded-lg font-medium text-white" style={{ backgroundColor: color }}>{buttonText}</a>
+                <a href="#" className="mt-5 block text-center py-2.5 rounded-xl font-semibold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Choose Plan</a>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

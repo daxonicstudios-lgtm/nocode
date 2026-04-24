@@ -1,50 +1,55 @@
 import type { BlockProps } from "@/blocks/types";
-import { HardDrive } from "lucide-react";
+import { Check, X } from "lucide-react";
+
+const DEFAULT_ITEMS = [
+  { title: "Feature", value: "free,pro,business" },
+  { title: "Projects", value: "3,Unlimited,Unlimited" },
+  { title: "Storage", value: "1GB,50GB,Unlimited" },
+  { title: "Custom Domain", value: "no,yes,yes" },
+  { title: "Analytics", value: "Basic,Advanced,Advanced" },
+  { title: "Priority Support", value: "no,yes,yes" },
+  { title: "API Access", value: "no,yes,yes" },
+  { title: "SSO/SAML", value: "no,no,yes" },
+  { title: "SLA", value: "no,no,yes" },
+];
 
 export default function Pricing117(props: BlockProps) {
-  const {
-    theme,
-    heading = "Storage Plans",
-    subheading = "Scale your storage as your data grows",
-    bodyText,
-    buttonText = "Upgrade",
-    buttonUrl = "#",
-    imageUrl,
-    items = [
-      { title: "5 GB", value: "$3/mo", label: "25" },
-      { title: "50 GB", value: "$12/mo", label: "50" },
-      { title: "500 GB", value: "$39/mo", label: "75" },
-      { title: "5 TB", value: "$99/mo", label: "95" },
-    ],
-  } = props;
+  const { theme, heading = "Compare all features", subheading = "Find the plan that fits", items = DEFAULT_ITEMS } = props;
+
+  const plans = ["Free", "Pro", "Business"];
+  const prices = ["$0", "$29", "$79"];
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
-      <div className="max-w-xl mx-auto">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <HardDrive className="w-6 h-6" style={{ color: theme?.primary }} />
-          <h2 className="text-3xl font-bold">{heading}</h2>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
         </div>
-        <p className="text-center text-sm opacity-60 mb-10">{subheading}</p>
-        <div className="space-y-4">
-          {items.map((item, i) => {
-            const pct = parseInt(item.label || "0", 10);
+        <div className="rounded-2xl border overflow-hidden" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          <div className="grid grid-cols-4 gap-0 p-4 border-b" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.accent ?? "#f8fafc" }}>
+            <div />
+            {plans.map((p, i) => (
+              <div key={i} className="text-center">
+                <div className="font-bold">{p}</div>
+                <div className="text-2xl font-black mt-1" style={{ color: theme?.primary }}>{prices[i]}</div>
+                <div className="text-xs opacity-40">/month</div>
+              </div>
+            ))}
+          </div>
+          {items.slice(1).map((row, i) => {
+            const vals = (row.value ?? "").split(",");
             return (
-              <div key={i} className="rounded-lg border p-4" style={{ borderColor: theme?.accent }}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-semibold">{item.title}</span>
-                  <span className="font-bold" style={{ color: theme?.primary }}>{item.value}</span>
-                </div>
-                <div className="w-full h-2 rounded-full overflow-hidden" style={{ backgroundColor: theme?.accent }}>
-                  <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: theme?.primary }} />
-                </div>
-                <p className="text-xs opacity-50 mt-1">{pct}% typical usage</p>
+              <div key={i} className="grid grid-cols-4 gap-0 px-4 py-3 border-b last:border-0 text-sm" style={{ borderColor: theme?.secondary ?? "#f3f4f6" }}>
+                <div className="font-medium">{row.title}</div>
+                {vals.map((v, j) => (
+                  <div key={j} className="text-center">
+                    {v.trim() === "yes" ? <Check className="w-4 h-4 mx-auto text-green-500" /> : v.trim() === "no" ? <X className="w-4 h-4 mx-auto opacity-20" /> : <span>{v.trim()}</span>}
+                  </div>
+                ))}
               </div>
             );
           })}
-        </div>
-        <div className="text-center mt-8">
-          <a href={buttonUrl} className="inline-block rounded-lg px-8 py-3 font-semibold text-white" style={{ backgroundColor: theme?.primary }}>{buttonText}</a>
         </div>
       </div>
     </section>

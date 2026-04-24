@@ -1,44 +1,31 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check, GraduationCap } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Single Course", value: "$49", description: "Starting from", items: "Core service,Basic support,Standard scheduling" },
-  { title: "All Access", value: "$19", description: "Most popular", items: "Full service,Priority booking,Dedicated specialist,Follow-up included,Member perks" },
-  { title: "Team License", value: "$149", description: "Ultimate experience", items: "All services,VIP access,Personal consultant,Exclusive perks,Priority support,Premium extras,Loyalty rewards" },
+  { title: "Unlimited projects" }, { title: "100GB storage" }, { title: "Priority support" },
+  { title: "Custom domain" }, { title: "API access" }, { title: "Team collaboration" },
 ];
 
 export default function Pricing136(props: BlockProps) {
-  const { theme, heading = "Education Pricing", subheading = "Professional education services at competitive rates", buttonText = "Book Now", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "One plan. Everything included.", subheading = "No tiers, no upsells. Just everything you need.", buttonText = "Start Free Trial", items = DEFAULT_ITEMS } = props;
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12">
-          <GraduationCap className="w-8 h-8 mx-auto mb-3" style={{ color: theme?.primary }} />
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((tier, i) => {
-            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
-            const featured = i === 1;
-            return (
-              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-xl border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
-                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
-                <h3 className="text-lg font-bold">{tier.title}</h3>
-                <p className="text-sm opacity-50 mt-1">{tier.description}</p>
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
-                </div>
-                <ul className="mt-6 space-y-2.5 flex-1">
-                  {features.map((f: string, j: number) => (
-                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
-                  ))}
-                </ul>
-                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
-              </div>
-            );
-          })}
+      <div className="max-w-2xl mx-auto text-center">
+        <Sparkles className="w-8 h-8 mx-auto mb-4" style={{ color: theme?.primary }} />
+        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+        <p className="mt-3 opacity-60">{subheading}</p>
+        <div className="mt-10 rounded-3xl p-10 shadow-xl border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          <div className="flex items-baseline justify-center gap-1">
+            <span className="text-6xl font-black" style={{ color: theme?.primary }}>$29</span>
+            <span className="text-lg opacity-50">/mo</span>
+          </div>
+          <div className="mt-8 grid grid-cols-2 gap-3 text-left max-w-sm mx-auto">
+            {items.slice(0, 6).map((f, j) => (
+              <div key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.title}</div>
+            ))}
+          </div>
+          <a href="#" className="mt-8 inline-block px-10 py-3.5 rounded-full font-bold text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
         </div>
       </div>
     </section>

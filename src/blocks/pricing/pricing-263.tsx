@@ -1,70 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check, X, Minus } from "lucide-react";
+import { Check } from "lucide-react";
 
-const defaultFeatures = ["Projects", "Storage", "Support", "Custom domain", "API access", "SSO"];
-const defaultItems = [
-  { title: "Solo", description: "$8/mo", label: "monthly", value: "yes,yes,na,no,no,no" },
-  { title: "Team", description: "$28/mo", label: "monthly", value: "yes,yes,yes,yes,no,no" },
-  { title: "Business", description: "$68/mo", label: "monthly", value: "yes,yes,yes,yes,yes,yes" },
+const DEFAULT_ITEMS = [
+  { title: "Basic", value: "$29", description: "Getting started", items: "Core features,Standard support,Basic reporting" },
+  { title: "Professional", value: "$59", description: "Most popular", items: "All Basic features,Priority support,Advanced reporting,Custom branding,Integrations" },
+  { title: "Premium", value: "$99", description: "Full access", items: "All Pro features,Dedicated support,Custom solutions,API access,White-label,SLA guarantee" },
 ];
 
 export default function Pricing263(props: BlockProps) {
-  const {
-    theme,
-    heading = "Full Feature Matrix",
-    subheading = "Every feature at a glance",
-    buttonText = "Start Now",
-    buttonUrl = "#",
-    items = defaultItems,
-  } = props;
-
-  const icon = (s: string) => {
-    if (s === "yes") return <Check className="w-5 h-5 text-green-500" />;
-    if (s === "no") return <X className="w-5 h-5 text-red-400" />;
-    return <Minus className="w-5 h-5 opacity-30" />;
-  };
+  const { theme, heading = "Restaurant Pricing", subheading = "Professional plans tailored for restaurant", buttonText = "Get Started", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-16 px-4">
-      <div className="max-w-4xl mx-auto text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold mb-3">{heading}</h2>
-        <p className="opacity-60">{subheading}</p>
-      </div>
-      <div className="max-w-4xl mx-auto overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr>
-              <th className="text-left py-3 px-4 font-medium opacity-50">Feature</th>
-              {items.map((item, i) => (
-                <th key={i} className="text-center py-3 px-4">
-                  <span className="block font-bold text-lg">{item.title}</span>
-                  <span className="block text-xl font-extrabold mt-1" style={{ color: theme?.primary || "#2563eb" }}>{item.description}</span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {defaultFeatures.map((feat, fi) => (
-              <tr key={fi} className={fi % 2 === 0 ? "" : "bg-black/5"}>
-                <td className="py-3 px-4 font-medium">{feat}</td>
-                {items.map((item, ii) => {
-                  const statuses = (item.value || "").split(",");
-                  return <td key={ii} className="text-center py-3 px-4">{icon(statuses[fi]?.trim() || "na")}</td>;
-                })}
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td />
-              {items.map((_, i) => (
-                <td key={i} className="text-center py-4 px-4">
-                  <a href={buttonUrl} className="inline-block px-6 py-2.5 rounded-lg font-medium text-white" style={{ backgroundColor: theme?.primary || "#2563eb" }}>{buttonText}</a>
-                </td>
-              ))}
-            </tr>
-          </tfoot>
-        </table>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const featured = i === 1;
+            return (
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-lg border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
+                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
+                <h3 className="text-lg font-bold">{tier.title}</h3>
+                <p className="text-sm opacity-50 mt-1">{tier.description}</p>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
+                </div>
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
+                  ))}
+                </ul>
+                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

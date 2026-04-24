@@ -1,53 +1,39 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check, Shield, MessageSquare } from "lucide-react";
+import { Check } from "lucide-react";
 
-const defaultItems = [
-  { title: "Professional", description: "$59/mo", label: "per user / month", value: "Project Management,Time Tracking,Reporting,Email Support,5 Integrations" },
-  { title: "Business", description: "$119/mo", label: "per user / month", value: "Everything in Pro,Resource Planning,Custom Fields,Phone Support,Unlimited Integrations,Admin Console" },
-  { title: "Enterprise", description: "Custom Pricing", label: "volume discounts available", value: "Everything in Business,Advanced Security,HIPAA Compliance,Dedicated Infrastructure,Custom Onboarding,Executive Reviews,99.99% SLA" },
+const DEFAULT_ITEMS = [
+  { title: "Standard", value: "$19", description: "For individuals", items: "5 projects,10GB storage,Email support,Basic analytics" },
+  { title: "Premium", value: "$49", description: "For professionals", items: "Unlimited projects,100GB storage,Priority support,Advanced analytics,API access,Custom domain" },
 ];
 
 export default function Pricing058(props: BlockProps) {
-  const {
-    theme,
-    heading = "Built for Teams of Every Size",
-    subheading = "Enterprise security and compliance included at the top tier",
-    buttonText = "Try Free",
-    buttonUrl = "#",
-    items = defaultItems,
-  } = props;
+  const { theme, heading = "Choose your plan", subheading = "Simple pricing, no hidden fees", buttonText = "Select Plan", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-5xl font-bold mb-3">{heading}</h2>
-          <p className="text-lg opacity-60 max-w-xl mx-auto">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {items.map((item, i) => {
-            const features = (item.value || "").split(",").filter(Boolean);
-            const isCustom = !item?.description?.startsWith("$");
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {items.slice(0, 2).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const isPremium = i === 1;
             return (
-              <div key={i} className={`rounded-2xl p-8 flex flex-col ${isCustom ? "ring-2" : "border"}`} style={{ borderColor: theme?.accent || "#e5e7eb" }}>
-                <div className="flex items-center gap-2 mb-4">
-                  {isCustom && <Shield size={18} style={{ color: theme?.primary || "#2563eb" }} />}
-                  <h3 className="text-xl font-bold">{item.title}</h3>
+              <div key={i} className="rounded-2xl p-8 flex flex-col" style={{ backgroundColor: isPremium ? theme?.primary ?? "#4f46e5" : theme?.accent ?? "#f8fafc", color: isPremium ? "#fff" : undefined }}>
+                <h3 className="text-xl font-bold">{tier.title}</h3>
+                <p className={`text-sm mt-1 ${isPremium ? "opacity-70" : "opacity-60"}`}>{tier.description}</p>
+                <div className="mt-5 flex items-baseline gap-1">
+                  <span className="text-5xl font-black">{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
                 </div>
-                <p className="text-3xl font-black mb-1" style={{ color: theme?.primary || "#2563eb" }}>{item?.description}</p>
-                <p className="text-sm opacity-50 mb-6">{item.label}</p>
-                <ul className="flex-1 space-y-3 mb-8">
-                  {features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-2 text-sm"><Check size={15} className="text-green-500 flex-shrink-0" />{f.trim()}</li>
+                <ul className="mt-6 space-y-3 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" /> {f.trim()}</li>
                   ))}
                 </ul>
-                {isCustom ? (
-                  <a href={buttonUrl} className="flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white" style={{ backgroundColor: theme?.primary || "#2563eb" }}>
-                    <MessageSquare size={16} /> Contact Sales
-                  </a>
-                ) : (
-                  <a href={buttonUrl} className="block text-center py-3 rounded-xl font-semibold border-2 transition-colors" style={{ borderColor: theme?.primary || "#2563eb", color: theme?.primary || "#2563eb" }}>{buttonText}</a>
-                )}
+                <a href="#" className="mt-8 block text-center py-3 rounded-xl font-bold text-sm" style={{ backgroundColor: isPremium ? "#fff" : theme?.primary ?? "#4f46e5", color: isPremium ? theme?.primary ?? "#4f46e5" : "#fff" }}>{buttonText}</a>
               </div>
             );
           })}

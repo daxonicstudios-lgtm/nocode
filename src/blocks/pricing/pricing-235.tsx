@@ -2,19 +2,19 @@ import type { BlockProps } from "@/blocks/types";
 import { Check } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Starter", value: "$15", items: "5 projects,10GB storage,Email support,Basic analytics" },
-  { title: "Professional", value: "$45", items: "Unlimited projects,100GB storage,Priority support,Advanced analytics,Custom domain,Integrations" },
-  { title: "Enterprise", value: "$99", items: "Everything unlimited,Dedicated support,SLA guarantee,Custom development,Onboarding assistance,API access" },
+  { title: "Basic", value: "$29", description: "Getting started", items: "Core features,Standard support,Basic reporting" },
+  { title: "Professional", value: "$59", description: "Most popular", items: "All Basic features,Priority support,Advanced reporting,Custom branding,Integrations" },
+  { title: "Premium", value: "$99", description: "Full access", items: "All Pro features,Dedicated support,Custom solutions,API access,White-label,SLA guarantee" },
 ];
 
 export default function Pricing235(props: BlockProps) {
-  const { theme, heading = "Scale Your Way", subheading = "Powerful features at every level", buttonText = "Choose Plan", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Yoga Pricing", subheading = "Professional plans tailored for yoga", buttonText = "Get Started", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl sm:text-5xl font-bold text-white">{heading}</h2>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
           <p className="mt-3 opacity-60">{subheading}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -22,22 +22,20 @@ export default function Pricing235(props: BlockProps) {
             const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
             const featured = i === 1;
             return (
-              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "bg-white text-gray-900" : ""}`} style={featured ? {} : { backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                <h3 className="font-bold text-lg">{tier.title}</h3>
-                <div className="mt-3 flex items-baseline gap-1">
-                  <span className="text-4xl font-black">{tier.value}</span>
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-lg border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
+                {featured && <span className="text-xs font-bold uppercase px-3 py-1 rounded-full text-white self-start mb-3" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Popular</span>}
+                <h3 className="text-lg font-bold">{tier.title}</h3>
+                <p className="text-sm opacity-50 mt-1">{tier.description}</p>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
                   <span className="text-sm opacity-50">/mo</span>
                 </div>
                 <ul className="mt-6 space-y-2.5 flex-1">
                   {features.map((f: string, j: number) => (
-                    <li key={j} className="flex items-center gap-2 text-sm">
-                      <Check className={`w-4 h-4 shrink-0 ${featured ? "text-indigo-600" : "text-indigo-400"}`} /> {f.trim()}
-                    </li>
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
                   ))}
                 </ul>
-                <a href="#" className="mt-8 block text-center py-3 rounded-xl font-semibold text-sm" style={{ backgroundColor: featured ? theme?.primary ?? "#4f46e5" : "rgba(255,255,255,0.1)", color: featured ? "#fff" : "#fff" }}>
-                  {buttonText}
-                </a>
+                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
               </div>
             );
           })}

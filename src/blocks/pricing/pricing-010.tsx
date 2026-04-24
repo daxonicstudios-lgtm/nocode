@@ -1,51 +1,43 @@
 import type { BlockProps } from "@/blocks/types";
-import { Sparkles } from "lucide-react";
+import { Check } from "lucide-react";
 
-const defaultItems = [
-  { title: "Essentials", description: "$14/mo", label: "billed monthly", value: "Core features,5 team members,10GB storage" },
-  { title: "Professional", description: "$34/mo", label: "billed monthly", value: "All Essentials features,25 team members,100GB storage,Advanced reporting,Priority email" },
-  { title: "Organization", description: "$84/mo", label: "billed monthly", value: "All Pro features,Unlimited members,Unlimited storage,Dedicated support" },
+const DEFAULT_ITEMS = [
+  { title: "Standard", value: "$19", description: "For individuals", items: "5 projects,10GB storage,Email support,Basic analytics" },
+  { title: "Premium", value: "$49", description: "For professionals", items: "Unlimited projects,100GB storage,Priority support,Advanced analytics,API access,Custom domain" },
 ];
 
 export default function Pricing010(props: BlockProps) {
-  const {
-    theme,
-    heading = "Transparent Pricing",
-    subheading = "Every plan includes core features",
-    buttonText = "Get Started",
-    buttonUrl = "#",
-    items = defaultItems,
-  } = props;
+  const { theme, heading = "Choose your plan", subheading = "Simple pricing, no hidden fees", buttonText = "Select Plan", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
-      <div className="max-w-6xl mx-auto text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold mb-3">{heading}</h2>
-        <p className="opacity-60">{subheading}</p>
-      </div>
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-0 md:border md:rounded-2xl overflow-hidden" style={{ borderColor: theme?.accent || "#e5e7eb" }}>
-        {items.slice(0, 3).map((item, i) => {
-          const featured = i === 1;
-          const features = (item.value || "").split(",").filter(Boolean);
-          return (
-            <div key={i} className={`p-8 flex flex-col border md:border-0 md:border-r last:border-r-0 ${featured ? "md:bg-opacity-5" : ""}`} style={{ borderColor: theme?.accent || "#e5e7eb", backgroundColor: featured ? (theme?.primary || "#2563eb") + "08" : undefined }}>
-              <div className="flex items-center gap-2 mb-3">
-                <h3 className="text-lg font-bold">{item.title}</h3>
-                {featured && <Sparkles className="w-4 h-4" style={{ color: theme?.primary || "#2563eb" }} />}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {items.slice(0, 2).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const isPremium = i === 1;
+            return (
+              <div key={i} className="rounded-2xl p-8 flex flex-col" style={{ backgroundColor: isPremium ? theme?.primary ?? "#4f46e5" : theme?.accent ?? "#f8fafc", color: isPremium ? "#fff" : undefined }}>
+                <h3 className="text-xl font-bold">{tier.title}</h3>
+                <p className={`text-sm mt-1 ${isPremium ? "opacity-70" : "opacity-60"}`}>{tier.description}</p>
+                <div className="mt-5 flex items-baseline gap-1">
+                  <span className="text-5xl font-black">{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
+                </div>
+                <ul className="mt-6 space-y-3 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" /> {f.trim()}</li>
+                  ))}
+                </ul>
+                <a href="#" className="mt-8 block text-center py-3 rounded-xl font-bold text-sm" style={{ backgroundColor: isPremium ? "#fff" : theme?.primary ?? "#4f46e5", color: isPremium ? theme?.primary ?? "#4f46e5" : "#fff" }}>{buttonText}</a>
               </div>
-              <p className="text-3xl font-extrabold mb-1" style={{ color: theme?.primary || "#2563eb" }}>{item.description}</p>
-              <p className="text-xs opacity-50 mb-6">{item.label}</p>
-              <ul className="space-y-2 flex-1 mb-8">
-                {features.map((f, j) => (
-                  <li key={j} className="text-sm opacity-80">— {f.trim()}</li>
-                ))}
-              </ul>
-              <a href={buttonUrl} className="block text-center py-3 rounded-lg font-semibold" style={{ backgroundColor: featured ? (theme?.primary || "#2563eb") : "transparent", color: featured ? "#fff" : (theme?.primary || "#2563eb"), border: featured ? "none" : `1px solid ${theme?.primary || "#2563eb"}` }}>
-                {buttonText}
-              </a>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

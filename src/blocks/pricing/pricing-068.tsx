@@ -1,55 +1,52 @@
 import type { BlockProps } from "@/blocks/types";
-import { Gauge, ArrowUpRight } from "lucide-react";
+import { Check } from "lucide-react";
+import { useState } from "react";
 
-const defaultItems = [
-  { title: "Pay As You Go", description: "$0.05", label: "per GB transferred", value: "First 10GB Free,No Monthly Minimum,Standard Support,99.9% Uptime" },
-  { title: "Reserved", description: "$49/mo", label: "includes 1TB", value: "1TB Included,Overage at $0.03/GB,Priority Support,99.95% Uptime,CDN Included" },
-  { title: "Committed", description: "$199/mo", label: "includes 10TB", value: "10TB Included,Overage at $0.01/GB,Dedicated Support,99.99% Uptime,Global CDN,Custom Rules" },
+const DEFAULT_ITEMS = [
+  { title: "Basic", value: "$12", label: "$9", description: "For individuals", items: "5 projects,5GB storage,Email support" },
+  { title: "Pro", value: "$29", label: "$23", description: "For professionals", items: "Unlimited projects,50GB storage,Priority support,Custom domain" },
+  { title: "Team", value: "$59", label: "$47", description: "For teams", items: "Everything in Pro,Team management,SSO,Audit logs,Dedicated support" },
 ];
 
 export default function Pricing068(props: BlockProps) {
-  const {
-    theme,
-    heading = "Bandwidth Pricing",
-    subheading = "Only pay for the data you actually transfer",
-    buttonText = "Get Started",
-    buttonUrl = "#",
-    items = defaultItems,
-  } = props;
+  const { theme, heading = "Flexible pricing", subheading = "Save 20% with annual billing", items = DEFAULT_ITEMS } = props;
+  const [annual, setAnnual] = useState(false);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
-      <div className="max-w-5xl mx-auto text-center mb-14">
-        <Gauge size={36} className="mx-auto mb-4" style={{ color: theme?.primary || "#0891b2" }} />
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60">{subheading}</p>
-      </div>
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {items.map((item, i) => {
-          const features = (item.value || "").split(",").filter(Boolean);
-          return (
-            <div key={i} className="rounded-2xl p-7 flex flex-col" style={{ backgroundColor: theme?.accent || "#f0fdfa", border: i === 1 ? `2px solid ${theme?.primary || "#0891b2"}` : "none" }}>
-              <h3 className="text-lg font-bold mb-3">{item.title}</h3>
-              <div className="mb-1">
-                <span className="text-4xl font-black" style={{ color: theme?.primary || "#0891b2" }}>{item.description}</span>
-              </div>
-              <p className="text-sm opacity-60 mb-6">{item.label}</p>
-              <div className="flex-1 mb-6">
-                <div className="w-full h-3 rounded-full mb-4" style={{ backgroundColor: (theme?.primary || "#0891b2") + "20" }}>
-                  <div className="h-full rounded-full transition-all" style={{ width: `${30 + i * 25}%`, backgroundColor: theme?.primary || "#0891b2" }} />
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+          <div className="mt-6 inline-flex items-center gap-3 rounded-full p-1" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
+            <button onClick={() => setAnnual(false)} className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${!annual ? "bg-white shadow text-gray-900" : "opacity-60"}`}>Monthly</button>
+            <button onClick={() => setAnnual(true)} className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${annual ? "bg-white shadow text-gray-900" : "opacity-60"}`}>Annual <span className="text-xs font-bold" style={{ color: theme?.primary }}>-20%</span></button>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const price = annual ? tier.label ?? tier.value : tier.value;
+            const featured = i === 1;
+            return (
+              <div key={i} className={`rounded-2xl p-8 flex flex-col ${featured ? "shadow-lg border-2" : "border"}`} style={{ borderColor: featured ? theme?.primary ?? "#6366f1" : theme?.secondary ?? "#e5e7eb" }}>
+                <h3 className="text-lg font-bold">{tier.title}</h3>
+                <p className="text-sm opacity-50 mt-1">{tier.description}</p>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold">{price}</span>
+                  <span className="text-sm opacity-50">/mo</span>
                 </div>
-                <ul className="space-y-2">
-                  {features.map((f, j) => (
-                    <li key={j} className="text-sm flex items-center gap-2">
-                      <ArrowUpRight size={13} style={{ color: theme?.primary || "#0891b2" }} />{f.trim()}
-                    </li>
+                {annual && <p className="text-xs mt-1 font-medium" style={{ color: theme?.primary }}>Save 20% vs monthly</p>}
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary ?? "#22c55e" }} /> {f.trim()}</li>
                   ))}
                 </ul>
+                <a href="#" className="mt-6 block text-center py-3 rounded-xl font-semibold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Get Started</a>
               </div>
-              <a href={buttonUrl} className="block text-center py-3 rounded-xl font-semibold text-white" style={{ backgroundColor: theme?.primary || "#0891b2" }}>{buttonText}</a>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

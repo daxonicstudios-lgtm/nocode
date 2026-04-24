@@ -1,55 +1,43 @@
 import type { BlockProps } from "@/blocks/types";
-import { CircleDollarSign, Plus } from "lucide-react";
+import { Check } from "lucide-react";
 
-const defaultItems = [
-  { title: "Essential", description: "$19/mo", label: "per month", value: "Hosting:$6,3 Pages:$4,Basic Templates:$5,Email Support:$4" },
-  { title: "Business", description: "$49/mo", label: "per month", value: "Hosting:$6,Unlimited Pages:$12,All Templates:$8,Live Chat:$7,Analytics:$6,SEO Tools:$5,Custom Code:$5" },
-  { title: "Agency", description: "$99/mo", label: "per month", value: "Hosting:$6,Unlimited Pages:$12,All Templates:$8,Dedicated Support:$15,Advanced Analytics:$12,SEO Suite:$10,Custom Code:$10,White Label:$14,API:$12" },
+const DEFAULT_ITEMS = [
+  { title: "Standard", value: "$19", description: "For individuals", items: "5 projects,10GB storage,Email support,Basic analytics" },
+  { title: "Premium", value: "$49", description: "For professionals", items: "Unlimited projects,100GB storage,Priority support,Advanced analytics,API access,Custom domain" },
 ];
 
 export default function Pricing053(props: BlockProps) {
-  const {
-    theme,
-    heading = "Transparent Per-Feature Pricing",
-    subheading = "Each feature is priced separately — pay for exactly what you use",
-    buttonText = "Get Started",
-    buttonUrl = "#",
-    items = defaultItems,
-  } = props;
+  const { theme, heading = "Choose your plan", subheading = "Simple pricing, no hidden fees", buttonText = "Select Plan", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
-      <div className="max-w-6xl mx-auto text-center mb-14">
-        <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: (theme?.primary || "#2563eb") + "15", color: theme?.primary || "#2563eb" }}>
-          <CircleDollarSign size={16} /> Per-Feature Pricing
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
         </div>
-        <h2 className="text-3xl md:text-5xl font-bold mb-3">{heading}</h2>
-        <p className="text-lg opacity-60 max-w-2xl mx-auto">{subheading}</p>
-      </div>
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        {items.map((item, i) => {
-          const features = (item.value || "").split(",").filter(Boolean);
-          return (
-            <div key={i} className="rounded-lg border-2 p-6 flex flex-col hover:shadow-xl transition-shadow" style={{ borderColor: i === 1 ? theme?.primary || "#2563eb" : theme?.accent || "#e5e7eb" }}>
-              {i === 1 && <span className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: theme?.primary || "#2563eb" }}>Recommended</span>}
-              <h3 className="text-xl font-bold">{item.title}</h3>
-              <p className="text-4xl font-extrabold my-3" style={{ color: theme?.primary || "#2563eb" }}>{item.description}</p>
-              <p className="text-sm opacity-50 mb-6">{item.label}</p>
-              <div className="flex-1 space-y-1 mb-6">
-                {features.map((f, j) => {
-                  const [name, price] = f.split(":");
-                  return (
-                    <div key={j} className="flex justify-between text-sm py-1.5">
-                      <span className="flex items-center gap-1"><Plus size={12} style={{ color: theme?.primary || "#2563eb" }} />{name.trim()}</span>
-                      <span className="font-semibold">{price?.trim()}</span>
-                    </div>
-                  );
-                })}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {items.slice(0, 2).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            const isPremium = i === 1;
+            return (
+              <div key={i} className="rounded-2xl p-8 flex flex-col" style={{ backgroundColor: isPremium ? theme?.primary ?? "#4f46e5" : theme?.accent ?? "#f8fafc", color: isPremium ? "#fff" : undefined }}>
+                <h3 className="text-xl font-bold">{tier.title}</h3>
+                <p className={`text-sm mt-1 ${isPremium ? "opacity-70" : "opacity-60"}`}>{tier.description}</p>
+                <div className="mt-5 flex items-baseline gap-1">
+                  <span className="text-5xl font-black">{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
+                </div>
+                <ul className="mt-6 space-y-3 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" /> {f.trim()}</li>
+                  ))}
+                </ul>
+                <a href="#" className="mt-8 block text-center py-3 rounded-xl font-bold text-sm" style={{ backgroundColor: isPremium ? "#fff" : theme?.primary ?? "#4f46e5", color: isPremium ? theme?.primary ?? "#4f46e5" : "#fff" }}>{buttonText}</a>
               </div>
-              <a href={buttonUrl} className="block text-center py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90" style={{ backgroundColor: theme?.primary || "#2563eb" }}>{buttonText}</a>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

@@ -1,40 +1,55 @@
 import type { BlockProps } from "@/blocks/types";
-import { ChevronRight } from "lucide-react";
+import { Check, X } from "lucide-react";
+
+const DEFAULT_ITEMS = [
+  { title: "Feature", value: "free,pro,business" },
+  { title: "Projects", value: "3,Unlimited,Unlimited" },
+  { title: "Storage", value: "1GB,50GB,Unlimited" },
+  { title: "Custom Domain", value: "no,yes,yes" },
+  { title: "Analytics", value: "Basic,Advanced,Advanced" },
+  { title: "Priority Support", value: "no,yes,yes" },
+  { title: "API Access", value: "no,yes,yes" },
+  { title: "SSO/SAML", value: "no,no,yes" },
+  { title: "SLA", value: "no,no,yes" },
+];
 
 export default function Pricing110(props: BlockProps) {
-  const {
-    theme,
-    heading = "Choose What Works",
-    subheading = "Flexible plans that grow with you",
-    bodyText,
-    buttonText = "Get Started",
-    buttonUrl = "#",
-    imageUrl,
-    items = [
-      { title: "Individual", value: "$8/mo", description: "Perfect for freelancers and side projects" },
-      { title: "Small Team", value: "$24/mo", description: "Collaborate with up to 10 team members" },
-      { title: "Organization", value: "$64/mo", description: "Enterprise features with SSO and audit logs" },
-    ],
-  } = props;
+  const { theme, heading = "Compare all features", subheading = "Find the plan that fits", items = DEFAULT_ITEMS } = props;
+
+  const plans = ["Free", "Pro", "Business"];
+  const prices = ["$0", "$29", "$79"];
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
-      <div className="max-w-lg mx-auto">
-        <p className="text-xs uppercase tracking-widest font-medium mb-2 text-center" style={{ color: theme?.primary }}>{subheading}</p>
-        <h2 className="text-3xl font-bold text-center mb-10">{heading}</h2>
-        <div className="space-y-2">
-          {items.map((item, i) => (
-            <a key={i} href={buttonUrl} className="flex items-center justify-between rounded-xl border p-4 group transition-colors hover:border-current" style={{ borderColor: theme?.accent }}>
-              <div className="flex-1">
-                <h3 className="font-semibold mb-0.5">{item.title}</h3>
-                <p className="text-xs opacity-60">{item.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="rounded-2xl border overflow-hidden" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          <div className="grid grid-cols-4 gap-0 p-4 border-b" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.accent ?? "#f8fafc" }}>
+            <div />
+            {plans.map((p, i) => (
+              <div key={i} className="text-center">
+                <div className="font-bold">{p}</div>
+                <div className="text-2xl font-black mt-1" style={{ color: theme?.primary }}>{prices[i]}</div>
+                <div className="text-xs opacity-40">/month</div>
               </div>
-              <div className="flex items-center gap-2 shrink-0 ml-4">
-                <span className="font-bold" style={{ color: theme?.primary }}>{item.value}</span>
-                <ChevronRight className="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity" />
+            ))}
+          </div>
+          {items.slice(1).map((row, i) => {
+            const vals = (row.value ?? "").split(",");
+            return (
+              <div key={i} className="grid grid-cols-4 gap-0 px-4 py-3 border-b last:border-0 text-sm" style={{ borderColor: theme?.secondary ?? "#f3f4f6" }}>
+                <div className="font-medium">{row.title}</div>
+                {vals.map((v, j) => (
+                  <div key={j} className="text-center">
+                    {v.trim() === "yes" ? <Check className="w-4 h-4 mx-auto text-green-500" /> : v.trim() === "no" ? <X className="w-4 h-4 mx-auto opacity-20" /> : <span>{v.trim()}</span>}
+                  </div>
+                ))}
               </div>
-            </a>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

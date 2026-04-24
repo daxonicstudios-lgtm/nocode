@@ -1,46 +1,52 @@
 import type { BlockProps } from "@/blocks/types";
-import { Cpu } from "lucide-react";
+import { Check, X } from "lucide-react";
+
+const DEFAULT_ITEMS = [
+  { title: "Feature", value: "free,pro,business" },
+  { title: "Projects", value: "3,Unlimited,Unlimited" },
+  { title: "Storage", value: "1GB,50GB,Unlimited" },
+  { title: "Custom Domain", value: "no,yes,yes" },
+  { title: "Analytics", value: "Basic,Advanced,Advanced" },
+  { title: "Priority Support", value: "no,yes,yes" },
+  { title: "API Access", value: "no,yes,yes" },
+  { title: "SSO/SAML", value: "no,no,yes" },
+  { title: "SLA", value: "no,no,yes" },
+];
 
 export default function Pricing120(props: BlockProps) {
-  const {
-    theme,
-    heading = "Compute Pricing",
-    subheading = "Scale compute resources on demand",
-    bodyText,
-    buttonText = "Deploy Now",
-    buttonUrl = "#",
-    imageUrl,
-    items = [
-      { title: "1 vCPU / 1GB RAM", value: "$5/mo", label: "10" },
-      { title: "2 vCPU / 4GB RAM", value: "$20/mo", label: "40" },
-      { title: "4 vCPU / 16GB RAM", value: "$60/mo", label: "65" },
-      { title: "8 vCPU / 32GB RAM", value: "$120/mo", label: "90" },
-    ],
-  } = props;
+  const { theme, heading = "Compare all features", subheading = "Find the plan that fits", items = DEFAULT_ITEMS } = props;
+
+  const plans = ["Free", "Pro", "Business"];
+  const prices = ["$0", "$29", "$79"];
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-10">
-          <Cpu className="w-8 h-8 mx-auto mb-3" style={{ color: theme?.primary }} />
-          <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-          <p className="opacity-60 text-sm">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
         </div>
-        <div className="space-y-3">
-          {items.map((item, i) => {
-            const pct = parseInt(item.label || "0", 10);
+        <div className="rounded-2xl border overflow-hidden" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          <div className="grid grid-cols-4 gap-0 p-4 border-b" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.accent ?? "#f8fafc" }}>
+            <div />
+            {plans.map((p, i) => (
+              <div key={i} className="text-center">
+                <div className="font-bold">{p}</div>
+                <div className="text-2xl font-black mt-1" style={{ color: theme?.primary }}>{prices[i]}</div>
+                <div className="text-xs opacity-40">/month</div>
+              </div>
+            ))}
+          </div>
+          {items.slice(1).map((row, i) => {
+            const vals = (row.value ?? "").split(",");
             return (
-              <div key={i} className="rounded-xl p-4 border flex flex-col sm:flex-row sm:items-center gap-3" style={{ borderColor: theme?.accent }}>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-sm">{item.title}</h3>
-                  <div className="w-full h-1.5 rounded-full mt-2 overflow-hidden" style={{ backgroundColor: theme?.accent }}>
-                    <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: theme?.primary }} />
+              <div key={i} className="grid grid-cols-4 gap-0 px-4 py-3 border-b last:border-0 text-sm" style={{ borderColor: theme?.secondary ?? "#f3f4f6" }}>
+                <div className="font-medium">{row.title}</div>
+                {vals.map((v, j) => (
+                  <div key={j} className="text-center">
+                    {v.trim() === "yes" ? <Check className="w-4 h-4 mx-auto text-green-500" /> : v.trim() === "no" ? <X className="w-4 h-4 mx-auto opacity-20" /> : <span>{v.trim()}</span>}
                   </div>
-                </div>
-                <div className="flex items-center gap-3 shrink-0">
-                  <span className="font-bold" style={{ color: theme?.primary }}>{item.value}</span>
-                  <a href={buttonUrl} className="rounded-lg px-3 py-1.5 text-xs font-medium text-white" style={{ backgroundColor: theme?.primary }}>{buttonText}</a>
-                </div>
+                ))}
               </div>
             );
           })}

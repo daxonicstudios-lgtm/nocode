@@ -1,50 +1,43 @@
 import type { BlockProps } from "@/blocks/types";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, Shield, MessageSquare } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Basic", value: "$12", description: "Best for individuals", items: "3 projects,5GB storage,Community support" },
-  { title: "Team", value: "$36", description: "Best for small teams", items: "20 projects,50GB storage,Priority support,Collaboration tools" },
-  { title: "Business", value: "$72", description: "Best for companies", items: "Unlimited projects,500GB storage,24/7 support,Advanced security,Custom branding" },
+  { title: "Unlimited everything" }, { title: "Custom SLA" }, { title: "SAML/SSO" },
+  { title: "Dedicated account manager" }, { title: "Custom integrations" }, { title: "On-premise option" },
+  { title: "Priority 24/7 support" }, { title: "Security audit & compliance" },
 ];
 
 export default function Pricing141(props: BlockProps) {
-  const { theme, heading = "Flexible Pricing", subheading = "Scale at your own pace", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Enterprise", subheading = "Custom solutions for large organizations", buttonText = "Contact Sales", items = DEFAULT_ITEMS } = props;
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+        <div className="flex-1">
+          <Shield className="w-10 h-10 mb-4" style={{ color: theme?.primary }} />
           <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+          <p className="mt-3 opacity-60 text-lg">{subheading}</p>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {items.slice(0, 8).map((f, j) => (
+              <div key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.title}</div>
+            ))}
+          </div>
         </div>
-        <div className="space-y-4">
-          {items.slice(0, 3).map((tier, i) => {
-            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
-            return (
-              <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-6 rounded-xl border p-6" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-                <div className="sm:w-40 shrink-0">
-                  <h3 className="font-bold text-lg">{tier.title}</h3>
-                  <div className="flex items-baseline gap-1 mt-1">
-                    <span className="text-3xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
-                    <span className="text-xs opacity-50">/mo</span>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm opacity-60 mb-2">{tier.description}</p>
-                  <div className="flex flex-wrap gap-x-4 gap-y-1">
-                    {features.map((f: string, j: number) => (
-                      <span key={j} className="flex items-center gap-1 text-sm">
-                        <Check className="w-3.5 h-3.5" style={{ color: theme?.primary ?? "#22c55e" }} /> {f.trim()}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <a href="#" className="inline-flex items-center gap-1 font-semibold text-sm shrink-0" style={{ color: theme?.primary ?? "#6366f1" }}>
-                  Select <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
-            );
-          })}
+        <div className="flex-1 w-full max-w-md">
+          <div className="rounded-2xl p-8" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+            <h3 className="text-xl font-bold mb-2">Let&apos;s talk</h3>
+            <p className="text-sm opacity-60 mb-6">Tell us about your needs and we&apos;ll create a custom plan.</p>
+            <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
+              <input type="text" placeholder="Company name" className="w-full px-4 py-2.5 rounded-lg border text-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }} />
+              <input type="email" placeholder="Work email" className="w-full px-4 py-2.5 rounded-lg border text-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }} />
+              <select className="w-full px-4 py-2.5 rounded-lg border text-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                <option>Team size</option><option>1-50</option><option>51-200</option><option>201-1000</option><option>1000+</option>
+              </select>
+              <button type="submit" className="w-full py-3 rounded-lg font-semibold text-sm text-white flex items-center justify-center gap-2" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+                <MessageSquare className="w-4 h-4" /> {buttonText}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>

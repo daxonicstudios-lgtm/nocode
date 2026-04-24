@@ -1,50 +1,47 @@
 import type { BlockProps } from "@/blocks/types";
-import { CircleCheck, CircleMinus } from "lucide-react";
+import { Check, Quote } from "lucide-react";
 
-const allFeatures = ["Storage", "Bandwidth", "Users", "Support", "Backups", "API"];
-
-const defaultItems = [
-  { title: "Lite", description: "$10/mo", label: "per month", value: "5GB,50GB,1,Email,Weekly,-" },
-  { title: "Standard", description: "$30/mo", label: "per month", value: "50GB,500GB,10,Chat,Daily,Basic" },
-  { title: "Enterprise", description: "$80/mo", label: "per month", value: "Unlimited,Unlimited,Unlimited,Phone 24/7,Real-time,Full" },
+const DEFAULT_ITEMS = [
+  { title: "Starter", value: "$15", items: "3 projects,Basic support,5GB storage" },
+  { title: "Pro", value: "$39", items: "Unlimited projects,Priority support,100GB storage,Custom domain,API" },
+  { title: "Business", value: "$89", items: "Everything in Pro,SSO,Audit logs,SLA,Dedicated manager" },
 ];
 
 export default function Pricing169(props: BlockProps) {
-  const { theme, heading = "Transparent Feature Grid", subheading = "Know exactly what you get", buttonText = "Subscribe", buttonUrl = "#", items = defaultItems } = props;
+  const { theme, heading = "Trusted by thousands", subheading = "See why teams choose us", bodyText = "Switching to this platform cut our costs by 40% and saved us 20 hours a week.", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
-      <div className="max-w-5xl mx-auto text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-70">{subheading}</p>
-      </div>
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        {items.map((item, i) => {
-          const vals = (item.value || "").split(",");
-          return (
-            <div key={i} className="rounded-xl border p-6 flex flex-col" style={{ borderColor: theme?.accent || "#e5e7eb" }}>
-              <div className="text-center mb-5">
-                <h3 className="text-lg font-bold">{item.title}</h3>
-                <p className="text-3xl font-black my-1" style={{ color: theme?.primary || "#2563eb" }}>{item.description}</p>
-                <p className="text-xs opacity-50">{item.label}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="max-w-xl mx-auto mb-12 text-center rounded-xl p-6" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+          <Quote className="w-6 h-6 mx-auto mb-2 opacity-20" />
+          <p className="italic opacity-80">{bodyText}</p>
+          <p className="mt-3 text-sm font-semibold opacity-60">— Sarah K., CTO at TechStart</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((tier, i) => {
+            const features = typeof tier.items === "string" ? tier.items.split(",") : (tier.items as string[]);
+            return (
+              <div key={i} className="rounded-2xl border p-7 flex flex-col" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                <h3 className="font-bold text-lg">{tier.title}</h3>
+                <div className="mt-3 flex items-baseline gap-1">
+                  <span className="text-3xl font-extrabold" style={{ color: theme?.primary }}>{tier.value}</span>
+                  <span className="text-sm opacity-50">/mo</span>
+                </div>
+                <ul className="mt-5 space-y-2 flex-1">
+                  {features.map((f: string, j: number) => (
+                    <li key={j} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary }} /> {f.trim()}</li>
+                  ))}
+                </ul>
+                <a href="#" className="mt-5 block text-center py-2.5 rounded-xl font-semibold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>Choose Plan</a>
               </div>
-              <div className="grid grid-cols-2 gap-2 flex-1 mb-6">
-                {allFeatures.map((f, j) => {
-                  const v = vals[j]?.trim() || "-";
-                  const available = v !== "-";
-                  return (
-                    <div key={j} className="rounded-lg p-2 text-center" style={{ backgroundColor: theme?.accent || "#f8fafc" }}>
-                      {available ? <CircleCheck className="w-4 h-4 mx-auto mb-1" style={{ color: theme?.primary || "#22c55e" }} /> : <CircleMinus className="w-4 h-4 mx-auto mb-1 opacity-30" />}
-                      <p className="text-[10px] opacity-60">{f}</p>
-                      <p className={`text-xs font-semibold ${available ? "" : "opacity-30"}`}>{v}</p>
-                    </div>
-                  );
-                })}
-              </div>
-              <a href={buttonUrl} className="block text-center py-2.5 rounded-lg font-medium text-white" style={{ backgroundColor: theme?.primary || "#2563eb" }}>{buttonText}</a>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

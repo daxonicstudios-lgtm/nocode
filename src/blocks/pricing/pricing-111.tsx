@@ -1,44 +1,52 @@
 import type { BlockProps } from "@/blocks/types";
-import { Zap, Crown, Rocket } from "lucide-react";
+import { Check, X } from "lucide-react";
 
-const icons = [Zap, Crown, Rocket];
+const DEFAULT_ITEMS = [
+  { title: "Feature", value: "free,pro,business" },
+  { title: "Projects", value: "3,Unlimited,Unlimited" },
+  { title: "Storage", value: "1GB,50GB,Unlimited" },
+  { title: "Custom Domain", value: "no,yes,yes" },
+  { title: "Analytics", value: "Basic,Advanced,Advanced" },
+  { title: "Priority Support", value: "no,yes,yes" },
+  { title: "API Access", value: "no,yes,yes" },
+  { title: "SSO/SAML", value: "no,no,yes" },
+  { title: "SLA", value: "no,no,yes" },
+];
 
 export default function Pricing111(props: BlockProps) {
-  const {
-    theme,
-    heading = "Plans Built for Growth",
-    subheading = "Upgrade anytime as you scale",
-    bodyText,
-    buttonText = "Select Plan",
-    buttonUrl = "#",
-    imageUrl,
-    items = [
-      { title: "Starter", value: "$9", description: "Essential tools to launch fast" },
-      { title: "Pro", value: "$29", description: "Advanced features for professionals" },
-      { title: "Turbo", value: "$59", description: "Maximum power and support" },
-    ],
-  } = props;
+  const { theme, heading = "Compare all features", subheading = "Find the plan that fits", items = DEFAULT_ITEMS } = props;
+
+  const plans = ["Free", "Pro", "Business"];
+  const prices = ["$0", "$29", "$79"];
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-2">{heading}</h2>
-        <p className="text-center opacity-60 mb-12">{subheading}</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.map((item, i) => {
-            const Icon = icons[i % icons.length];
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-60">{subheading}</p>
+        </div>
+        <div className="rounded-2xl border overflow-hidden" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          <div className="grid grid-cols-4 gap-0 p-4 border-b" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.accent ?? "#f8fafc" }}>
+            <div />
+            {plans.map((p, i) => (
+              <div key={i} className="text-center">
+                <div className="font-bold">{p}</div>
+                <div className="text-2xl font-black mt-1" style={{ color: theme?.primary }}>{prices[i]}</div>
+                <div className="text-xs opacity-40">/month</div>
+              </div>
+            ))}
+          </div>
+          {items.slice(1).map((row, i) => {
+            const vals = (row.value ?? "").split(",");
             return (
-              <div key={i} className="rounded-2xl border p-6 sm:p-8 text-center" style={{ borderColor: theme?.accent }}>
-                <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: theme?.accent }}>
-                  <Icon className="w-6 h-6" style={{ color: theme?.primary }} />
-                </div>
-                <h3 className="text-lg font-bold mb-1">{item.title}</h3>
-                <p className="text-sm opacity-60 mb-4">{item.description}</p>
-                <p className="text-4xl font-extrabold mb-1" style={{ color: theme?.primary }}>{item.value}</p>
-                <p className="text-sm opacity-50 mb-6">per month</p>
-                <a href={buttonUrl} className="block rounded-lg py-3 font-semibold text-white" style={{ backgroundColor: theme?.primary }}>
-                  {buttonText}
-                </a>
+              <div key={i} className="grid grid-cols-4 gap-0 px-4 py-3 border-b last:border-0 text-sm" style={{ borderColor: theme?.secondary ?? "#f3f4f6" }}>
+                <div className="font-medium">{row.title}</div>
+                {vals.map((v, j) => (
+                  <div key={j} className="text-center">
+                    {v.trim() === "yes" ? <Check className="w-4 h-4 mx-auto text-green-500" /> : v.trim() === "no" ? <X className="w-4 h-4 mx-auto opacity-20" /> : <span>{v.trim()}</span>}
+                  </div>
+                ))}
               </div>
             );
           })}
