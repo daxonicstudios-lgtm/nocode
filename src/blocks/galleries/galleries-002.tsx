@@ -3,7 +3,7 @@ import type { BlockProps } from "@/blocks/types";
 const ASPECTS = ["aspect-[4/5]", "aspect-[3/4]", "aspect-square", "aspect-[4/5]", "aspect-[3/4]", "aspect-square"];
 
 export default function Galleries002(props: BlockProps) {
-  const { theme, heading = "Recent shoots", subheading = "A small selection from the past season.", items = Array.from({ length: 6 }).map((_, i) => ({ title: `Photo ${i + 1}` })) } = props;
+  const { theme, heading = "Recent shoots", subheading = "A small selection from the past season.", items = Array.from({ length: 6 }).map((_, i) => ({ title: `Photo ${i + 1}`, imageUrl: "" })) } = props;
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">

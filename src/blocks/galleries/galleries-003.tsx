@@ -1,9 +1,9 @@
 import type { BlockProps } from "@/blocks/types";
 
 const DEFAULT_ITEMS = [
-  { title: "Campaign — Summer '26", label: "Editorial" },
-  { title: "Lagos at dawn", label: "Street" },
-  { title: "Mother & child", label: "Portrait" },
+  { title: "Campaign — Summer '26", label: "Editorial", imageUrl: "" },
+  { title: "Lagos at dawn", label: "Street", imageUrl: "" },
+  { title: "Mother & child", label: "Portrait", imageUrl: "" },
 ];
 
 export default function Galleries003(props: BlockProps) {

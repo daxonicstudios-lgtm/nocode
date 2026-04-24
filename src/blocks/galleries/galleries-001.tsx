@@ -1,7 +1,7 @@
 import type { BlockProps } from "@/blocks/types";
 
 export default function Galleries001(props: BlockProps) {
-  const { theme, heading = "Selected work", items = Array.from({ length: 6 }).map((_, i) => ({ title: `Project ${i + 1}` })) } = props;
+  const { theme, heading = "Selected work", items = Array.from({ length: 6 }).map((_, i) => ({ title: `Project ${i + 1}`, imageUrl: "" })) } = props;
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
