@@ -849,7 +849,7 @@
 
 ### D-999: Final Polish & Mobile Testing
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** testing
 - **Push to:** staging
 - **Depends on:** S-999
