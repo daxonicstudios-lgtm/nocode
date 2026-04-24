@@ -764,25 +764,25 @@
 ### SONIC — Industry (560) + Pages (310) + Animations (350)
 
 ### S-600: Industry SaaS — 100 | S-610: Finance — 100 | S-620: Gaming — 60 | S-630: Architecture — 60 | S-640: Logistics — 40 | S-650: News — 80 | S-660: HR — 60 | S-670: Podcast — 60
-- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ind-{category}/`
 
 ### S-700: Landing Pages — 150 | S-710: 404 Pages — 80 | S-720: Coming Soon — 80
-- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/page-{category}/`
 
 ### S-800: Scroll Animations — 100 | S-810: Carousel — 100 | S-820: Backgrounds — 60 | S-830: Text Animations — 60 | S-840: Cursor Effects — 30
-- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] each | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/anim-{category}/`
 
 ### SONIC — Pages (320) + Navigation (360) + Animations (390)
 
 ### D-700: Thank You — 60 | D-710: Link in Bio — 80 | D-720: Splash — 40 | D-730: Maintenance — 40 | D-740: Under Construction — 40 | D-750: Password Protected — 30 | D-760: Offline — 30
-- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/page-{category}/`
 
 ### D-800: Breadcrumbs — 40 | D-810: Pagination — 50 | D-820: Tabs — 60 | D-830: Mega Menus — 60 | D-840: Mobile Menus — 80 | D-850: Sticky Headers — 40 | D-860: Back to Top — 30
-- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/nav-{category}/`
 
 ### D-900: Hover Effects — 100 | D-910: Loading Animations — 60 | D-920: Marquee — 50 | D-930: Counters — 50 | D-940: Transitions — 50 | D-950: Micro-interactions — 80
