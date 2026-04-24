@@ -1,23 +1,39 @@
 import type { BlockProps } from "@/blocks/types";
+import { Zap } from "lucide-react";
 
 export default function Cta252(props: BlockProps) {
-  const { theme, heading = "The future is now", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "Supercharge Your Workflow",
+    subheading = "Powerful tools that feel effortless to use.",
+    buttonText = "Try It Now",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
+    <section className="px-4 py-20" style={{ backgroundColor: theme?.background ?? "#e8edf2", color: theme?.foreground ?? "#1e293b" }}>
+      <div className="max-w-xl mx-auto text-center">
+        <div
+          className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6"
+          style={{
+            background: theme?.background ?? "#e8edf2",
+            boxShadow: "6px 6px 12px #c5cad0, -6px -6px 12px #ffffff",
+          }}
+        >
+          <Zap className="w-7 h-7" style={{ color: theme?.primary ?? "#6366f1" }} />
         </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
-        </div>
+        <h2 className="text-3xl sm:text-4xl font-extrabold">{heading}</h2>
+        <p className="mt-3 text-base opacity-60">{subheading}</p>
+        <a
+          href={buttonUrl}
+          className="mt-8 inline-flex items-center gap-2 px-10 py-4 rounded-full text-white font-bold text-sm"
+          style={{
+            backgroundColor: theme?.primary ?? "#6366f1",
+            boxShadow: "4px 4px 10px #c5cad0, -4px -4px 10px #ffffff",
+          }}
+        >
+          {buttonText}
+        </a>
       </div>
     </section>
   );

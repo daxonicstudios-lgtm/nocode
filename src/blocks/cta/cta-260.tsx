@@ -2,21 +2,26 @@ import type { BlockProps } from "@/blocks/types";
 import { ArrowRight } from "lucide-react";
 
 export default function Cta260(props: BlockProps) {
-  const { theme, heading = "Launch in minutes", subheading = "No credit card required. Cancel anytime.", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "The Smarter Way to Work",
+    subheading = "Automate the boring stuff. Focus on what matters.",
+    buttonText = "Start Free",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText} <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="#" className="inline-flex items-center justify-center px-7 py-3.5 rounded-full font-semibold text-sm border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-            Learn More
-          </a>
-        </div>
+    <section className="relative overflow-hidden py-28" style={{ background: `linear-gradient(135deg, ${theme?.primary ?? "#6366f1"} 0%, ${theme?.accent ?? "#a855f7"} 100%)` }}>
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-1/2 h-full" style={{ clipPath: "ellipse(50% 80% at 0% 50%)", backgroundColor: "rgba(255,255,255,0.05)" }} />
+        <div className="absolute top-0 right-0 w-1/2 h-full" style={{ clipPath: "ellipse(50% 80% at 100% 50%)", backgroundColor: "rgba(255,255,255,0.05)" }} />
+      </div>
+      <div className="relative max-w-2xl mx-auto text-center px-4 text-white">
+        <h2 className="text-3xl sm:text-5xl font-black">{heading}</h2>
+        <p className="mt-4 text-lg opacity-80">{subheading}</p>
+        <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-white rounded-full font-bold text-sm" style={{ color: theme?.primary ?? "#6366f1" }}>
+          {buttonText} <ArrowRight className="w-4 h-4" />
+        </a>
       </div>
     </section>
   );

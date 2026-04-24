@@ -1,18 +1,31 @@
 import type { BlockProps } from "@/blocks/types";
-import { Sparkles } from "lucide-react";
+import { Rocket } from "lucide-react";
 
 export default function Cta103(props: BlockProps) {
-  const { theme, heading = "Get ahead of the curve", subheading = "Simple setup, powerful results.", buttonText = "Join Now", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Launch Your Project Now",
+    bodyText = "Everything you need to go from idea to live product in minutes.",
+    buttonText = "Get Started",
+    buttonUrl = "#",
+    secondaryButtonText = "Watch Demo",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section className="px-4 py-24" style={{ background: `linear-gradient(135deg, ${theme?.primary ?? "#6366f1"} 0%, ${theme?.accent ?? "#a855f7"} 100%)`, color: "#fff" }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <Sparkles className="w-8 h-8 mx-auto mb-4 opacity-80" />
-        <h2 className="text-3xl sm:text-5xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-80">{subheading}</p>
-        <a href={buttonUrl} className="mt-8 inline-block px-8 py-4 rounded-full font-bold text-sm bg-white" style={{ color: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
-        </a>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-16 px-4 flex justify-center">
+      <div className="w-full max-w-lg rounded-2xl shadow-2xl p-8 md:p-10 text-center border-2" style={{ borderColor: theme?.primary || "#2563eb" }}>
+        <Rocket className="w-10 h-10 mx-auto mb-4" style={{ color: theme?.primary || "#2563eb" }} />
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-2">{heading}</h2>
+        <p className="opacity-70 mb-6 text-sm md:text-base">{bodyText}</p>
+        <div className="flex flex-col gap-3">
+          <a href={buttonUrl} className="block px-6 py-3 rounded-lg text-white font-bold transition hover:opacity-90" style={{ backgroundColor: theme?.primary || "#2563eb" }}>
+            {buttonText}
+          </a>
+          <a href={secondaryButtonUrl} className="block px-6 py-3 rounded-lg font-semibold underline" style={{ color: theme?.primary || "#2563eb" }}>
+            {secondaryButtonText}
+          </a>
+        </div>
       </div>
     </section>
   );

@@ -1,19 +1,40 @@
 import type { BlockProps } from "@/blocks/types";
+import { Check } from "lucide-react";
 
 export default function Cta274(props: BlockProps) {
-  const { theme, heading = "Start your journey now", subheading = "Free forever plan available.", buttonText = "Subscribe", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Why Teams Choose Us",
+    subheading = "Feature-rich and remarkably simple.",
+    buttonText = "Sign Up Free",
+    buttonUrl = "#",
+    items = [
+      { title: "No-code builder" }, { title: "API first" }, { title: "99.99% uptime" },
+      { title: "SOC2 certified" }, { title: "GDPR ready" }, { title: "24/7 support" },
+      { title: "Free migrations" }, { title: "Unlimited users" },
+    ],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+    <section className="py-20 px-4" style={{ background: `linear-gradient(to bottom, ${theme?.background ?? "#ffffff"}, ${theme?.accent ?? "#f0fdf4"})`, color: theme?.foreground ?? "#0f172a" }}>
+      <div className="max-w-3xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-extrabold">{heading}</h2>
         <p className="mt-3 opacity-60">{subheading}</p>
-        <form className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-          <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 rounded-xl border text-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.background ?? "#fff" }} />
-          <button type="submit" className="px-6 py-3 rounded-xl font-semibold text-sm text-white shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </button>
-        </form>
+      </div>
+      <div className="mt-8 overflow-x-auto scrollbar-hide">
+        <div className="flex gap-3 px-4 w-max mx-auto">
+          {items.map((item, i) => (
+            <span key={i} className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-white shadow-sm">
+              <Check className="w-3.5 h-3.5" style={{ color: theme?.primary ?? "#22c55e" }} />
+              {item.title}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="mt-8 text-center">
+        <a href={buttonUrl} className="inline-block px-8 py-4 rounded-full text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#22c55e" }}>
+          {buttonText}
+        </a>
       </div>
     </section>
   );

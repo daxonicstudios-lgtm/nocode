@@ -1,24 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { Star } from "lucide-react";
 
 export default function Cta059(props: BlockProps) {
-  const { theme, heading = "Everything you need in one place", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Loved by 50,000+ users",
+    subheading = "See why teams choose us for their most critical projects.",
+    buttonText = "Join Them",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-sm mx-auto rounded-2xl border p-8 text-center" style={{ borderColor: theme?.secondary ?? "#e5e7eb", boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
+        <div className="flex items-center justify-center gap-1">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} className="w-5 h-5 fill-current" style={{ color: theme?.accent ?? "#f59e0b" }} />
+          ))}
         </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+        <h2 className="mt-5 text-xl font-bold">{heading}</h2>
+        <p className="mt-2 text-sm opacity-60">{subheading}</p>
+        <a
+          href={buttonUrl}
+          className="inline-block mt-6 w-full py-3 rounded-lg text-white font-medium text-sm"
+          style={{ backgroundColor: theme?.primary ?? "#16a34a" }}
+        >
+          {buttonText}
+        </a>
       </div>
     </section>
   );

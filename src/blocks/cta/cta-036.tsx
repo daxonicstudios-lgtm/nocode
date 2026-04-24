@@ -1,30 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { Quote } from "lucide-react";
 
 export default function Cta036(props: BlockProps) {
-  const { theme, heading = "Unlock your potential", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Join thousands of happy customers",
+    buttonText = "Start Free Trial",
+    buttonUrl = "#",
+    items = [
+      { title: "Sarah Chen", description: "This tool saved our team 20 hours a week. Absolutely worth every penny.", label: "Head of Product, Acme Inc" },
+    ],
+  } = props;
+
+  const testimonial = items[0];
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
-            </div>
-          ))}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-24">
+      <div className="max-w-2xl mx-auto text-center">
+        <Quote className="w-8 h-8 mx-auto mb-4 opacity-20" />
+        <blockquote className="text-xl sm:text-2xl font-medium italic leading-relaxed opacity-80">
+          &ldquo;{testimonial?.description}&rdquo;
+        </blockquote>
+        <div className="mt-4">
+          <p className="font-bold text-sm">{testimonial?.title}</p>
+          <p className="text-xs opacity-50">{testimonial?.label}</p>
         </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
-        </a>
+        <div className="mt-8 pt-8 border-t" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          <h3 className="text-lg font-bold">{heading}</h3>
+          <a href={buttonUrl} className="mt-4 inline-block px-7 py-3 rounded-lg text-white font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#2563eb" }}>
+            {buttonText}
+          </a>
+        </div>
       </div>
     </section>
   );

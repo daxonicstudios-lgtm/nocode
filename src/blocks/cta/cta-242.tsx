@@ -1,22 +1,40 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight } from "lucide-react";
 
 export default function Cta242(props: BlockProps) {
-  const { theme, heading = "Join thousands of happy customers", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "Ready to take the next step?",
+    subheading = "Pick the action that fits your needs right now.",
+    buttonText = "Start Free Trial",
+    buttonUrl = "#",
+    secondaryButtonText = "Book a Demo",
+    secondaryButtonUrl = "#",
+    items = [
+      { title: "Watch a Walkthrough", url: "#" },
+      { title: "Download Case Study", url: "#" },
+    ],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-2xl sm:text-4xl font-bold">{heading}</h2>
+        <p className="mt-3 opacity-60">{subheading}</p>
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+            {buttonText} <ArrowRight className="w-4 h-4" />
+          </a>
+          <a href={secondaryButtonUrl} className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium text-sm border" style={{ borderColor: theme?.primary ?? "#6366f1", color: theme?.primary ?? "#6366f1" }}>
+            {secondaryButtonText}
           </a>
         </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
+        <div className="mt-4 flex flex-wrap justify-center gap-4">
+          {items.map((item, i) => (
+            <a key={i} href={item.url ?? "#"} className="text-sm underline underline-offset-4 opacity-60 hover:opacity-100">
+              {item.title}
+            </a>
+          ))}
         </div>
       </div>
     </section>

@@ -1,28 +1,39 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { Shield, Lock, RefreshCw } from "lucide-react";
 
 export default function Cta146(props: BlockProps) {
-  const { theme, heading = "Step into the future", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Your Data Is Safe With Us",
+    subheading = "Enterprise-grade security so you can focus on building.",
+    buttonText = "Start Secure",
+    buttonUrl = "#",
+    items = [
+      { title: "256-bit SSL Encryption" },
+      { title: "30-Day Money Back" },
+      { title: "99.9% Uptime SLA" },
+    ],
+  } = props;
+
+  const icons = [Lock, RefreshCw, Shield];
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
-            </div>
-          ))}
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.background, color: theme?.foreground }}>
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-2">{heading}</h2>
+        <p className="opacity-70 mb-8">{subheading}</p>
+        <div className="flex flex-wrap justify-center gap-6 mb-8">
+          {items.slice(0, 3).map((item, i) => {
+            const Icon = icons[i % icons.length];
+            return (
+              <div key={i} className="flex items-center gap-2 text-sm">
+                <Icon className="w-5 h-5" style={{ color: theme?.primary || "#2563eb" }} />
+                <span className="font-medium">{item.title}</span>
+              </div>
+            );
+          })}
         </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+        <a href={buttonUrl} className="inline-block px-8 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#2563eb" }}>
           {buttonText}
         </a>
       </div>

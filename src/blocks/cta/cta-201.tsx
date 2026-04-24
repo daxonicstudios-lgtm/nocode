@@ -1,17 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Bell, ArrowRight } from "lucide-react";
 
 export default function Cta201(props: BlockProps) {
-  const { theme, heading = "Scale without limits", subheading = "Join over 10,000 teams already using our platform.", buttonText = "Start Free Trial", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Never miss an update",
+    subheading = "Get real-time notifications when things that matter happen.",
+    buttonText = "Enable Notifications",
+    buttonUrl = "#",
+    secondaryButtonText = "Learn More",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section className="px-4 py-24" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#fff" }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-5xl font-bold">{heading}</h2>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-2xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style={{ backgroundColor: `${theme?.primary ?? "#ef4444"}15`, color: theme?.primary ?? "#ef4444" }}>
+          <Bell className="w-4 h-4" />
+          <span>New alerts available</span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">{heading}</h2>
         <p className="mt-4 text-lg opacity-70">{subheading}</p>
-        <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm bg-white" style={{ color: theme?.primary ?? "#0f172a" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
-        </a>
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium" style={{ backgroundColor: theme?.primary ?? "#ef4444" }}>
+            <Bell className="w-4 h-4" /> {buttonText}
+          </a>
+          <a href={secondaryButtonUrl} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium border" style={{ borderColor: theme?.border ?? "#e5e7eb" }}>
+            {secondaryButtonText} <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
       </div>
     </section>
   );

@@ -1,31 +1,26 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { ArrowRight } from "lucide-react";
 
 export default function Cta256(props: BlockProps) {
-  const { theme, heading = "Elevate your experience", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Ride the Wave of Innovation",
+    subheading = "The future of work is here. Are you ready?",
+    buttonText = "Get Started",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
-            </div>
-          ))}
-        </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
+    <section className="relative overflow-hidden" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+      <div className="absolute top-0 left-0 w-full h-24" style={{ backgroundColor: theme?.background ?? "#ffffff", clipPath: "ellipse(60% 100% at 50% 0%)" }} />
+      <div className="relative px-4 pt-32 pb-20 text-center text-white">
+        <h2 className="text-3xl sm:text-5xl font-extrabold">{heading}</h2>
+        <p className="mt-4 text-lg opacity-80 max-w-xl mx-auto">{subheading}</p>
+        <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm" style={{ backgroundColor: "#ffffff", color: theme?.primary ?? "#6366f1" }}>
+          {buttonText} <ArrowRight className="w-4 h-4" />
         </a>
       </div>
+      <div className="absolute bottom-0 left-0 w-full h-20" style={{ backgroundColor: theme?.background ?? "#ffffff", clipPath: "ellipse(60% 100% at 50% 100%)" }} />
     </section>
   );
 }

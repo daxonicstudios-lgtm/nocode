@@ -1,22 +1,28 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Flame } from "lucide-react";
 
 export default function Cta050(props: BlockProps) {
-  const { theme, heading = "Launch in minutes", subheading = "No credit card required. Cancel anytime.", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Stop dreaming, start shipping",
+    subheading = "Your next big idea deserves a platform that moves as fast as you do.",
+    buttonText = "Launch Now",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText} <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="#" className="inline-flex items-center justify-center px-7 py-3.5 rounded-full font-semibold text-sm border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-            Learn More
-          </a>
-        </div>
+    <section className="px-5 py-28" style={{ backgroundColor: "#020617", color: "#f1f5f9" }}>
+      <div className="max-w-xl mx-auto text-center">
+        <Flame className="w-10 h-10 mx-auto mb-5" style={{ color: theme?.primary ?? "#ef4444" }} />
+        <h2 className="text-4xl sm:text-5xl font-black tracking-tight">{heading}</h2>
+        <p className="mt-4 opacity-40">{subheading}</p>
+        <a
+          href={buttonUrl}
+          className="mt-10 inline-block px-10 py-4 rounded-full font-black text-sm tracking-wide uppercase hover:opacity-90 transition-opacity"
+          style={{ backgroundColor: theme?.primary ?? "#ef4444", color: "#fff" }}
+        >
+          {buttonText}
+        </a>
       </div>
     </section>
   );

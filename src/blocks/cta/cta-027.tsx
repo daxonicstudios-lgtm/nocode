@@ -1,15 +1,20 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { X } from "lucide-react";
 
 export default function Cta027(props: BlockProps) {
-  const { theme, heading = "Begin your free trial", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Limited offer: 30% off all annual plans",
+    buttonText = "Claim Discount",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
-      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-        <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
-        <a href={buttonUrl} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
+    <section style={{ backgroundColor: theme?.accent ?? "#fef3c7", color: theme?.foreground ?? "#78350f" }} className="px-5 py-3 relative">
+      <div className="max-w-5xl mx-auto flex items-center justify-center gap-4 text-center">
+        <p className="text-sm font-medium">{heading}</p>
+        <a href={buttonUrl} className="px-4 py-1.5 rounded-full text-white font-bold text-xs shrink-0" style={{ backgroundColor: theme?.primary ?? "#f59e0b" }}>
+          {buttonText}
         </a>
       </div>
     </section>

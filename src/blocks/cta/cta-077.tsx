@@ -1,15 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export default function Cta077(props: BlockProps) {
-  const { theme, heading = "Grow faster, together", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "AI-powered insights",
+    subheading = "Let our intelligent assistant handle the heavy lifting while you focus on growth.",
+    buttonText = "Try for Free",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
-      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-        <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
-        <a href={buttonUrl} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#1a1a2e", color: "#ffffff" }}>
+      <div
+        className="max-w-lg mx-auto rounded-2xl p-8 text-center"
+        style={{
+          background: "linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(255,255,255,0.12)",
+        }}
+      >
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto" style={{ background: "rgba(255,255,255,0.1)" }}>
+          <Sparkles className="w-6 h-6" style={{ color: theme?.accent ?? "#a78bfa" }} />
+        </div>
+        <h2 className="mt-5 text-2xl sm:text-3xl font-bold">{heading}</h2>
+        <p className="mt-3 text-sm opacity-60">{subheading}</p>
+        <a href={buttonUrl} className="inline-block mt-7 px-8 py-3 rounded-lg font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#7c3aed", color: "#ffffff" }}>
+          {buttonText}
         </a>
       </div>
     </section>

@@ -1,29 +1,20 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { ArrowRight } from "lucide-react";
 
 export default function Cta026(props: BlockProps) {
-  const { theme, heading = "Step into the future", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Ready to get started?",
+    buttonText = "Sign Up Free",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
-            </div>
-          ))}
-        </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
+    <section style={{ backgroundColor: theme?.primary ?? "#2563eb" }} className="px-5 py-4">
+      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p className="text-white font-semibold text-sm">{heading}</p>
+        <a href={buttonUrl} className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-white font-bold text-xs shrink-0" style={{ color: theme?.primary ?? "#2563eb" }}>
+          {buttonText} <ArrowRight className="w-3.5 h-3.5" />
         </a>
       </div>
     </section>

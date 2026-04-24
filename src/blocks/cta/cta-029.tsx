@@ -1,24 +1,22 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { Megaphone } from "lucide-react";
 
 export default function Cta029(props: BlockProps) {
-  const { theme, heading = "Everything you need in one place", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "New: AI-powered page builder is here",
+    buttonText = "Try It Now",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+    <section style={{ backgroundColor: theme?.primary ?? "#7c3aed" }} className="px-5 py-3">
+      <div className="max-w-5xl mx-auto flex items-center justify-center gap-3 flex-wrap">
+        <Megaphone className="w-4 h-4 text-white opacity-80" />
+        <p className="text-white text-sm font-medium">{heading}</p>
+        <a href={buttonUrl} className="px-4 py-1 rounded-full bg-white/20 text-white text-xs font-bold border border-white/30 hover:bg-white/30 transition-colors">
+          {buttonText}
+        </a>
       </div>
     </section>
   );

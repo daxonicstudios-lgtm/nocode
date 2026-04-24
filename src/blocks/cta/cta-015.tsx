@@ -1,16 +1,35 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Rocket } from "lucide-react";
 
 export default function Cta015(props: BlockProps) {
-  const { theme, heading = "Time to take action", buttonText = "Learn More", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Ready for early access?",
+    subheading = "Drop your email and we will send you an invite within 24 hours.",
+    buttonText = "Request Access",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" }} className="px-4 py-6">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="font-semibold text-lg">{heading}</p>
-        <a href={buttonUrl} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm bg-white" style={{ color: theme?.primary ?? "#6366f1" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
-        </a>
+    <section className="px-5 py-24" style={{ backgroundColor: theme?.primary ?? "#4f46e5", color: "#fff" }}>
+      <div className="max-w-xl mx-auto text-center">
+        <Rocket className="w-8 h-8 mx-auto mb-4 opacity-80" />
+        <h2 className="text-3xl sm:text-4xl font-black">{heading}</h2>
+        <p className="mt-3 text-sm opacity-70">{subheading}</p>
+        <form className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" action={buttonUrl} onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="email"
+            placeholder="you@example.com"
+            className="flex-1 px-4 py-3.5 rounded-lg text-sm text-gray-900 bg-white focus:outline-none"
+          />
+          <button
+            type="submit"
+            className="px-6 py-3.5 rounded-lg bg-white font-bold text-sm shrink-0 hover:bg-gray-100 transition-colors"
+            style={{ color: theme?.primary ?? "#4f46e5" }}
+          >
+            {buttonText}
+          </button>
+        </form>
       </div>
     </section>
   );

@@ -1,24 +1,44 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { Layers, Palette, Type, Layout, Smartphone, Monitor } from "lucide-react";
 
 export default function Cta109(props: BlockProps) {
-  const { theme, heading = "Try it risk-free today", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Design Without Limits",
+    subheading = "Every tool a designer needs, built right in.",
+    buttonText = "Start Designing",
+    buttonUrl = "#",
+    items = [
+      { title: "Layers" },
+      { title: "Colors" },
+      { title: "Typography" },
+      { title: "Layouts" },
+      { title: "Mobile" },
+      { title: "Desktop" },
+    ],
+  } = props;
+
+  const icons = [Layers, Palette, Type, Layout, Smartphone, Monitor];
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.background, color: theme?.foreground }}>
+      <div className="max-w-3xl mx-auto text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-2">{heading}</h2>
+        <p className="opacity-70 mb-6">{subheading}</p>
+        <div className="flex flex-wrap justify-center gap-6 mb-8">
+          {items.slice(0, 6).map((item, i) => {
+            const Icon = icons[i % icons.length];
+            return (
+              <div key={i} className="flex items-center gap-2">
+                <Icon className="w-5 h-5" style={{ color: theme?.primary || "#7c3aed" }} />
+                <span className="text-sm font-medium">{item.title}</span>
+              </div>
+            );
+          })}
         </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+        <a href={buttonUrl} className="inline-block px-8 py-3 rounded-full text-white font-semibold hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#7c3aed" }}>
+          {buttonText}
+        </a>
       </div>
     </section>
   );

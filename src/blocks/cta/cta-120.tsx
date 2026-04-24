@@ -1,22 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 
 export default function Cta120(props: BlockProps) {
-  const { theme, heading = "Ready to get started?", subheading = "No credit card required. Cancel anytime.", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "From Zero to Launch in 3 Steps",
+    buttonText = "Get Started Free",
+    buttonUrl = "#",
+    items = [
+      { title: "Pick a Template", description: "Choose from 100+ designs." },
+      { title: "Make It Yours", description: "Customize colors, text, and layout." },
+      { title: "Hit Publish", description: "Your site is live in seconds." },
+    ],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText} <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="#" className="inline-flex items-center justify-center px-7 py-3.5 rounded-full font-semibold text-sm border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-            Learn More
-          </a>
-        </div>
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.accent || "#faf5ff", color: theme?.foreground }}>
+      <div className="max-w-md mx-auto text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">{heading}</h2>
+        {items.slice(0, 3).map((item, i) => (
+          <div key={i}>
+            <div className="p-4 rounded-xl border bg-white/50 mb-2">
+              <span className="text-xs font-bold uppercase" style={{ color: theme?.primary || "#7c3aed" }}>Step {i + 1}</span>
+              <h3 className="font-bold">{item.title}</h3>
+              <p className="text-sm opacity-70">{item.description}</p>
+            </div>
+            {i < 2 && <ArrowDown className="w-5 h-5 mx-auto my-2 opacity-30" />}
+          </div>
+        ))}
+        <a href={buttonUrl} className="inline-block mt-6 px-8 py-3 rounded-full text-white font-semibold hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#7c3aed" }}>
+          {buttonText}
+        </a>
       </div>
     </section>
   );

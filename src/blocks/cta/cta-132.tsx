@@ -1,22 +1,30 @@
 import type { BlockProps } from "@/blocks/types";
+import { Cpu } from "lucide-react";
 
 export default function Cta132(props: BlockProps) {
-  const { theme, heading = "The future is now", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "Powered by AI",
+    bodyText = "Let machine intelligence handle the heavy lifting while you focus on creating.",
+    buttonText = "Try AI Builder",
+    buttonUrl = "#",
+    secondaryButtonText = "See How It Works",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.background || "#0f172a", color: theme?.foreground || "#e2e8f0" }}>
+      <div className="max-w-lg mx-auto p-8 rounded-2xl border" style={{ borderColor: theme?.primary || "#8b5cf6", boxShadow: `0 0 40px ${theme?.primary || "#8b5cf6"}20` }}>
+        <Cpu className="w-8 h-8 mb-4" style={{ color: theme?.primary || "#8b5cf6" }} />
+        <h2 className="text-2xl md:text-3xl font-bold mb-3">{heading}</h2>
+        <p className="text-sm opacity-60 mb-6">{bodyText}</p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <a href={buttonUrl} className="px-6 py-3 rounded-lg text-white font-semibold text-center hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#8b5cf6" }}>
             {buttonText}
           </a>
-        </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
+          <a href={secondaryButtonUrl} className="px-6 py-3 rounded-lg font-semibold text-center border hover:bg-white/5 transition" style={{ borderColor: theme?.primary || "#8b5cf6", color: theme?.primary || "#8b5cf6" }}>
+            {secondaryButtonText}
+          </a>
         </div>
       </div>
     </section>

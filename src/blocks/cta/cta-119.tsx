@@ -1,24 +1,40 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
 
 export default function Cta119(props: BlockProps) {
-  const { theme, heading = "Everything you need in one place", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "How It Works",
+    subheading = "Three steps to your perfect website.",
+    buttonText = "Try It Now",
+    buttonUrl = "#",
+    items = [
+      { title: "Describe", description: "Tell us what you need in plain language." },
+      { title: "Generate", description: "Our AI builds your site instantly." },
+      { title: "Publish", description: "Review, tweak, and go live." },
+    ],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.background, color: theme?.foreground }}>
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-1">{heading}</h2>
+        <p className="opacity-70 mb-10">{subheading}</p>
+        <div className="space-y-6 mb-10">
+          {items.slice(0, 3).map((item, i) => (
+            <div key={i} className="flex items-start gap-4 text-left">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" style={{ backgroundColor: theme?.primary || "#2563eb" }}>
+                {i + 1}
+              </div>
+              <div>
+                <h3 className="font-bold">{item.title}</h3>
+                <p className="text-sm opacity-70">{item.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+        <a href={buttonUrl} className="inline-block px-8 py-3 rounded-lg text-white font-bold hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#2563eb" }}>
+          {buttonText}
+        </a>
       </div>
     </section>
   );

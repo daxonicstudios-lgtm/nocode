@@ -1,24 +1,35 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function Cta089(props: BlockProps) {
-  const { theme, heading = "Everything you need in one place", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Scale without boundaries",
+    subheading = "Our infrastructure handles billions of requests so you don't have to worry.",
+    buttonText = "Explore Plans",
+    buttonUrl = "#",
+  } = props;
+
+  const primary = theme?.primary ?? "#3b82f6";
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
+    <section style={{ backgroundColor: theme?.background ?? "#020617", color: "#ffffff" }} className="px-5 py-20">
+      <div
+        className="max-w-3xl mx-auto rounded-2xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8"
+        style={{
+          border: `1px solid ${primary}50`,
+          boxShadow: `0 0 40px ${primary}20`,
+          background: `linear-gradient(135deg, ${primary}08, transparent)`,
+        }}
+      >
+        <div>
+          <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+          <p className="mt-2 text-sm opacity-60 max-w-md">{subheading}</p>
         </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+        <a href={buttonUrl} className="inline-flex items-center gap-2 px-7 py-3 rounded-lg text-white font-semibold text-sm shrink-0" style={{ backgroundColor: primary }}>
+          {buttonText}
+          <ArrowRight className="w-4 h-4" />
+        </a>
       </div>
     </section>
   );

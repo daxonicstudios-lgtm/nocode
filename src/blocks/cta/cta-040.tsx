@@ -1,22 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
 
 export default function Cta040(props: BlockProps) {
-  const { theme, heading = "Your success starts here", subheading = "No credit card required. Cancel anytime.", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Do not just take our word for it",
+    buttonText = "Start Your Journey",
+    buttonUrl = "#",
+    items = [
+      { title: "Rachel Torres", description: "I was skeptical at first, but the results blew me away. Our conversion rate doubled in 3 months.", label: "Growth Lead, Apex Digital" },
+    ],
+  } = props;
+
+  const testimonial = items[0];
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText} <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="#" className="inline-flex items-center justify-center px-7 py-3.5 rounded-full font-semibold text-sm border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-            Learn More
-          </a>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-24">
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-black">{heading}</h2>
+        <div className="mt-10 p-8 rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
+          <p className="text-lg italic leading-relaxed opacity-80">&ldquo;{testimonial?.description}&rdquo;</p>
+          <div className="mt-5">
+            <p className="font-bold">{testimonial?.title}</p>
+            <p className="text-sm opacity-50">{testimonial?.label}</p>
+          </div>
         </div>
+        <a href={buttonUrl} className="mt-8 inline-block px-8 py-3.5 rounded-full text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#10b981" }}>
+          {buttonText}
+        </a>
       </div>
     </section>
   );

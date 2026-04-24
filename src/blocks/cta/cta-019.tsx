@@ -1,24 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export default function Cta019(props: BlockProps) {
-  const { theme, heading = "Try it risk-free today", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Unlock premium features",
+    subheading = "Get access to advanced tools, priority support, and unlimited projects.",
+    buttonText = "Upgrade Now",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+    <section
+      className="px-5 py-20"
+      style={{
+        background: `linear-gradient(135deg, ${theme?.primary ?? "#7c3aed"} 0%, ${theme?.accent ?? "#ec4899"} 50%, ${theme?.primary ?? "#7c3aed"} 100%)`,
+        color: "#fff",
+      }}
+    >
+      <div className="max-w-lg mx-auto text-center">
+        <Sparkles className="w-8 h-8 mx-auto mb-4 opacity-80" />
+        <h2 className="text-3xl font-black">{heading}</h2>
+        <p className="mt-3 text-sm opacity-80">{subheading}</p>
+        <a
+          href={buttonUrl}
+          className="mt-8 inline-block px-8 py-3.5 rounded-lg bg-white/20 backdrop-blur font-bold text-sm border border-white/30 hover:bg-white/30 transition-colors"
+        >
+          {buttonText}
+        </a>
       </div>
     </section>
   );

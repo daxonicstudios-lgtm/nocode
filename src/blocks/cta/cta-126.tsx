@@ -1,30 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { Star } from "lucide-react";
 
 export default function Cta126(props: BlockProps) {
-  const { theme, heading = "Unlock your potential", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Crafted with Care, Built to Last",
+    subheading = "Join a community that values quality over quantity.",
+    buttonText = "Join the Club",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
-            </div>
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.background || "#fef7ed", color: theme?.foreground || "#451a03" }}>
+      <div className="max-w-xl mx-auto text-center">
+        <div className="flex justify-center gap-1 mb-4">
+          {[...Array(3)].map((_, i) => (
+            <Star key={i} className="w-5 h-5" style={{ color: theme?.primary || "#b45309" }} fill={theme?.primary || "#b45309"} />
           ))}
         </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+        <h2 className="text-2xl md:text-3xl font-serif font-bold mb-3">{heading}</h2>
+        <p className="opacity-70 font-serif mb-8">{subheading}</p>
+        <a href={buttonUrl} className="inline-block px-8 py-3 rounded-sm text-white font-semibold tracking-wide hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#b45309" }}>
           {buttonText}
         </a>
+        <div className="mt-6 w-24 h-0.5 mx-auto opacity-30" style={{ backgroundColor: theme?.primary || "#b45309" }} />
       </div>
     </section>
   );

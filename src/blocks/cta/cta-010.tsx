@@ -1,20 +1,31 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 
 export default function Cta010(props: BlockProps) {
-  const { theme, heading = "Your success starts here", subheading = "No credit card required. Cancel anytime.", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Your dream site, one click away",
+    subheading = "Choose from hundreds of templates and customize every detail to match your brand.",
+    buttonText = "Browse Templates",
+    buttonUrl = "#",
+    imageUrl,
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText} <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="#" className="inline-flex items-center justify-center px-7 py-3.5 rounded-full font-semibold text-sm border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-            Learn More
+    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div className="rounded-2xl aspect-[3/2] overflow-hidden" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+          {imageUrl ? (
+            <img src={imageUrl} alt="" className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center opacity-20 text-sm">Template Preview</div>
+          )}
+        </div>
+        <div>
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-4 opacity-60 leading-relaxed">{subheading}</p>
+          <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 font-semibold text-sm hover:gap-3 transition-all" style={{ color: theme?.primary ?? "#2563eb" }}>
+            {buttonText} <MoveRight className="w-4 h-4" />
           </a>
         </div>
       </div>

@@ -1,24 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { Code, Palette } from "lucide-react";
 
 export default function Cta279(props: BlockProps) {
-  const { theme, heading = "Don't miss out", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "For Designers & Developers",
+    buttonText = "Start Designing",
+    buttonUrl = "#",
+    secondaryButtonText = "Start Coding",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+    <section className="grid sm:grid-cols-2">
+      <div className="flex flex-col items-center justify-center px-8 py-16 text-center" style={{ backgroundColor: theme?.primary ?? "#ec4899", color: "#ffffff" }}>
+        <Palette className="w-10 h-10 mb-4 opacity-80" />
+        <h2 className="text-2xl sm:text-3xl font-extrabold">Designers</h2>
+        <p className="mt-2 opacity-70 text-sm max-w-xs">Pixel-perfect tools that bring your vision to life.</p>
+        <a href={buttonUrl} className="mt-6 px-7 py-3.5 bg-white rounded-full font-bold text-sm" style={{ color: theme?.primary ?? "#ec4899" }}>
+          {buttonText}
+        </a>
+      </div>
+      <div className="flex flex-col items-center justify-center px-8 py-16 text-center" style={{ backgroundColor: theme?.foreground ?? "#0f172a", color: "#ffffff" }}>
+        <Code className="w-10 h-10 mb-4 opacity-80" />
+        <h2 className="text-2xl sm:text-3xl font-extrabold">Developers</h2>
+        <p className="mt-2 opacity-70 text-sm max-w-xs">Clean APIs and powerful SDKs for every stack.</p>
+        <a href={secondaryButtonUrl} className="mt-6 px-7 py-3.5 bg-white rounded-full font-bold text-sm" style={{ color: theme?.foreground ?? "#0f172a" }}>
+          {secondaryButtonText}
+        </a>
       </div>
     </section>
   );

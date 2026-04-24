@@ -1,20 +1,26 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Compass } from "lucide-react";
 
 export default function Cta130(props: BlockProps) {
-  const { theme, heading = "Your success starts here", subheading = "No credit card required. Cancel anytime.", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Explore What's Possible",
+    subheading = "Handcrafted tools for the modern creator.",
+    buttonText = "Begin Exploring",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText} <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="#" className="inline-flex items-center justify-center px-7 py-3.5 rounded-full font-semibold text-sm border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-            Learn More
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.accent || "#faebd7", color: theme?.foreground || "#4a3728" }}>
+      <div className="max-w-3xl mx-auto flex flex-col md:flex-row items-center gap-8">
+        <div className="w-24 h-24 rounded-full border-4 flex items-center justify-center flex-shrink-0" style={{ borderColor: theme?.primary || "#8b4513" }}>
+          <Compass className="w-10 h-10" style={{ color: theme?.primary || "#8b4513" }} />
+        </div>
+        <div className="text-center md:text-left flex-1">
+          <h2 className="text-2xl md:text-3xl font-serif font-bold mb-2">{heading}</h2>
+          <p className="font-serif opacity-70 mb-4">{subheading}</p>
+          <a href={buttonUrl} className="inline-block px-6 py-3 text-white font-serif font-semibold rounded-sm hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#8b4513" }}>
+            {buttonText}
           </a>
         </div>
       </div>

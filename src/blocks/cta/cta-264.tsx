@@ -1,19 +1,40 @@
 import type { BlockProps } from "@/blocks/types";
+import { Heart } from "lucide-react";
 
 export default function Cta264(props: BlockProps) {
-  const { theme, heading = "Create something extraordinary", subheading = "Free forever plan available.", buttonText = "Subscribe", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Made With Love",
+    subheading = "Crafted for teams who care about quality.",
+    buttonText = "Try Free",
+    buttonUrl = "#",
+    secondaryButtonText = "See Pricing",
+    secondaryButtonUrl = "#",
+  } = props;
+
+  const dots = Array.from({ length: 20 }, (_, i) => ({
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    size: Math.random() * 6 + 3,
+  }));
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+    <section className="relative overflow-hidden px-4 py-20" style={{ backgroundColor: theme?.background ?? "#fff1f2", color: theme?.foreground ?? "#1c1917" }}>
+      {dots.map((d, i) => (
+        <div key={i} className="absolute rounded-full" style={{ top: d.top, left: d.left, width: d.size, height: d.size, backgroundColor: theme?.primary ?? "#e11d48", opacity: 0.15 }} />
+      ))}
+      <div className="relative max-w-xl mx-auto text-center">
+        <Heart className="w-8 h-8 mx-auto mb-4 fill-current" style={{ color: theme?.primary ?? "#e11d48" }} />
+        <h2 className="text-3xl sm:text-4xl font-extrabold">{heading}</h2>
         <p className="mt-3 opacity-60">{subheading}</p>
-        <form className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-          <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 rounded-xl border text-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.background ?? "#fff" }} />
-          <button type="submit" className="px-6 py-3 rounded-xl font-semibold text-sm text-white shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+          <a href={buttonUrl} className="px-8 py-3.5 rounded-full text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#e11d48" }}>
             {buttonText}
-          </button>
-        </form>
+          </a>
+          <a href={secondaryButtonUrl} className="px-8 py-3.5 rounded-full font-bold text-sm border-2" style={{ borderColor: theme?.primary ?? "#e11d48", color: theme?.primary ?? "#e11d48" }}>
+            {secondaryButtonText}
+          </a>
+        </div>
       </div>
     </section>
   );

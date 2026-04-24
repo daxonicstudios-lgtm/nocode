@@ -1,24 +1,30 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function Cta069(props: BlockProps) {
-  const { theme, heading = "Don't miss out", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Built for modern teams",
+    subheading = "Collaborate in real-time with your team across any device.",
+    buttonText = "Try It Free",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
+    <section
+      className="px-5 py-24 w-full relative overflow-hidden"
+      style={{ backgroundColor: theme?.primary ?? "#312e81", color: "#ffffff" }}
+    >
+      <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.1) 0%, transparent 50%)" }} />
+      <div className="relative max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+        <div>
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-70 max-w-md">{subheading}</p>
         </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+        <a href={buttonUrl} className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-white font-bold text-sm shrink-0" style={{ color: theme?.primary ?? "#312e81" }}>
+          {buttonText}
+          <ArrowRight className="w-4 h-4" />
+        </a>
       </div>
     </section>
   );

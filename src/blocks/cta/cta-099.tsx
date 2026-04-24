@@ -1,21 +1,25 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
 
 export default function Cta099(props: BlockProps) {
-  const { theme, heading = "Don't miss out", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Simple tools for complex problems.",
+    bodyText = "We believe great software should feel invisible. It should just work — quietly, reliably, beautifully.",
+    buttonText = "Learn more",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-28 sm:py-40">
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-5xl font-thin tracking-tight leading-tight">{heading}</h2>
+        <p className="mt-8 text-sm opacity-40 max-w-md mx-auto leading-relaxed">{bodyText}</p>
+        <div className="mt-12">
+          <a
+            href={buttonUrl}
+            className="inline-block px-8 py-3 rounded-full text-sm font-medium border"
+            style={{ borderColor: theme?.secondary ?? "#d1d5db" }}
+          >
             {buttonText}
           </a>
         </div>

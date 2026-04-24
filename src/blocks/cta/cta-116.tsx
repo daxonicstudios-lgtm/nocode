@@ -1,28 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
 
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
-
 export default function Cta116(props: BlockProps) {
-  const { theme, heading = "Step into the future", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Get Started in 3 Simple Steps",
+    buttonText = "Begin Now",
+    buttonUrl = "#",
+    items = [
+      { title: "Sign Up", description: "Create your free account in seconds." },
+      { title: "Customize", description: "Pick a template and make it yours." },
+      { title: "Launch", description: "Go live with one click." },
+    ],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.background, color: theme?.foreground }}>
+      <div className="max-w-3xl mx-auto text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-10">{heading}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {items.slice(0, 3).map((item, i) => (
+            <div key={i} className="flex flex-col items-center">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg mb-3" style={{ backgroundColor: theme?.primary || "#2563eb" }}>
+                {i + 1}
+              </div>
+              <h3 className="font-bold mb-1">{item.title}</h3>
+              <p className="text-sm opacity-70">{item.description}</p>
             </div>
           ))}
         </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+        <a href={buttonUrl} className="inline-block px-8 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#2563eb" }}>
           {buttonText}
         </a>
       </div>

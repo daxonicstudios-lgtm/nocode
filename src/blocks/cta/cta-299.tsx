@@ -1,24 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { ArrowRight, Cpu } from "lucide-react";
 
 export default function Cta299(props: BlockProps) {
-  const { theme, heading = "Everything you need in one place", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Enter the Future",
+    subheading = "AI-powered tools for the next generation of creators.",
+    buttonText = "Access Now",
+    buttonUrl = "#",
+  } = props;
+
+  const neon = theme?.primary ?? "#00ff88";
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+    <section className="px-4 py-24 sm:py-32" style={{ backgroundColor: "#0a0a0a", color: "#ffffff" }}>
+      <div className="max-w-2xl mx-auto text-center">
+        <Cpu className="w-10 h-10 mx-auto mb-4" style={{ color: neon, filter: `drop-shadow(0 0 8px ${neon})` }} />
+        <h2 className="text-4xl sm:text-6xl font-black tracking-tight" style={{ textShadow: `0 0 40px ${neon}33` }}>
+          {heading}
+        </h2>
+        <p className="mt-4 text-lg opacity-50">{subheading}</p>
+        <a
+          href={buttonUrl}
+          className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm border"
+          style={{ borderColor: neon, color: neon, boxShadow: `0 0 20px ${neon}33, inset 0 0 20px ${neon}11` }}
+        >
+          {buttonText} <ArrowRight className="w-4 h-4" />
+        </a>
+        <div className="mt-4 h-px w-40 mx-auto" style={{ background: `linear-gradient(90deg, transparent, ${neon}, transparent)` }} />
       </div>
     </section>
   );

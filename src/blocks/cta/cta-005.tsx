@@ -1,16 +1,37 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
 
 export default function Cta005(props: BlockProps) {
-  const { theme, heading = "Transform your workflow", buttonText = "Learn More", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Start building today",
+    subheading = "Free forever for individuals. Upgrade as you grow.",
+    buttonText = "Create Your Account",
+    buttonUrl = "#",
+    secondaryButtonText = "View Pricing",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" }} className="px-4 py-6">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="font-semibold text-lg">{heading}</p>
-        <a href={buttonUrl} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm bg-white" style={{ color: theme?.primary ?? "#6366f1" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
-        </a>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-32">
+      <div className="max-w-md mx-auto text-center">
+        <h2 className="text-4xl font-black">{heading}</h2>
+        <p className="mt-4 text-sm opacity-50">{subheading}</p>
+        <div className="mt-8 space-y-3">
+          <a
+            href={buttonUrl}
+            className="block w-full py-4 rounded-xl text-white font-bold text-sm text-center hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: theme?.primary ?? "#6366f1" }}
+          >
+            {buttonText}
+          </a>
+          <a
+            href={secondaryButtonUrl}
+            className="block w-full py-4 rounded-xl font-medium text-sm text-center border hover:opacity-70 transition-opacity"
+            style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}
+          >
+            {secondaryButtonText}
+          </a>
+        </div>
       </div>
     </section>
   );

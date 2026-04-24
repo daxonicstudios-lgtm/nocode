@@ -1,23 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
+import { Sparkles } from "lucide-react";
 
 export default function Cta102(props: BlockProps) {
-  const { theme, heading = "The future is now", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "Start Building Today",
+    subheading = "No credit card required. Free forever for small teams.",
+    buttonText = "Create Your Account",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
-        </div>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-20 px-4">
+      <div className="max-w-xl mx-auto rounded-3xl shadow-xl border p-10 text-center relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: theme?.primary || "#2563eb" }} />
+        <Sparkles className="w-8 h-8 mx-auto mb-4" style={{ color: theme?.primary || "#2563eb" }} />
+        <h2 className="text-2xl md:text-3xl font-bold mb-3">{heading}</h2>
+        <p className="opacity-70 mb-8">{subheading}</p>
+        <a
+          href={buttonUrl}
+          className="inline-block px-8 py-3 rounded-xl text-white font-semibold shadow-lg transition hover:shadow-xl hover:-translate-y-0.5"
+          style={{ backgroundColor: theme?.primary || "#2563eb" }}
+        >
+          {buttonText}
+        </a>
       </div>
     </section>
   );

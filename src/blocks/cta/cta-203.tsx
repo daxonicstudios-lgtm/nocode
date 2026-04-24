@@ -1,18 +1,35 @@
 import type { BlockProps } from "@/blocks/types";
-import { Sparkles } from "lucide-react";
+import { Bell, ChevronRight } from "lucide-react";
 
 export default function Cta203(props: BlockProps) {
-  const { theme, heading = "Join the movement", subheading = "Simple setup, powerful results.", buttonText = "Join Now", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Important announcement",
+    bodyText = "We just launched a brand-new feature that will change how you work. Turn on notifications so you never miss what comes next.",
+    buttonText = "Turn On Alerts",
+    buttonUrl = "#",
+    secondaryButtonText = "Dismiss",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section className="px-4 py-24" style={{ background: `linear-gradient(135deg, ${theme?.primary ?? "#6366f1"} 0%, ${theme?.accent ?? "#a855f7"} 100%)`, color: "#fff" }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <Sparkles className="w-8 h-8 mx-auto mb-4 opacity-80" />
-        <h2 className="text-3xl sm:text-5xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-80">{subheading}</p>
-        <a href={buttonUrl} className="mt-8 inline-block px-8 py-4 rounded-full font-bold text-sm bg-white" style={{ color: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
-        </a>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-16">
+      <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden border" style={{ borderColor: theme?.primary ?? "#6366f1" }}>
+        <div className="px-5 py-3 flex items-center gap-2 text-white text-sm font-medium" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+          <Bell className="w-4 h-4" /> Notification Center
+        </div>
+        <div className="p-6 sm:p-10">
+          <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-70 leading-relaxed">{bodyText}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href={buttonUrl} className="inline-flex items-center gap-1 px-5 py-2.5 rounded-lg text-white font-medium text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+              {buttonText} <ChevronRight className="w-4 h-4" />
+            </a>
+            <a href={secondaryButtonUrl} className="px-5 py-2.5 rounded-lg font-medium text-sm opacity-60 hover:opacity-100">
+              {secondaryButtonText}
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,22 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Cta049(props: BlockProps) {
-  const { theme, heading = "Try it risk-free today", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Enterprise-ready platform",
+    subheading = "Custom solutions for teams that demand the best. Talk to our team today.",
+    buttonText = "Contact Sales",
+    buttonUrl = "#",
+    secondaryButtonText = "View Documentation",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
+    <section className="px-5 py-24 relative overflow-hidden" style={{ backgroundColor: "#0c0a09", color: "#fafaf9" }}>
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-10" style={{ backgroundColor: theme?.primary ?? "#f97316" }} />
+      <div className="relative max-w-2xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-5xl font-black">{heading}</h2>
+        <p className="mt-4 opacity-40">{subheading}</p>
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#f97316", color: "#fff" }}>
+            {buttonText} <ArrowUpRight className="w-4 h-4" />
+          </a>
+          <a href={secondaryButtonUrl} className="px-8 py-4 rounded-lg font-medium text-sm border border-stone-700 text-stone-300 hover:bg-stone-900 transition-colors text-center">
+            {secondaryButtonText}
           </a>
         </div>
       </div>

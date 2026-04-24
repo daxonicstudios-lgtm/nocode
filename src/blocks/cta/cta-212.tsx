@@ -1,21 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
+import { Mic, PlayCircle } from "lucide-react";
 
 export default function Cta212(props: BlockProps) {
-  const { theme, heading = "Join thousands of happy customers", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "Start your podcasting journey",
+    subheading = "Record, edit, and publish — all from one platform. Join 50,000+ creators.",
+    buttonText = "Start Recording",
+    buttonUrl = "#",
+    imageUrl,
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
+    <section style={{ backgroundColor: theme?.background ?? "#1a1a2e", color: theme?.foreground ?? "#eaeaea" }} className="px-5 py-20">
+      <div className="max-w-3xl mx-auto">
+        <div className="rounded-2xl p-6 sm:p-10 flex flex-col sm:flex-row items-center gap-8" style={{ backgroundColor: "#16213e" }}>
+          <div className="shrink-0 w-32 h-32 rounded-2xl overflow-hidden flex items-center justify-center" style={{ backgroundColor: theme?.primary ?? "#e94560" }}>
+            {imageUrl ? (
+              <img src={imageUrl} alt="" className="w-full h-full object-cover" />
+            ) : (
+              <Mic className="w-12 h-12 text-white" />
+            )}
+          </div>
+          <div className="text-center sm:text-left">
+            <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+            <p className="mt-2 text-sm opacity-60">{subheading}</p>
+            <a href={buttonUrl} className="inline-flex items-center gap-2 mt-5 px-6 py-3 rounded-lg text-white font-medium text-sm" style={{ backgroundColor: theme?.primary ?? "#e94560" }}>
+              <PlayCircle className="w-4 h-4" /> {buttonText}
+            </a>
           </div>
         </div>
       </div>

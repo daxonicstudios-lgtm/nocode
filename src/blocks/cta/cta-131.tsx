@@ -1,16 +1,23 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Zap } from "lucide-react";
 
 export default function Cta131(props: BlockProps) {
-  const { theme, heading = "Make it happen", subheading = "Join over 10,000 teams already using our platform.", buttonText = "Start Free Trial", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "The Future Is Now",
+    subheading = "Experience next-generation tools built for speed.",
+    buttonText = "Enter the Future",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section className="px-4 py-24" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#fff" }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-5xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-70">{subheading}</p>
-        <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm bg-white" style={{ color: theme?.primary ?? "#0f172a" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
+    <section className="py-20 px-4" style={{ backgroundColor: theme?.background || "#0a0a0a", color: theme?.foreground || "#e0e0e0" }}>
+      <div className="max-w-xl mx-auto text-center">
+        <Zap className="w-10 h-10 mx-auto mb-4" style={{ color: theme?.primary || "#00ff88" }} />
+        <h2 className="text-3xl md:text-5xl font-bold mb-3" style={{ color: theme?.primary || "#00ff88" }}>{heading}</h2>
+        <p className="opacity-60 mb-8">{subheading}</p>
+        <a href={buttonUrl} className="inline-block px-8 py-3 rounded-lg font-semibold border-2 hover:bg-white/10 transition" style={{ borderColor: theme?.primary || "#00ff88", color: theme?.primary || "#00ff88" }}>
+          {buttonText}
         </a>
       </div>
     </section>

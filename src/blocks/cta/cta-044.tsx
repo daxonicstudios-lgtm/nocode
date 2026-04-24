@@ -1,19 +1,43 @@
 import type { BlockProps } from "@/blocks/types";
+import { Check, ArrowRight } from "lucide-react";
 
 export default function Cta044(props: BlockProps) {
-  const { theme, heading = "Supercharge your growth", subheading = "Free forever plan available.", buttonText = "Subscribe", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Why switch to us?",
+    subheading = "See the difference from day one.",
+    buttonText = "Switch Now",
+    buttonUrl = "#",
+    secondaryButtonText = "Compare Plans",
+    secondaryButtonUrl = "#",
+    items = [
+      { title: "Save 10+ hours per week" },
+      { title: "Reduce costs by 40%" },
+      { title: "Go live 5x faster" },
+    ],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto text-center">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-3xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <form className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-          <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 rounded-xl border text-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.background ?? "#fff" }} />
-          <button type="submit" className="px-6 py-3 rounded-xl font-semibold text-sm text-white shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </button>
-        </form>
+        <p className="mt-2 opacity-60">{subheading}</p>
+        <div className="mt-8 inline-flex flex-col gap-3 text-left">
+          {items.slice(0, 3).map((item, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <Check className="w-5 h-5 shrink-0" style={{ color: theme?.primary ?? "#7c3aed" }} />
+              <span className="font-medium">{item.title}</span>
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#7c3aed" }}>
+            {buttonText} <ArrowRight className="w-4 h-4" />
+          </a>
+          <a href={secondaryButtonUrl} className="px-7 py-3.5 rounded-lg font-medium text-sm border" style={{ borderColor: theme?.secondary ?? "#d1d5db" }}>
+            {secondaryButtonText}
+          </a>
+        </div>
       </div>
     </section>
   );

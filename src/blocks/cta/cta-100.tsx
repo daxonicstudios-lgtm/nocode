@@ -1,22 +1,28 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Cta100(props: BlockProps) {
-  const { theme, heading = "Your success starts here", subheading = "No credit card required. Cancel anytime.", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Let's talk.",
+    subheading = "Have a project in mind? We'd love to hear about it.",
+    buttonText = "Get in touch",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText} <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="#" className="inline-flex items-center justify-center px-7 py-3.5 rounded-full font-semibold text-sm border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-            Learn More
-          </a>
-        </div>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-32 sm:py-44">
+      <div className="max-w-xl mx-auto text-center">
+        <h2 className="text-5xl sm:text-7xl font-extralight">{heading}</h2>
+        <p className="mt-6 text-sm opacity-40">{subheading}</p>
+        <a
+          href={buttonUrl}
+          className="inline-flex items-center gap-2 mt-10 text-base font-medium"
+          style={{ color: theme?.primary ?? "#000" }}
+        >
+          {buttonText}
+          <ArrowUpRight className="w-5 h-5" />
+        </a>
       </div>
     </section>
   );

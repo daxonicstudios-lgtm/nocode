@@ -2,16 +2,37 @@ import type { BlockProps } from "@/blocks/types";
 import { ArrowRight } from "lucide-react";
 
 export default function Cta101(props: BlockProps) {
-  const { theme, heading = "Make it happen", subheading = "Join over 10,000 teams already using our platform.", buttonText = "Start Free Trial", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Ready to Transform Your Business?",
+    subheading = "Join thousands of companies already growing with us.",
+    buttonText = "Get Started Free",
+    buttonUrl = "#",
+    secondaryButtonText = "Learn More",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section className="px-4 py-24" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#fff" }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-5xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-70">{subheading}</p>
-        <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm bg-white" style={{ color: theme?.primary ?? "#0f172a" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
-        </a>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="py-16 px-4">
+      <div className="max-w-2xl mx-auto rounded-2xl shadow-2xl p-8 md:p-12 text-center" style={{ backgroundColor: theme?.accent || "#f8fafc" }}>
+        <h2 className="text-2xl md:text-4xl font-bold mb-3">{heading}</h2>
+        <p className="text-base md:text-lg opacity-80 mb-8">{subheading}</p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href={buttonUrl}
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-white font-semibold transition hover:opacity-90"
+            style={{ backgroundColor: theme?.primary || "#2563eb" }}
+          >
+            {buttonText} <ArrowRight className="w-4 h-4" />
+          </a>
+          <a
+            href={secondaryButtonUrl}
+            className="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 font-semibold transition hover:opacity-80"
+            style={{ borderColor: theme?.primary || "#2563eb", color: theme?.primary || "#2563eb" }}
+          >
+            {secondaryButtonText}
+          </a>
+        </div>
       </div>
     </section>
   );

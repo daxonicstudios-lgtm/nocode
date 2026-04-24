@@ -1,16 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
+import { MapPin } from "lucide-react";
 
 export default function Cta128(props: BlockProps) {
-  const { theme, heading = "See the difference", subheading = "Sign up today and see results tomorrow.", buttonText = "Try It Free", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Rooted in Tradition, Built for Tomorrow",
+    subheading = "Trusted since 2019 by creators worldwide.",
+    buttonText = "Discover More",
+    buttonUrl = "#",
+    secondaryButtonText = "Our Story",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto">
-        <div className="rounded-3xl p-10 sm:p-14 text-center" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-8 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+    <section className="py-20 px-4" style={{ backgroundColor: theme?.accent || "#f5f0e8", color: theme?.foreground || "#3c2415" }}>
+      <div className="max-w-2xl mx-auto text-center">
+        <MapPin className="w-6 h-6 mx-auto mb-3" style={{ color: theme?.primary || "#a0522d" }} />
+        <h2 className="text-2xl md:text-4xl font-serif font-bold mb-2">{heading}</h2>
+        <p className="font-serif opacity-60 mb-8">{subheading}</p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href={buttonUrl} className="px-8 py-3 text-white rounded-sm font-semibold hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#a0522d" }}>
             {buttonText}
+          </a>
+          <a href={secondaryButtonUrl} className="px-8 py-3 border-2 rounded-sm font-semibold hover:opacity-80 transition" style={{ borderColor: theme?.primary || "#a0522d", color: theme?.primary || "#a0522d" }}>
+            {secondaryButtonText}
           </a>
         </div>
       </div>

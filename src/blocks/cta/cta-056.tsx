@@ -1,29 +1,27 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { ArrowRight } from "lucide-react";
 
 export default function Cta056(props: BlockProps) {
-  const { theme, heading = "Step into the future", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Ready to grow your business?",
+    subheading = "Join thousands of entrepreneurs using our platform to reach new customers.",
+    buttonText = "Start Free Trial",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
-            </div>
-          ))}
-        </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-xl mx-auto rounded-2xl border p-8 sm:p-12 text-center shadow-sm" style={{ borderColor: theme?.secondary ?? "#e2e8f0" }}>
+        <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+        <p className="mt-3 text-sm opacity-70">{subheading}</p>
+        <a
+          href={buttonUrl}
+          className="inline-flex items-center gap-2 mt-8 px-7 py-3 rounded-lg text-white font-medium text-sm"
+          style={{ backgroundColor: theme?.primary ?? "#2563eb" }}
+        >
           {buttonText}
+          <ArrowRight className="w-4 h-4" />
         </a>
       </div>
     </section>

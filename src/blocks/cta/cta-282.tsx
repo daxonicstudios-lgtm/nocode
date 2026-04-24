@@ -1,23 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
+import { Target } from "lucide-react";
 
 export default function Cta282(props: BlockProps) {
-  const { theme, heading = "The future is now", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "Hit Your Targets",
+    subheading = "Goal tracking and analytics that drive results.",
+    buttonText = "Start Tracking",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
-        </div>
+    <section className="relative overflow-hidden px-4 py-20" style={{ backgroundColor: theme?.background ?? "#ffffff", color: theme?.foreground ?? "#0f172a" }}>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        {[280, 220, 160, 100].map((size, i) => (
+          <div key={i} className="absolute rounded-full -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2" style={{ width: size, height: size, border: `2px solid ${theme?.primary ?? "#6366f1"}`, opacity: 0.08 + i * 0.04 }} />
+        ))}
+      </div>
+      <div className="relative max-w-lg mx-auto text-center">
+        <Target className="w-10 h-10 mx-auto mb-4" style={{ color: theme?.primary ?? "#6366f1" }} />
+        <h2 className="text-3xl sm:text-4xl font-extrabold">{heading}</h2>
+        <p className="mt-3 opacity-60">{subheading}</p>
+        <a href={buttonUrl} className="mt-8 inline-block px-8 py-4 rounded-full text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+          {buttonText}
+        </a>
       </div>
     </section>
   );

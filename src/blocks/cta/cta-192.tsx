@@ -1,23 +1,26 @@
 import type { BlockProps } from "@/blocks/types";
+import { Diamond } from "lucide-react";
 
 export default function Cta192(props: BlockProps) {
-  const { theme, heading = "The future is now", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "Crafted for those who demand more",
+    subheading = "An invitation-only experience for the most ambitious creators.",
+    buttonText = "Apply Now",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
-        </div>
+    <section className="px-5 py-24 relative overflow-hidden" style={{ backgroundColor: "#111111", color: "#e8dcc8" }}>
+      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "repeating-linear-gradient(45deg, #b8860b 0, #b8860b 1px, transparent 0, transparent 50%)", backgroundSize: "20px 20px" }} />
+      <div className="relative max-w-2xl mx-auto text-center">
+        <Diamond className="w-7 h-7 mx-auto mb-4 text-amber-500" />
+        <p className="text-xs uppercase tracking-[0.3em] text-amber-500 mb-4">Premium Collection</p>
+        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+        <p className="mt-3 opacity-50">{subheading}</p>
+        <a href={buttonUrl} className="mt-8 inline-block px-8 py-3 border border-amber-500/40 rounded-full font-semibold text-sm text-amber-400 hover:bg-amber-500/10 transition">
+          {buttonText}
+        </a>
       </div>
     </section>
   );

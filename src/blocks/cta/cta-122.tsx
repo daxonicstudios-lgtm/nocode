@@ -1,23 +1,23 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight } from "lucide-react";
 
 export default function Cta122(props: BlockProps) {
-  const { theme, heading = "Join thousands of happy customers", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "NO MORE EXCUSES",
+    bodyText = "Your competitors are already using this. Are you going to keep falling behind?",
+    buttonText = "JOIN NOW",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
-        </div>
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.accent || "#fef08a", color: theme?.foreground || "#000" }}>
+      <div className="max-w-xl mx-auto border-b-8 border-current pb-8">
+        <h2 className="text-4xl md:text-6xl font-black uppercase leading-none mb-4">{heading}</h2>
+        <p className="text-base md:text-lg font-mono mb-6">{bodyText}</p>
+        <a href={buttonUrl} className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white font-black uppercase text-sm tracking-wider hover:bg-gray-800 transition">
+          {buttonText} <ArrowRight className="w-5 h-5" />
+        </a>
       </div>
     </section>
   );

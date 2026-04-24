@@ -1,17 +1,44 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Rocket, Check } from "lucide-react";
 
 export default function Cta091(props: BlockProps) {
-  const { theme, heading = "Take the next step", subheading = "Join over 10,000 teams already using our platform.", buttonText = "Start Free Trial", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Start your free 14-day trial",
+    subheading = "No credit card required. Full access to all features.",
+    buttonText = "Start Free Trial",
+    buttonUrl = "#",
+    items = [
+      { title: "Unlimited projects" },
+      { title: "All integrations included" },
+      { title: "Priority support" },
+      { title: "Cancel anytime" },
+    ],
+  } = props;
 
   return (
-    <section className="px-4 py-24" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#fff" }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-5xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-70">{subheading}</p>
-        <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm bg-white" style={{ color: theme?.primary ?? "#0f172a" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
-        </a>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-3xl mx-auto flex flex-col md:flex-row items-center gap-10 rounded-2xl p-8 sm:p-12" style={{ backgroundColor: theme?.muted ?? "#f0f9ff" }}>
+        <div className="flex-1">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider mb-3" style={{ color: theme?.primary ?? "#2563eb" }}>
+            <Rocket className="w-4 h-4" /> SaaS
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+          <p className="mt-2 text-sm opacity-60">{subheading}</p>
+          <ul className="mt-5 space-y-2">
+            {items.map((item, i) => (
+              <li key={i} className="flex items-center gap-2 text-sm">
+                <Check className="w-4 h-4 shrink-0" style={{ color: theme?.primary ?? "#2563eb" }} />
+                {item.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="shrink-0">
+          <a href={buttonUrl} className="inline-block px-8 py-4 rounded-xl text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#2563eb" }}>
+            {buttonText}
+          </a>
+        </div>
       </div>
     </section>
   );

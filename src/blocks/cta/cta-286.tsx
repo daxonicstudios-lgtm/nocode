@@ -1,29 +1,24 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { ArrowRight } from "lucide-react";
 
 export default function Cta286(props: BlockProps) {
-  const { theme, heading = "Elevate your experience", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "The Art of Building",
+    subheading = "A new chapter in digital creation begins here.",
+    buttonText = "Subscribe",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
-            </div>
-          ))}
-        </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
+    <section className="px-4 py-24 sm:py-32" style={{ backgroundColor: theme?.background ?? "#faf9f6", color: theme?.foreground ?? "#1c1917" }}>
+      <div className="max-w-3xl mx-auto text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] opacity-40 mb-4">Editorial</p>
+        <h2 className="text-5xl sm:text-7xl font-serif font-bold italic leading-tight">{heading}</h2>
+        <div className="w-16 h-px mx-auto mt-6 mb-6" style={{ backgroundColor: theme?.primary ?? "#b45309" }} />
+        <p className="text-lg sm:text-xl font-light opacity-60 max-w-lg mx-auto leading-relaxed">{subheading}</p>
+        <a href={buttonUrl} className="mt-8 inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-widest" style={{ color: theme?.primary ?? "#b45309" }}>
+          {buttonText} <ArrowRight className="w-4 h-4" />
         </a>
       </div>
     </section>

@@ -1,22 +1,28 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 export default function Cta070(props: BlockProps) {
-  const { theme, heading = "Your success starts here", subheading = "No credit card required. Cancel anytime.", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "The future of productivity is here",
+    subheading = "Join 100,000+ professionals who have already made the switch.",
+    buttonText = "Join Now",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText} <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="#" className="inline-flex items-center justify-center px-7 py-3.5 rounded-full font-semibold text-sm border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-            Learn More
-          </a>
-        </div>
+    <section
+      className="px-5 py-28 w-full relative overflow-hidden"
+      style={{ backgroundColor: theme?.primary ?? "#0c4a6e", color: "#ffffff" }}
+    >
+      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "linear-gradient(135deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%)", backgroundSize: "40px 40px" }} />
+      <div className="relative max-w-3xl mx-auto text-center">
+        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">{heading}</h2>
+        <p className="mt-5 text-lg opacity-70">{subheading}</p>
+        <a href={buttonUrl} className="inline-flex items-center gap-1 mt-10 px-10 py-4 rounded-full bg-white font-bold" style={{ color: theme?.primary ?? "#0c4a6e" }}>
+          {buttonText}
+          <ChevronRight className="w-5 h-5" />
+        </a>
       </div>
     </section>
   );

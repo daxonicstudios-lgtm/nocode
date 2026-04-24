@@ -1,23 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Cta009(props: BlockProps) {
-  const { theme, heading = "Don't miss out", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Scale your business confidently",
+    bodyText = "Our infrastructure handles millions of requests daily so you never have to worry about downtime or performance bottlenecks.",
+    buttonText = "Explore Plans",
+    buttonUrl = "#",
+    imageUrl,
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-8 items-center">
+        <div className="md:col-span-3">
+          <h2 className="text-3xl sm:text-5xl font-black leading-tight">{heading}</h2>
+          <p className="mt-5 text-base opacity-50 leading-relaxed max-w-lg">{bodyText}</p>
+          <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 px-7 py-3.5 rounded-md font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#dc2626" }}>
+            {buttonText} <ArrowUpRight className="w-4 h-4" />
           </a>
+        </div>
+        <div className="md:col-span-2 rounded-3xl aspect-[4/3] overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#fef2f2" }}>
+          {imageUrl ? (
+            <img src={imageUrl} alt="" className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center opacity-20 text-sm">Visual</div>
+          )}
         </div>
       </div>
     </section>

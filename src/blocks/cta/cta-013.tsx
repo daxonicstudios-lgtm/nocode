@@ -1,18 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
-import { Sparkles } from "lucide-react";
+import { Bell } from "lucide-react";
 
 export default function Cta013(props: BlockProps) {
-  const { theme, heading = "Get ahead of the curve", subheading = "Simple setup, powerful results.", buttonText = "Join Now", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Get notified when we launch",
+    subheading = "Be the first to know. Early access members get 50% off.",
+    buttonText = "Notify Me",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section className="px-4 py-24" style={{ background: `linear-gradient(135deg, ${theme?.primary ?? "#6366f1"} 0%, ${theme?.accent ?? "#a855f7"} 100%)`, color: "#fff" }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <Sparkles className="w-8 h-8 mx-auto mb-4 opacity-80" />
-        <h2 className="text-3xl sm:text-5xl font-bold">{heading}</h2>
-        <p className="mt-4 text-lg opacity-80">{subheading}</p>
-        <a href={buttonUrl} className="mt-8 inline-block px-8 py-4 rounded-full font-bold text-sm bg-white" style={{ color: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
-        </a>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-md mx-auto rounded-2xl p-8 sm:p-12 text-center border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+        <Bell className="w-10 h-10 mx-auto" style={{ color: theme?.primary ?? "#f59e0b" }} />
+        <h2 className="mt-5 text-2xl font-bold">{heading}</h2>
+        <p className="mt-2 text-sm opacity-60">{subheading}</p>
+        <form className="mt-6 space-y-3" action={buttonUrl} onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="email"
+            placeholder="your@email.com"
+            className="w-full px-4 py-3 rounded-lg text-sm border focus:outline-none"
+            style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.background, color: theme?.foreground }}
+          />
+          <button
+            type="submit"
+            className="w-full py-3 rounded-lg text-white font-semibold text-sm hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: theme?.primary ?? "#f59e0b" }}
+          >
+            {buttonText}
+          </button>
+        </form>
       </div>
     </section>
   );

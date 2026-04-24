@@ -1,16 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
 
 export default function Cta028(props: BlockProps) {
-  const { theme, heading = "See it in action", subheading = "Sign up today and see results tomorrow.", buttonText = "Try It Free", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Free plan available",
+    subheading = "No credit card required to start building.",
+    buttonText = "Start Building",
+    buttonUrl = "#",
+    secondaryButtonText = "Compare Plans",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto">
-        <div className="rounded-3xl p-10 sm:p-14 text-center" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-8 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+    <section className="px-5 py-3 border-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.background, color: theme?.foreground }}>
+      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="font-bold text-sm">{heading}</span>
+          <span className="text-xs opacity-50 hidden sm:inline">{subheading}</span>
+        </div>
+        <div className="flex gap-2">
+          <a href={buttonUrl} className="px-4 py-1.5 rounded-md text-white font-semibold text-xs" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
             {buttonText}
+          </a>
+          <a href={secondaryButtonUrl} className="px-4 py-1.5 rounded-md font-medium text-xs border" style={{ borderColor: theme?.secondary ?? "#d1d5db" }}>
+            {secondaryButtonText}
           </a>
         </div>
       </div>

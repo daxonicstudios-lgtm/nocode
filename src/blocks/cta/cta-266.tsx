@@ -1,30 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { ArrowRight } from "lucide-react";
 
 export default function Cta266(props: BlockProps) {
-  const { theme, heading = "Step into the future", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Trusted by Industry Leaders",
+    subheading = "Join 10,000+ companies that rely on our platform.",
+    buttonText = "Start Free Trial",
+    buttonUrl = "#",
+    items = [
+      { title: "Acme Corp" }, { title: "Globex" }, { title: "Initech" },
+      { title: "Umbrella" }, { title: "Stark Inc" }, { title: "Wayne Co" },
+    ],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+    <section className="px-4 py-20 sm:py-28" style={{ backgroundColor: theme?.background ?? "#ffffff", color: theme?.foreground ?? "#0f172a" }}>
+      <div className="max-w-3xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-extrabold">{heading}</h2>
         <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
+        <a href={buttonUrl} className="mt-6 inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+          {buttonText} <ArrowRight className="w-4 h-4" />
+        </a>
+        <div className="mt-12 grid grid-cols-3 sm:grid-cols-6 gap-6 items-center">
+          {items.map((item, i) => (
+            <div key={i} className="flex items-center justify-center h-12 rounded-lg bg-gray-100 px-3">
+              <span className="text-xs font-bold opacity-40 tracking-wider uppercase">{item.title}</span>
             </div>
           ))}
         </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
-        </a>
       </div>
     </section>
   );

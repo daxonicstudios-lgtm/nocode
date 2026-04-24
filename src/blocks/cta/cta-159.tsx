@@ -1,23 +1,35 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { Zap } from "lucide-react";
 
 export default function Cta159(props: BlockProps) {
-  const { theme, heading = "Don't miss out", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Challenge progress: Day 18 of 30",
+    subheading = "Join the 30-day growth challenge and transform your workflow.",
+    buttonText = "Start the Challenge",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-3xl mx-auto flex flex-col md:flex-row items-center gap-8">
         <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+          <div className="flex items-center gap-2 mb-3">
+            <Zap className="w-5 h-5" style={{ color: theme?.primary ?? "#f59e0b" }} />
+            <span className="text-sm font-semibold uppercase tracking-wide" style={{ color: theme?.primary ?? "#f59e0b" }}>30-Day Challenge</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-3 opacity-70">{subheading}</p>
+          <a href={buttonUrl} className="mt-6 inline-block px-7 py-3 rounded-lg text-white font-semibold text-sm hover:opacity-90 transition" style={{ backgroundColor: theme?.primary ?? "#f59e0b" }}>
             {buttonText}
           </a>
+        </div>
+        <div className="w-full md:w-48 shrink-0">
+          <div className="text-4xl font-black text-center" style={{ color: theme?.primary ?? "#f59e0b" }}>60%</div>
+          <div className="mt-2 bg-gray-200 rounded-full h-3 overflow-hidden">
+            <div className="h-full rounded-full" style={{ width: "60%", backgroundColor: theme?.primary ?? "#f59e0b" }} />
+          </div>
+          <p className="text-center text-xs mt-1 opacity-60">18 of 30 days</p>
         </div>
       </div>
     </section>

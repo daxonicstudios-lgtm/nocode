@@ -1,24 +1,31 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { CalendarPlus, Users } from "lucide-react";
 
 export default function Cta219(props: BlockProps) {
-  const { theme, heading = "Don't miss out", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Join our next webinar",
+    subheading = "How to 10x Your Productivity with AI — Live on May 5, 2026.",
+    buttonText = "Add to Calendar",
+    buttonUrl = "#",
+    bodyText = "348 people attending",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
+    <section style={{ backgroundColor: theme?.background ?? "#0f172a", color: theme?.foreground ?? "#f1f5f9" }} className="px-5 py-20">
+      <div className="max-w-lg mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-5" style={{ backgroundColor: `${theme?.primary ?? "#f59e0b"}20`, color: theme?.primary ?? "#f59e0b" }}>
+          <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: theme?.primary ?? "#f59e0b" }} />
+          Upcoming Event
         </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
+        <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+        <p className="mt-3 opacity-60 text-sm">{subheading}</p>
+        <div className="mt-4 flex items-center justify-center gap-2 text-sm opacity-50">
+          <Users className="w-4 h-4" /> {bodyText}
         </div>
+        <a href={buttonUrl} className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-lg text-white font-medium text-sm" style={{ backgroundColor: theme?.primary ?? "#f59e0b" }}>
+          <CalendarPlus className="w-4 h-4" /> {buttonText}
+        </a>
       </div>
     </section>
   );

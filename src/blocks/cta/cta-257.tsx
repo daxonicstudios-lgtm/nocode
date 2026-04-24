@@ -1,16 +1,31 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Play } from "lucide-react";
 
 export default function Cta257(props: BlockProps) {
-  const { theme, heading = "Grow faster, together", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Create Without Limits",
+    subheading = "Design, build, and launch — all from one platform.",
+    buttonText = "Start Creating",
+    buttonUrl = "#",
+    secondaryButtonText = "Watch Video",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
-      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-        <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
-        <a href={buttonUrl} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
-        </a>
+    <section className="relative overflow-hidden" style={{ backgroundColor: theme?.background ?? "#f8fafc", color: theme?.foreground ?? "#0f172a" }}>
+      <div className="absolute bottom-0 left-0 w-full h-40" style={{ backgroundColor: theme?.primary ?? "#3b82f6", clipPath: "polygon(0 60%, 100% 0%, 100% 100%, 0% 100%)" }} />
+      <div className="relative px-4 py-20 sm:py-28 max-w-3xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-5xl font-extrabold">{heading}</h2>
+        <p className="mt-4 text-lg opacity-60 max-w-lg mx-auto">{subheading}</p>
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center relative z-10">
+          <a href={buttonUrl} className="px-8 py-4 rounded-full text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#3b82f6" }}>
+            {buttonText}
+          </a>
+          <a href={secondaryButtonUrl} className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-sm border-2" style={{ borderColor: theme?.primary ?? "#3b82f6", color: theme?.primary ?? "#3b82f6" }}>
+            <Play className="w-4 h-4" /> {secondaryButtonText}
+          </a>
+        </div>
       </div>
     </section>
   );

@@ -1,16 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Send } from "lucide-react";
 
 export default function Cta137(props: BlockProps) {
-  const { theme, heading = "Grow faster, together", buttonText = "Get Started", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Join 25,000+ Subscribers",
+    subheading = "No spam, unsubscribe anytime. We respect your inbox.",
+    buttonText = "Sign Up",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
-      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-        <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
-        <a href={buttonUrl} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
-        </a>
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.accent || "#f0f9ff", color: theme?.foreground }}>
+      <div className="max-w-xl mx-auto rounded-2xl p-8 bg-white shadow-lg">
+        <div className="flex items-center gap-3 mb-4">
+          <Send className="w-6 h-6" style={{ color: theme?.primary || "#2563eb" }} />
+          <h2 className="text-xl md:text-2xl font-bold">{heading}</h2>
+        </div>
+        <p className="text-sm opacity-60 mb-6">{subheading}</p>
+        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3">
+          <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 rounded-lg border text-sm outline-none" />
+          <button type="submit" className="px-6 py-3 rounded-lg text-white font-semibold text-sm hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#2563eb" }}>
+            {buttonText}
+          </button>
+        </form>
       </div>
     </section>
   );

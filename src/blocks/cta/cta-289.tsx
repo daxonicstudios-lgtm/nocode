@@ -1,22 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
 
 export default function Cta289(props: BlockProps) {
-  const { theme, heading = "Try it risk-free today", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Less Noise. More Signal.",
+    subheading = "Cut through the clutter with tools designed for focus.",
+    buttonText = "Start Free",
+    buttonUrl = "#",
+    secondaryButtonText = "Read the Manifesto",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
+    <section className="px-4 py-24 sm:py-32" style={{ backgroundColor: theme?.background ?? "#f5f0eb", color: theme?.foreground ?? "#292524" }}>
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="h-px flex-1" style={{ backgroundColor: theme?.foreground ?? "#292524", opacity: 0.15 }} />
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] opacity-40">Manifesto</span>
+          <div className="h-px flex-1" style={{ backgroundColor: theme?.foreground ?? "#292524", opacity: 0.15 }} />
         </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+        <h2 className="text-4xl sm:text-6xl font-serif font-black text-center leading-tight">{heading}</h2>
+        <p className="mt-6 text-center text-lg font-light opacity-60 max-w-lg mx-auto">{subheading}</p>
+        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+          <a href={buttonUrl} className="px-8 py-4 rounded-none text-white font-semibold text-sm text-center" style={{ backgroundColor: theme?.primary ?? "#292524" }}>
             {buttonText}
+          </a>
+          <a href={secondaryButtonUrl} className="px-8 py-4 rounded-none font-semibold text-sm text-center border-2" style={{ borderColor: theme?.foreground ?? "#292524" }}>
+            {secondaryButtonText}
           </a>
         </div>
       </div>

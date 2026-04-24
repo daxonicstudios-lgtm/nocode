@@ -1,18 +1,27 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight } from "lucide-react";
 
 export default function Cta258(props: BlockProps) {
-  const { theme, heading = "Start building for free", subheading = "Sign up today and see results tomorrow.", buttonText = "Try It Free", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Scale Your Business Faster",
+    subheading = "Tools designed for ambitious teams.",
+    buttonText = "Get Early Access",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto">
-        <div className="rounded-3xl p-10 sm:p-14 text-center" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-8 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+    <section className="relative overflow-hidden py-24" style={{ backgroundColor: theme?.background ?? "#0f172a", color: "#ffffff" }}>
+      <div className="absolute top-0 left-0 w-full h-full">
+        <div className="absolute top-0 left-0 w-full h-32" style={{ background: theme?.primary ?? "#8b5cf6", clipPath: "polygon(0 0, 100% 0, 100% 40%, 0 100%)", opacity: 0.2 }} />
+        <div className="absolute bottom-0 right-0 w-full h-32" style={{ background: theme?.primary ?? "#8b5cf6", clipPath: "polygon(0 60%, 100% 0, 100% 100%, 0 100%)", opacity: 0.2 }} />
+      </div>
+      <div className="relative max-w-2xl mx-auto text-center px-4">
+        <h2 className="text-3xl sm:text-5xl font-black tracking-tight">{heading}</h2>
+        <p className="mt-4 text-lg opacity-60">{subheading}</p>
+        <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm text-white" style={{ backgroundColor: theme?.primary ?? "#8b5cf6" }}>
+          {buttonText} <ArrowRight className="w-4 h-4" />
+        </a>
       </div>
     </section>
   );

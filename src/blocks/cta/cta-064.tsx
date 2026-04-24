@@ -1,19 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
+import { Download, Eye } from "lucide-react";
 
 export default function Cta064(props: BlockProps) {
-  const { theme, heading = "Start your journey now", subheading = "Free forever plan available.", buttonText = "Subscribe", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Download the full report",
+    subheading = "Get insights from our 2025 industry benchmark study — free for a limited time.",
+    buttonText = "Download PDF",
+    buttonUrl = "#",
+    secondaryButtonText = "Preview Report",
+    secondaryButtonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-24">
       <div className="max-w-2xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <form className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-          <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 rounded-xl border text-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.background ?? "#fff" }} />
-          <button type="submit" className="px-6 py-3 rounded-xl font-semibold text-sm text-white shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">{heading}</h2>
+        <p className="mt-4 text-base opacity-60 max-w-xl mx-auto">{subheading}</p>
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+          <a href={buttonUrl} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#059669" }}>
+            <Download className="w-4 h-4" />
             {buttonText}
-          </button>
-        </form>
+          </a>
+          <a href={secondaryButtonUrl} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg font-medium text-sm opacity-80 underline underline-offset-4">
+            <Eye className="w-4 h-4" />
+            {secondaryButtonText}
+          </a>
+        </div>
       </div>
     </section>
   );

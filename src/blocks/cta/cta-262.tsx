@@ -1,23 +1,38 @@
 import type { BlockProps } from "@/blocks/types";
+import { Star, ArrowRight } from "lucide-react";
 
 export default function Cta262(props: BlockProps) {
-  const { theme, heading = "Discover what's possible", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "5-Star Experience Awaits",
+    subheading = "Rated excellent by over 25,000 customers worldwide.",
+    buttonText = "Join Them",
+    buttonUrl = "#",
+  } = props;
+
+  const stars = Array.from({ length: 12 }, (_, i) => ({
+    top: `${Math.floor(Math.random() * 80 + 5)}%`,
+    left: `${Math.floor(Math.random() * 90 + 5)}%`,
+    size: Math.floor(Math.random() * 12 + 8),
+    opacity: Math.random() * 0.3 + 0.1,
+  }));
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
+    <section className="relative overflow-hidden px-4 py-24" style={{ backgroundColor: theme?.background ?? "#fdf4ff", color: theme?.foreground ?? "#1e1b4b" }}>
+      {stars.map((s, i) => (
+        <Star key={i} className="absolute" style={{ top: s.top, left: s.left, width: s.size, height: s.size, opacity: s.opacity, color: theme?.primary ?? "#a855f7" }} />
+      ))}
+      <div className="relative max-w-2xl mx-auto text-center">
+        <div className="flex justify-center gap-1 mb-4">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} className="w-6 h-6 fill-current" style={{ color: theme?.primary ?? "#a855f7" }} />
+          ))}
         </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
-        </div>
+        <h2 className="text-3xl sm:text-4xl font-extrabold">{heading}</h2>
+        <p className="mt-3 opacity-60">{subheading}</p>
+        <a href={buttonUrl} className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-bold text-sm" style={{ backgroundColor: theme?.primary ?? "#a855f7" }}>
+          {buttonText} <ArrowRight className="w-4 h-4" />
+        </a>
       </div>
     </section>
   );

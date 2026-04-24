@@ -1,18 +1,23 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight } from "lucide-react";
 
 export default function Cta298(props: BlockProps) {
-  const { theme, heading = "See it in action", subheading = "Sign up today and see results tomorrow.", buttonText = "Try It Free", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "DO IT NOW.",
+    subheading = "Stop overthinking. Start building.",
+    buttonText = "LET'S GO",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto">
-        <div className="rounded-3xl p-10 sm:p-14 text-center" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-8 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+    <section className="px-4 py-24 sm:py-32" style={{ backgroundColor: theme?.primary ?? "#dc2626", color: "#ffffff" }}>
+      <div className="max-w-3xl mx-auto text-center">
+        <h2 className="text-6xl sm:text-8xl font-black tracking-tighter leading-none">{heading}</h2>
+        <p className="mt-6 text-xl sm:text-2xl font-bold opacity-70">{subheading}</p>
+        <a href={buttonUrl} className="mt-10 inline-flex items-center gap-3 px-12 py-5 bg-white rounded-full font-black text-lg tracking-wider" style={{ color: theme?.primary ?? "#dc2626" }}>
+          {buttonText} <ArrowRight className="w-6 h-6" />
+        </a>
       </div>
     </section>
   );

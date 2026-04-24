@@ -1,24 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
-import { Quote } from "lucide-react";
+import { Boxes } from "lucide-react";
 
 export default function Cta079(props: BlockProps) {
-  const { theme, heading = "Try it risk-free today", subheading = "Start small, dream big.", bodyText = "This product changed how we work. We shipped 3x faster in the first month.", buttonText = "Join Them", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "All your tools, one place",
+    subheading = "Connect 200+ integrations and bring your entire workflow under a single roof.",
+    buttonText = "Explore Integrations",
+    buttonUrl = "#",
+    items = [
+      { title: "200+", description: "Integrations" },
+      { title: "99.9%", description: "Uptime" },
+      { title: "24/7", description: "Support" },
+    ],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1">
-          <Quote className="w-8 h-8 mb-4 opacity-30" />
-          <p className="text-xl italic opacity-80">{bodyText}</p>
-          <p className="mt-4 text-sm font-semibold opacity-60">— Happy Customer</p>
+    <section className="px-5 py-24" style={{ backgroundColor: theme?.background ?? "#0f172a", color: "#ffffff" }}>
+      <div
+        className="max-w-3xl mx-auto rounded-3xl p-8 sm:p-12 text-center"
+        style={{
+          background: "rgba(255,255,255,0.04)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        <Boxes className="w-8 h-8 mx-auto opacity-60 mb-4" />
+        <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+        <p className="mt-3 opacity-60 max-w-md mx-auto text-sm">{subheading}</p>
+        <div className="mt-8 grid grid-cols-3 gap-4">
+          {items.map((item, i) => (
+            <div key={i} className="py-3 rounded-xl" style={{ background: "rgba(255,255,255,0.05)" }}>
+              <div className="text-xl font-bold" style={{ color: theme?.accent ?? "#a78bfa" }}>{item.title}</div>
+              <div className="text-xs opacity-50 mt-1">{item.description}</div>
+            </div>
+          ))}
         </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-3xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
+        <a href={buttonUrl} className="inline-block mt-8 px-8 py-3 rounded-lg bg-white font-semibold text-sm" style={{ color: theme?.primary ?? "#4f46e5" }}>
+          {buttonText}
+        </a>
       </div>
     </section>
   );

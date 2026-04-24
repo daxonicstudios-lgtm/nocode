@@ -1,23 +1,37 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight } from "lucide-react";
 
 export default function Cta142(props: BlockProps) {
-  const { theme, heading = "Discover what's possible", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "See the Difference",
+    subheading = "Before our platform vs. after",
+    buttonText = "Get Started",
+    buttonUrl = "#",
+    items = [
+      { title: "Hours of manual work", description: "Done in minutes" },
+      { title: "Scattered tools", description: "All-in-one platform" },
+      { title: "Guesswork", description: "Data-driven decisions" },
+    ],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
+    <section className="py-16 px-4" style={{ backgroundColor: theme?.background, color: theme?.foreground }}>
+      <div className="max-w-2xl mx-auto text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-2">{heading}</h2>
+        <p className="opacity-60 mb-8">{subheading}</p>
+        <div className="space-y-4 mb-8">
+          {items.map((item, i) => (
+            <div key={i} className="flex items-center gap-4 justify-center text-sm">
+              <span className="line-through opacity-40 text-right flex-1">{item.title}</span>
+              <ArrowRight className="w-4 h-4 flex-shrink-0" style={{ color: theme?.primary || "#2563eb" }} />
+              <span className="font-semibold text-left flex-1" style={{ color: theme?.primary || "#2563eb" }}>{item.description}</span>
+            </div>
+          ))}
         </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
-        </div>
+        <a href={buttonUrl} className="inline-block px-8 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition" style={{ backgroundColor: theme?.primary || "#2563eb" }}>
+          {buttonText}
+        </a>
       </div>
     </section>
   );

@@ -1,30 +1,27 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { Download, FileText } from "lucide-react";
 
 export default function Cta226(props: BlockProps) {
-  const { theme, heading = "Elevate your experience", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Download our free guide",
+    subheading = "50 pages of actionable strategies to grow your business in 2026.",
+    buttonText = "Download PDF",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
-            </div>
-          ))}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-lg mx-auto text-center">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6" style={{ backgroundColor: `${theme?.primary ?? "#ef4444"}15` }}>
+          <FileText className="w-8 h-8" style={{ color: theme?.primary ?? "#ef4444" }} />
         </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
+        <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+        <p className="mt-3 opacity-60 text-sm">{subheading}</p>
+        <a href={buttonUrl} className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-lg text-white font-medium text-sm" style={{ backgroundColor: theme?.primary ?? "#ef4444" }}>
+          <Download className="w-4 h-4" /> {buttonText}
         </a>
+        <p className="mt-3 text-xs opacity-40">PDF, 4.2 MB — No email required</p>
       </div>
     </section>
   );

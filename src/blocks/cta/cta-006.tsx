@@ -1,30 +1,38 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "10K+", description: "Active Users" },
-  { title: "99.9%", description: "Uptime" },
-  { title: "4.9/5", description: "Rating" },
-];
+import { ArrowRight } from "lucide-react";
 
 export default function Cta006(props: BlockProps) {
-  const { theme, heading = "Unlock your potential", subheading = "Trusted by industry leaders worldwide.", buttonText = "Start Building", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Build websites without code",
+    subheading = "Drag, drop, and publish. Your site goes live in minutes, not months.",
+    buttonText = "Start Building",
+    buttonUrl = "#",
+    imageUrl,
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-        <p className="mt-3 opacity-60">{subheading}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-8">
-          {items.slice(0, 3).map((stat, i) => (
-            <div key={i}>
-              <div className="text-3xl font-black" style={{ color: theme?.primary }}>{stat.title}</div>
-              <div className="text-sm opacity-50 mt-1">{stat.description}</div>
-            </div>
-          ))}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">{heading}</h2>
+          <p className="mt-4 text-base opacity-60 leading-relaxed">{subheading}</p>
+          <a
+            href={buttonUrl}
+            className="mt-8 inline-flex items-center gap-2 px-7 py-3.5 rounded-lg text-white font-semibold text-sm hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: theme?.primary ?? "#2563eb" }}
+          >
+            {buttonText}
+            <ArrowRight className="w-4 h-4" />
+          </a>
         </div>
-        <a href={buttonUrl} className="mt-10 inline-block px-8 py-3.5 rounded-full font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-          {buttonText}
-        </a>
+        <div className="rounded-2xl overflow-hidden aspect-video" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
+          {imageUrl ? (
+            <img src={imageUrl} alt="" className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center opacity-30 text-sm">Image Preview</div>
+          )}
+        </div>
       </div>
     </section>
   );

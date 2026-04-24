@@ -1,23 +1,35 @@
 import type { BlockProps } from "@/blocks/types";
+import { Send } from "lucide-react";
 
 export default function Cta012(props: BlockProps) {
-  const { theme, heading = "The future is now", subheading = "Get started in minutes, not hours.", buttonText = "Get Started", buttonUrl = "#", imageUrl } = props;
+  const {
+    theme,
+    heading = "Join 15,000+ subscribers",
+    subheading = "No spam. Unsubscribe anytime. We respect your privacy.",
+    buttonText = "Sign Up",
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-4 opacity-60 text-lg">{subheading}</p>
-          <a href={buttonUrl} className="mt-6 inline-block px-8 py-3 rounded-xl font-bold text-white text-sm" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
-            {buttonText}
-          </a>
-        </div>
-        <div className="flex-1 w-full">
-          <div className="aspect-video rounded-2xl" style={{ backgroundColor: theme?.accent ?? "#e2e8f0" }}>
-            {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover rounded-2xl" />}
-          </div>
-        </div>
+    <section style={{ backgroundColor: theme?.accent ?? "#f1f5f9", color: theme?.foreground }} className="px-5 py-24">
+      <div className="max-w-lg mx-auto text-center">
+        <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+        <p className="mt-3 text-sm opacity-50">{subheading}</p>
+        <form className="mt-8 relative max-w-md mx-auto" action={buttonUrl} onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="w-full px-5 py-4 pr-32 rounded-full text-sm border focus:outline-none focus:ring-2"
+            style={{ borderColor: theme?.secondary ?? "#d1d5db", backgroundColor: theme?.background ?? "#fff", color: theme?.foreground }}
+          />
+          <button
+            type="submit"
+            className="absolute right-1.5 top-1.5 bottom-1.5 px-5 rounded-full text-white font-medium text-sm flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: theme?.primary ?? "#7c3aed" }}
+          >
+            {buttonText} <Send className="w-3.5 h-3.5" />
+          </button>
+        </form>
       </div>
     </section>
   );

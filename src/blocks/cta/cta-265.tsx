@@ -1,15 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Gift } from "lucide-react";
 
 export default function Cta265(props: BlockProps) {
-  const { theme, heading = "Power up your projects", buttonText = "Learn More", buttonUrl = "#" } = props;
+  const {
+    theme,
+    heading = "Limited Time Offer",
+    subheading = "Get 50% off your first 3 months. Don't miss out!",
+    buttonText = "Grab the Deal",
+    buttonUrl = "#",
+  } = props;
+
+  const sparkles = Array.from({ length: 16 }, (_, i) => ({
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    size: Math.random() * 4 + 2,
+    color: ["#fbbf24", "#f59e0b", "#fcd34d", "#fde68a"][i % 4],
+  }));
 
   return (
-    <section style={{ backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" }} className="px-4 py-6">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="font-semibold text-lg">{heading}</p>
-        <a href={buttonUrl} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm bg-white" style={{ color: theme?.primary ?? "#6366f1" }}>
-          {buttonText} <ArrowRight className="w-4 h-4" />
+    <section className="relative overflow-hidden px-4 py-24" style={{ background: `linear-gradient(135deg, ${theme?.primary ?? "#7c3aed"}, ${theme?.accent ?? "#db2777"})`, color: "#ffffff" }}>
+      {sparkles.map((s, i) => (
+        <div key={i} className="absolute rounded-full" style={{ top: s.top, left: s.left, width: s.size, height: s.size, backgroundColor: s.color, opacity: 0.7 }} />
+      ))}
+      <div className="relative max-w-lg mx-auto text-center">
+        <Gift className="w-10 h-10 mx-auto mb-4 opacity-90" />
+        <h2 className="text-3xl sm:text-5xl font-black">{heading}</h2>
+        <p className="mt-4 text-lg opacity-80">{subheading}</p>
+        <a href={buttonUrl} className="mt-8 inline-block px-10 py-4 bg-white rounded-full font-bold text-sm" style={{ color: theme?.primary ?? "#7c3aed" }}>
+          {buttonText}
         </a>
       </div>
     </section>
