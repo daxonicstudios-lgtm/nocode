@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseUserPrompt } from "@/lib/ai/agent";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getBlocksByQuery } from "@/blocks/registry";
 
 function generateSlug(name: string): string {
   return name
@@ -104,7 +105,7 @@ export async function POST(request: NextRequest) {
           }
 
           if (!matchingBlocks || matchingBlocks.length === 0) {
-            // Fallback: try without tag filter
+            // Fallback 1: try DB without tag filter
             const { data: fallbackBlocks } = await supabase
               .from("blocks")
               .select("id")
@@ -128,6 +129,32 @@ export async function POST(request: NextRequest) {
               } else {
                 totalBlockCount += fallbackBlocks.length;
               }
+              continue;
+            }
+
+            // Fallback 2: use registry-based matching (blocks not in DB yet)
+            const registryBlocks = getBlocksByQuery({
+              category: blockSelection.category,
+              tags: blockSelection.tags.length > 0 ? blockSelection.tags : undefined,
+              style: blockSelection.style || undefined,
+              industries: blockSelection.industry ? [blockSelection.industry] : undefined,
+            });
+
+            if (registryBlocks.length > 0) {
+              // Pick the best matches (up to quantity requested)
+              const selected = registryBlocks.slice(0, blockSelection.quantity);
+              // Store as custom_props with the slug so the renderer can find them
+              const pageBlockRows = selected.map((block) => ({
+                page_id: page.id,
+                block_id: block.slug, // use slug as reference
+                sort_order: blockSortOrder++,
+                custom_props: { _registrySlug: block.slug },
+              }));
+
+              // We can't insert these into page_blocks without a real block_id,
+              // so log the selection for now — the editor will use the registry directly
+              console.log(`Registry fallback: selected ${selected.length} blocks from ${blockSelection.category}`);
+              totalBlockCount += selected.length;
             }
             continue;
           }

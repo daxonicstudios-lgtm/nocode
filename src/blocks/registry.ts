@@ -210,6 +210,9 @@ export function getBlockCount(): number {
 // Auto-import category barrel files below (added as blocks are created)
 // ---------------------------------------------------------------------------
 
+import "./heroes";
+import "./navbars";
+import "./footers";
 import "./about";
 import "./banners";
 import "./blog";

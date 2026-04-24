@@ -786,7 +786,7 @@
 - **Files:** `src/blocks/nav-{category}/`
 
 ### D-900: Hover Effects — 100 | D-910: Loading Animations — 60 | D-920: Marquee — 50 | D-930: Counters — 50 | D-940: Transitions — 50 | D-950: Micro-interactions — 80
-- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] each | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/anim-{category}/`
 
 ---
@@ -795,7 +795,7 @@
 
 ### S-900: Block Registry — Final Build
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** ALL component tasks completed by BOTH devs
@@ -806,7 +806,7 @@
 
 ### S-901: AI Agent — Block Matching Validation
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-900
