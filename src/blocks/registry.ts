@@ -237,3 +237,30 @@ import "./testimonials";
 import "./timeline";
 import "./trust";
 import "./video";
+
+// E-Commerce
+import "./ecom-grids";
+import "./ecom-cards";
+import "./ecom-detail";
+import "./ecom-cart";
+import "./ecom-checkout";
+import "./ecom-categories";
+import "./ecom-promos";
+import "./ecom-wishlist";
+import "./ecom-orders";
+import "./ecom-reviews";
+import "./ecom-filters";
+import "./ecom-stores";
+import "./ecom-account";
+
+// Forms
+import "./form-login";
+import "./form-signup";
+import "./form-contact";
+import "./form-multistep";
+import "./form-booking";
+import "./form-survey";
+import "./form-payment";
+import "./form-search";
+import "./form-registration";
+import "./form-application";

@@ -625,97 +625,97 @@
 ## WAVE 2 — E-COMMERCE + FORMS
 
 ### S-300: E-Commerce Product Grids — 200 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-grids/ecom-grids-001.tsx` through `ecom-grids-200.tsx`
 
 ### S-310: E-Commerce Product Cards — 300 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-cards/ecom-cards-001.tsx` through `ecom-cards-300.tsx`
 
 ### S-320: E-Commerce Product Detail — 200 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-detail/ecom-detail-001.tsx` through `ecom-detail-200.tsx`
 
 ### S-330: E-Commerce Cart — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-cart/ecom-cart-001.tsx` through `ecom-cart-100.tsx`
 
 ### S-340: E-Commerce Checkout — 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-checkout/ecom-checkout-001.tsx` through `ecom-checkout-150.tsx`
 
 ### S-350: E-Commerce Categories — 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-categories/ecom-categories-001.tsx` through `ecom-categories-150.tsx`
 
 ### S-360: E-Commerce Promos — 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-promos/ecom-promos-001.tsx` through `ecom-promos-150.tsx`
 
 ### S-370: E-Commerce Wishlist — 80 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-wishlist/ecom-wishlist-001.tsx` through `ecom-wishlist-080.tsx`
 
 ### S-380: E-Commerce Orders — 80 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-orders/ecom-orders-001.tsx` through `ecom-orders-080.tsx`
 
 ### S-390: E-Commerce Reviews — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-reviews/ecom-reviews-001.tsx` through `ecom-reviews-100.tsx`
 
 ### S-391: E-Commerce Filters — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-filters/ecom-filters-001.tsx` through `ecom-filters-100.tsx`
 
 ### S-392: E-Commerce Store Locator — 80 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-stores/ecom-stores-001.tsx` through `ecom-stores-080.tsx`
 
 ### S-393: E-Commerce Customer Account — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-account/ecom-account-001.tsx` through `ecom-account-100.tsx`
 
 ### SONIC — Forms (1,280 variants)
 
 ### D-300: Login Forms — 200 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-login/form-login-001.tsx` through `form-login-200.tsx`
 
 ### D-310: Signup Forms — 200 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-signup/form-signup-001.tsx` through `form-signup-200.tsx`
 
 ### D-320: Contact Forms — 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-contact/form-contact-001.tsx` through `form-contact-150.tsx`
 
 ### D-330: Multi-Step Forms — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-multistep/form-multistep-001.tsx` through `form-multistep-100.tsx`
 
 ### D-340: Booking Forms — 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-booking/form-booking-001.tsx` through `form-booking-150.tsx`
 
 ### D-350: Survey/Quiz Forms — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-survey/form-survey-001.tsx` through `form-survey-100.tsx`
 
 ### D-360: Payment Forms — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-payment/form-payment-001.tsx` through `form-payment-100.tsx`
 
 ### D-370: Search Bars — 80 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-search/form-search-001.tsx` through `form-search-080.tsx`
 
 ### D-380: Registration Forms — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-registration/form-registration-001.tsx` through `form-registration-100.tsx`
 
 ### D-390: Application Forms — 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/form-application/form-application-001.tsx` through `form-application-100.tsx`
 
 ---
