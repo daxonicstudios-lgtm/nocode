@@ -502,7 +502,7 @@
 
 ### D-120: About — All 300 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
@@ -512,7 +512,7 @@
 
 ### D-130: Services — All 300 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
@@ -522,7 +522,7 @@
 
 ### D-140: Testimonials — All 300 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
@@ -532,7 +532,7 @@
 
 ### D-150: Contact — All 300 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
