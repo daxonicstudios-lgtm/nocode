@@ -403,7 +403,7 @@
 
 ### S-160: Steps — All 200 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
@@ -413,7 +413,7 @@
 
 ### S-170: Comparison — All 150 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
@@ -423,7 +423,7 @@
 
 ### S-180: Video — All 150 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
