@@ -314,3 +314,37 @@ import "./ind-podcast";
 import "./ind-news";
 import "./ind-logistics";
 import "./ind-hr";
+
+// Pages
+import "./page-landing";
+import "./page-404";
+import "./page-coming";
+import "./page-thankyou";
+import "./page-linkinbio";
+import "./page-splash";
+import "./page-maintenance";
+import "./page-construction";
+import "./page-password";
+import "./page-offline";
+
+// Navigation
+import "./nav-breadcrumbs";
+import "./nav-pagination";
+import "./nav-tabs";
+import "./nav-mega";
+import "./nav-mobile";
+import "./nav-sticky";
+import "./nav-backtotop";
+
+// Animations
+import "./anim-scroll";
+import "./anim-carousel";
+import "./anim-backgrounds";
+import "./anim-text";
+import "./anim-cursor";
+import "./anim-hover";
+import "./anim-loading";
+import "./anim-marquee";
+import "./anim-counters";
+import "./anim-transitions";
+import "./anim-micro";
