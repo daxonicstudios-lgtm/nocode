@@ -1,30 +1,41 @@
 import type { BlockProps } from "@/blocks/types";
+import { Folder, ArrowRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+const TABS = ["Design", "Development", "Marketing", "Product"];
+const DEFAULTS = [
+  { title: "Typography Fundamentals", description: "Choosing and pairing fonts that communicate your brand.", label: "Design", value: "6 min" },
+  { title: "Server Components Explained", description: "The future of React rendering and what it means for you.", label: "Development", value: "9 min" },
+  { title: "Content Marketing Playbook", description: "Attract visitors with content that answers real questions.", label: "Marketing", value: "7 min" },
+  { title: "Feature Prioritization Framework", description: "A practical system for deciding what to build next.", label: "Product", value: "5 min" },
 ];
 
 export default function Blog264(props: BlockProps) {
-  const { theme, heading = "What we're thinking", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Resource Library", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-            </article>
-          ))}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold mb-8">{heading}</h2>
+        <div className="flex flex-col sm:flex-row gap-6">
+          <nav className="sm:w-48 shrink-0 flex sm:flex-col gap-2 overflow-x-auto">
+            {TABS.map((tab, i) => (
+              <button key={tab} className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap text-left" style={i === 0 ? { backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" } : { backgroundColor: theme?.accent ?? "#f3f4f6" }}>
+                <Folder className="w-4 h-4" />
+                {tab}
+              </button>
+            ))}
+          </nav>
+          <div className="flex-1 space-y-3">
+            {items.map((post, i) => (
+              <article key={i} className="flex items-center justify-between p-4 rounded-xl border cursor-pointer hover:shadow-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                <div>
+                  <h3 className="font-semibold">{post.title}</h3>
+                  <p className="text-sm opacity-60 mt-0.5">{post.description}</p>
+                </div>
+                <ArrowRight className="w-4 h-4 opacity-30 shrink-0" />
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

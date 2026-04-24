@@ -1,31 +1,57 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+  { title: "LESS IS MORE", description: "A manifesto for building products that respect your users' time and attention.", label: "Manifesto", value: "Jan 2026" },
+  { title: "SPEED AS A FEATURE", description: "Performance is not a technical concern. It is a product decision that defines user trust.", label: "Perspective", value: "Feb 2026" },
+  { title: "THE END OF TEMPLATES", description: "AI-assembled websites will make static templates obsolete within two years.", label: "Prediction", value: "Mar 2026" },
 ];
 
 export default function Blog114(props: BlockProps) {
-  const { theme, heading = "What we're thinking", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Bold Takes",
+    subheading = "Provocative opinions backed by experience",
+    buttonText = "Read take",
+    buttonUrl = "#",
+    items = DEFAULT_ITEMS,
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
+    <section className="px-5 py-24" style={{ backgroundColor: theme?.background ?? "#0a0a0a", color: theme?.foreground ?? "#fafafa" }}>
+      <div className="max-w-4xl mx-auto">
+        <h2
+          className="text-4xl font-black uppercase tracking-widest mb-3 border-b pb-6"
+          style={{ borderColor: `${theme?.foreground ?? "#fafafa"}20` }}
+        >
+          {heading}
+        </h2>
+        <p className="text-sm opacity-30 mb-16">{subheading}</p>
+        {items.slice(0, 3).map((item, i) => (
+          <a key={i} href={buttonUrl} className="block group">
+            <article
+              className="py-8 border-b"
+              style={{ borderColor: `${theme?.foreground ?? "#fafafa"}10` }}
+            >
+              <div className="flex items-baseline justify-between mb-2">
+                <span className="text-xs font-mono tracking-widest opacity-30">
+                  {String(item.label)}
+                </span>
+                <span className="text-xs opacity-20">{String(item.value)}</span>
+              </div>
+              <h3 className="text-3xl sm:text-5xl font-black uppercase tracking-wider group-hover:tracking-[0.15em] transition-all">
+                {item.title}
+              </h3>
+              <p className="mt-3 text-sm opacity-40 max-w-xl">{item.description}</p>
+              <span
+                className="mt-3 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider"
+                style={{ color: theme?.primary ?? "#ef4444" }}
+              >
+                {buttonText} <ArrowRight className="w-3 h-3" />
+              </span>
             </article>
-          ))}
-        </div>
+          </a>
+        ))}
       </div>
     </section>
   );

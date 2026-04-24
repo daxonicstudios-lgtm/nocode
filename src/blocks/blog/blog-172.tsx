@@ -1,29 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
+import { Feather } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "The Essence of Material", description: "Exploring texture, weight, and presence in digital interfaces.", label: "Essay", value: "12 min" },
+  { title: "A Season of Refinement", description: "Our annual review of what stayed, what changed, and what we learned.", label: "Reflection", value: "8 min" },
+  { title: "Conversations with Light", description: "How illumination and shadow define hierarchy in design.", label: "Study", value: "10 min" },
 ];
 
 export default function Blog172(props: BlockProps) {
-  const { theme, heading = "The latest", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Atelier", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#faf8f5", color: theme?.foreground ?? "#2c2420" }} className="px-6 py-24">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center gap-3 mb-16">
+          <Feather className="w-5 h-5 opacity-40" />
+          <h2 className="text-4xl font-light italic" style={{ fontFamily: "Georgia, serif" }}>{heading}</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {items.slice(0, 3).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group block">
+              <div className="aspect-[3/4] rounded-sm mb-6 overflow-hidden" style={{ backgroundColor: theme?.secondary ?? "#e8e2d8" }}>
+                <div className="w-full h-full group-hover:scale-105 transition-transform duration-700" style={{ backgroundColor: theme?.secondary ?? "#e8e2d8" }} />
+              </div>
+              <span className="text-[10px] uppercase tracking-[0.3em] opacity-40" style={{ fontFamily: "Georgia, serif" }}>{item.label} — {item.value}</span>
+              <h3 className="mt-2 text-xl font-light leading-snug" style={{ fontFamily: "Georgia, serif" }}>{item.title}</h3>
+              <p className="mt-2 text-sm opacity-50 leading-relaxed" style={{ fontFamily: "Georgia, serif" }}>{item.description}</p>
+            </a>
           ))}
         </div>
       </div>

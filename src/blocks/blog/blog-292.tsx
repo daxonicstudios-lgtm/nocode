@@ -1,28 +1,25 @@
 import type { BlockProps } from "@/blocks/types";
 
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+const DEFAULTS = [
+  { title: "On simplicity", description: "Less noise, more signal.", value: "2026.04.20" },
+  { title: "Building in silence", description: "The work speaks for itself.", value: "2026.04.15" },
+  { title: "Tools do not matter", description: "What you build with them does.", value: "2026.04.10" },
+  { title: "Start before you are ready", description: "Perfect is the enemy of published.", value: "2026.04.05" },
 ];
 
 export default function Blog292(props: BlockProps) {
-  const { theme, heading = "The latest", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Notes", items = DEFAULTS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-24">
+      <div className="max-w-md mx-auto">
+        <h2 className="text-sm font-mono uppercase tracking-[0.3em] opacity-30 mb-16">{heading}</h2>
+        <div className="space-y-12">
+          {items.map((post, i) => (
+            <article key={i} className="cursor-pointer group">
+              <time className="text-xs font-mono opacity-20">{String(post.value ?? "")}</time>
+              <h3 className="text-lg font-light mt-1 group-hover:opacity-60 transition-opacity">{post.title}</h3>
+              <p className="text-sm opacity-40 mt-1">{post.description}</p>
             </article>
           ))}
         </div>

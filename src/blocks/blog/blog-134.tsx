@@ -1,31 +1,44 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+  { title: "Zero-Downtime Deployments", description: "Blue-green, canary, and rolling deployment strategies.", label: "DevOps", value: "6 min" },
+  { title: "React Compiler Deep Dive", description: "How automatic memoization changes the optimization game.", label: "React", value: "10 min" },
+  { title: "Designing for Low Bandwidth", description: "Building performant web apps for emerging markets.", label: "Performance", value: "8 min" },
+  { title: "Multi-Tenant Architecture", description: "Shared vs isolated databases for SaaS platforms.", label: "Architecture", value: "12 min" },
+  { title: "TypeScript Decorators", description: "Stage 3 decorators are here. A practical guide to using them.", label: "TypeScript", value: "7 min" },
+  { title: "Web Push Notifications", description: "Engaging users with timely, relevant push messages.", label: "Engagement", value: "5 min" },
 ];
 
 export default function Blog134(props: BlockProps) {
-  const { theme, heading = "Explore our content", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Archive", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#ffffff", color: theme?.foreground ?? "#0a0a0a" }}>
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold mb-10">{heading}</h2>
+        <div className="divide-y mb-12" style={{ borderColor: `${theme?.foreground ?? "#0a0a0a"}08` }}>
+          {items.slice(0, 6).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group flex items-center justify-between py-5 gap-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>{String(item.label)}</span>
+                  <span className="flex items-center gap-1 text-xs opacity-30"><Clock className="w-3 h-3" />{String(item.value)}</span>
+                </div>
+                <h3 className="font-bold group-hover:underline truncate">{item.title}</h3>
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
-            </article>
+              <ChevronRight className="w-4 h-4 opacity-20 group-hover:opacity-60 flex-shrink-0" />
+            </a>
           ))}
+        </div>
+        <div className="flex items-center justify-center gap-2">
+          <button className="w-8 h-8 rounded flex items-center justify-center opacity-30"><ChevronLeft className="w-4 h-4" /></button>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button key={n} className="w-8 h-8 rounded text-sm font-medium" style={n === 1 ? { backgroundColor: theme?.foreground ?? "#0a0a0a", color: theme?.background ?? "#ffffff" } : {}}>
+              {n}
+            </button>
+          ))}
+          <button className="w-8 h-8 rounded flex items-center justify-center"><ChevronRight className="w-4 h-4" /></button>
         </div>
       </div>
     </section>

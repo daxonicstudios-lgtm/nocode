@@ -1,29 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
+import { Clock } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+  { title: "Inside Our Product Roadmap for 2026", description: "A transparent look at what we are building next and why these features matter to our users.", label: "Strategy", imageUrl: "", url: "#" },
+  { title: "How Mobile Commerce Is Reshaping Africa", description: "The data behind the continent's fastest-growing digital economy and what it means for builders.", label: "Market Research", imageUrl: "", url: "#" },
+  { title: "Conversations With Early Adopters", description: "Five founders share how they launched businesses using our platform in under a week.", label: "Community", imageUrl: "", url: "#" },
+  { title: "Performance Budgets That Actually Work", description: "Setting and enforcing web performance targets that make a real difference for your visitors.", label: "Engineering", imageUrl: "", url: "#" },
 ];
 
 export default function Blog006(props: BlockProps) {
-  const { theme, heading = "Insights & resources", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Magazine", subheading = "Long-form stories and deep dives.", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-            </article>
+        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+        <p className="mt-2 opacity-60 mb-12">{subheading}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {items.slice(0, 4).map((post, i) => (
+            <a key={i} href={post.url ?? "#"} className="group flex flex-col">
+              <div className="aspect-[16/10] rounded-2xl overflow-hidden mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                {post.imageUrl && <img src={post.imageUrl} alt={post.title ?? ""} className="w-full h-full object-cover" />}
+              </div>
+              <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: theme?.primary ?? "#6366f1" }}>{String(post.label ?? "")}</span>
+              <h3 className="mt-2 text-xl font-bold leading-snug group-hover:underline">{post.title}</h3>
+              <p className="mt-2 text-sm opacity-70 line-clamp-2">{post.description}</p>
+              <div className="mt-3 flex items-center gap-1 text-xs opacity-40">
+                <Clock className="w-3 h-3" /> 6 min read
+              </div>
+            </a>
           ))}
         </div>
       </div>

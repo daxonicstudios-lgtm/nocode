@@ -1,37 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
+import { Bookmark, ChevronRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const DEFAULTS = [
+  { title: "Platform Security Deep Dive", description: "How we protect your data with encryption, auth, and row-level security.", label: "Security", value: "10 min read" },
+  { title: "Custom Font Integration", description: "Use any Google Font or upload your own.", label: "Design", value: "4 min" },
+  { title: "Multi-Tenant Architecture", description: "Serving thousands of sites from one codebase.", label: "Engineering", value: "8 min" },
+  { title: "SEO Audit Checklist", description: "Check every box before you publish.", label: "Marketing", value: "6 min" },
 ];
 
 export default function Blog283(props: BlockProps) {
-  const { theme, heading = "Knowledge base", items = DEFAULT_ITEMS } = props;
-
+  const { theme, heading = "Deep Reads", items = DEFAULTS } = props;
   const featured = items[0];
-  const rest = items.slice(1, 3);
+  const rest = items.slice(1);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
+        <h2 className="text-3xl font-bold mb-8">{heading}</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <article className="rounded-2xl border overflow-hidden cursor-pointer hover:shadow-lg transition-shadow" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+            <div className="aspect-[4/3]" style={{ backgroundColor: theme?.accent ?? "#f3f4f6" }} />
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#6366f1" }}>{String(featured?.label ?? "")}</span>
+                <Bookmark className="w-4 h-4 opacity-30 cursor-pointer" />
+              </div>
+              <h3 className="text-xl font-bold">{featured?.title}</h3>
+              <p className="opacity-70 mt-2">{featured?.description}</p>
+              <span className="text-xs opacity-40 mt-3 block">{String(featured?.value ?? "")}</span>
+            </div>
           </article>
-          <div className="space-y-6">
+          <div className="space-y-3">
             {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
+              <article key={i} className="flex items-center gap-4 p-4 rounded-xl cursor-pointer hover:opacity-80" style={{ backgroundColor: theme?.accent ?? "#f9fafb" }}>
+                <div className="w-20 h-20 rounded-lg shrink-0" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+                <div className="flex-1 min-w-0">
+                  <span className="text-xs font-medium opacity-50">{String(post.label ?? "")}</span>
+                  <h3 className="font-semibold mt-0.5">{post.title}</h3>
+                  <p className="text-sm opacity-60 mt-0.5 line-clamp-1">{post.description}</p>
                 </div>
+                <ChevronRight className="w-4 h-4 opacity-30 shrink-0" />
               </article>
             ))}
           </div>

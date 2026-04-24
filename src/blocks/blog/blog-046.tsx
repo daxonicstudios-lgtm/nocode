@@ -1,30 +1,42 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "Why Your Website Needs a Blog", description: "Content marketing drives organic traffic, builds authority, and gives visitors a reason to return.", label: "Marketing", imageUrl: "", url: "#" },
+  { title: "The Psychology Behind Great UX", description: "Cognitive biases and design heuristics that shape how people interact with interfaces.", label: "UX", imageUrl: "", url: "#" },
+  { title: "How We Handle Database Migrations", description: "Zero-downtime schema changes at scale with Supabase and Postgres.", label: "Backend", imageUrl: "", url: "#" },
 ];
 
 export default function Blog046(props: BlockProps) {
-  const { theme, heading = "Stories & insights", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Our Blog", subheading = "Ideas, tutorials, and company updates.", items = DEFAULT_ITEMS, buttonText = "Subscribe" } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+        <p className="mt-2 opacity-60 mb-12">{subheading}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-14">
           {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
+            <a key={i} href={post.url ?? "#"} className="group block">
+              <div className="aspect-[4/3] rounded-xl overflow-hidden mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                {post.imageUrl && <img src={post.imageUrl} alt={post.title ?? ""} className="w-full h-full object-cover" />}
+              </div>
+              <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: theme?.primary ?? "#6366f1" }}>{String(post.label ?? "")}</span>
+              <h3 className="mt-2 font-bold leading-snug group-hover:underline">{post.title}</h3>
+              <p className="mt-2 text-sm opacity-60 line-clamp-2">{post.description}</p>
+              <span className="mt-2 inline-flex items-center gap-1 text-sm font-medium" style={{ color: theme?.primary ?? "#6366f1" }}>
+                Read more <ArrowRight className="w-3 h-3" />
+              </span>
+            </a>
           ))}
+        </div>
+        <div className="rounded-2xl p-8 sm:p-12 text-center" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
+          <h3 className="text-2xl font-bold">Stay in the loop</h3>
+          <p className="mt-2 opacity-60 max-w-md mx-auto">Get the latest articles and product updates delivered straight to your inbox. No spam, ever.</p>
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <input type="email" placeholder="you@example.com" className="flex-1 px-4 py-3 rounded-lg border text-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: theme?.background ?? "#fff" }} />
+            <button className="px-6 py-3 rounded-lg text-sm font-semibold text-white shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{buttonText}</button>
+          </div>
         </div>
       </div>
     </section>

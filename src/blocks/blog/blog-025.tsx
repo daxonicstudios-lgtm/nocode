@@ -1,41 +1,27 @@
 import type { BlockProps } from "@/blocks/types";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "Rethinking the Blog Post Format", description: "Why long-form essays are losing ground to short, punchy updates.", label: "Apr 22", url: "#" },
+  { title: "How We Decide What to Build Next", description: "Our prioritization framework that balances user requests with strategic bets.", label: "Apr 15", url: "#" },
+  { title: "The Hidden Cost of Too Many Features", description: "Why saying no is the hardest and most important skill in product management.", label: "Apr 9", url: "#" },
+  { title: "On Burnout and Sustainable Pace", description: "What we changed about our work culture after losing two key team members.", label: "Apr 2", url: "#" },
+  { title: "Shipping Weekly: How and Why", description: "The cadence that keeps us accountable and our users engaged.", label: "Mar 26", url: "#" },
 ];
 
 export default function Blog025(props: BlockProps) {
-  const { theme, heading = "Industry insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Notebook", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-lg mx-auto">
+        <h2 className="text-2xl font-bold border-b-2 pb-4 mb-6" style={{ borderColor: theme?.primary ?? "#6366f1" }}>{heading}</h2>
+        {items.slice(0, 5).map((post, i) => (
+          <a key={i} href={post.url ?? "#"} className="group block py-4 border-b last:border-0" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+            <span className="text-xs font-mono opacity-40">{String(post.label ?? "")}</span>
+            <h3 className="mt-1 font-semibold group-hover:underline">{post.title}</h3>
+            <p className="mt-1 text-sm opacity-50 line-clamp-1">{post.description}</p>
+          </a>
+        ))}
       </div>
     </section>
   );

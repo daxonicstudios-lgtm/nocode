@@ -1,33 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Tag } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "The Art of Writing Product Announcements", description: "How to communicate new features in a way that excites users and drives adoption.", label: "Marketing", imageUrl: "", url: "#" },
+  { title: "Lessons From Our First Year of Growth", description: "Revenue, user numbers, and the hard-won insights that got us from zero to here.", label: "Startup", imageUrl: "", url: "#" },
+  { title: "Designing for Low-Bandwidth Environments", description: "Techniques for delivering a great experience even when connectivity is unreliable.", label: "Performance", imageUrl: "", url: "#" },
+  { title: "Building an API That Developers Love", description: "What we learned from watching hundreds of developers integrate with our platform.", label: "Developer", imageUrl: "", url: "#" },
 ];
 
 export default function Blog009(props: BlockProps) {
-  const { theme, heading = "What we're thinking", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Explore Our Blog", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        <h2 className="text-3xl sm:text-4xl font-bold mb-12">{heading}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {items.slice(0, 4).map((post, i) => (
+            <a key={i} href={post.url ?? "#"} className="group flex flex-col sm:flex-row gap-5 p-5 rounded-2xl hover:shadow-md transition-shadow" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+              <div className="w-full sm:w-48 h-36 rounded-xl shrink-0 overflow-hidden" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                {post.imageUrl && <img src={post.imageUrl} alt={post.title ?? ""} className="w-full h-full object-cover" />}
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
-            </article>
+              <div className="flex flex-col justify-center">
+                <div className="flex items-center gap-1 text-xs font-medium" style={{ color: theme?.primary ?? "#6366f1" }}>
+                  <Tag className="w-3 h-3" /> {String(post.label ?? "")}
+                </div>
+                <h3 className="mt-2 text-lg font-bold leading-snug group-hover:underline">{post.title}</h3>
+                <p className="mt-1 text-sm opacity-60 line-clamp-2">{post.description}</p>
+              </div>
+            </a>
           ))}
         </div>
       </div>

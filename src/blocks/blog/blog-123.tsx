@@ -1,33 +1,53 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Search, X, ArrowRight } from "lucide-react";
+
+const TAGS = ["React", "TypeScript", "CSS", "Node.js", "DevOps", "AI/ML"];
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "Building Type-Safe APIs", description: "End-to-end type safety from database to frontend with tRPC.", label: "TypeScript" },
+  { title: "CSS Nesting is Here", description: "Native CSS nesting is in all major browsers. Time to ditch preprocessors?", label: "CSS" },
+  { title: "React Server Components Deep Dive", description: "Understanding the mental model behind RSC and when to use them.", label: "React" },
 ];
 
 export default function Blog123(props: BlockProps) {
-  const { theme, heading = "From the team", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Explore Topics", subheading = "Find articles by technology or topic", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#ffffff", color: theme?.foreground ?? "#0f172a" }}>
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-10">
           <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+          <p className="mt-2 text-sm opacity-50">{subheading}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        <div className="max-w-xl mx-auto mb-6 relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 opacity-30" />
+          <input
+            type="text"
+            placeholder="Search by title, tag, or keyword..."
+            className="w-full pl-12 pr-10 py-3.5 rounded-2xl border text-sm outline-none"
+            style={{ borderColor: `${theme?.foreground ?? "#0f172a"}15`, color: theme?.foreground ?? "#0f172a" }}
+          />
+          <button className="absolute right-3 top-1/2 -translate-y-1/2 opacity-30 hover:opacity-60"><X className="w-4 h-4" /></button>
+        </div>
+        <div className="flex flex-wrap justify-center gap-2 mb-12">
+          {TAGS.map((tag) => (
+            <span key={tag} className="px-3 py-1.5 rounded-full text-xs font-medium border cursor-pointer hover:bg-gray-50" style={{ borderColor: `${theme?.foreground ?? "#0f172a"}15` }}>
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="space-y-4">
+          {items.slice(0, 3).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group flex items-center justify-between p-5 rounded-xl border hover:border-gray-300 transition-colors" style={{ borderColor: `${theme?.foreground ?? "#0f172a"}10` }}>
+              <div>
+                <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ backgroundColor: `${theme?.primary ?? "#6366f1"}10`, color: theme?.primary ?? "#6366f1" }}>
+                  {String(item.label)}
+                </span>
+                <h3 className="mt-2 text-lg font-bold group-hover:underline">{item.title}</h3>
+                <p className="text-sm opacity-50 mt-1">{item.description}</p>
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
-            </article>
+              <ArrowRight className="w-5 h-5 opacity-30 group-hover:opacity-70 flex-shrink-0 ml-4" />
+            </a>
           ))}
         </div>
       </div>

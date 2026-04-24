@@ -1,30 +1,46 @@
 import type { BlockProps } from "@/blocks/types";
+import { Terminal, ChevronRight, Wifi } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+const DEFAULTS = [
+  { title: "SYSTEM_UPDATE: Platform v4.0 Deployed", description: "Major release includes AI-powered layout engine, real-time collaboration, and edge rendering. All systems nominal.", label: "PRIORITY_HIGH", value: "00:42:17" },
+  { title: "DATA_STREAM: User Growth Analytics", description: "Exponential trajectory confirmed. Growth rate exceeding all projections by factor of 2.3x.", label: "ANALYTICS", value: "01:15:33" },
+  { title: "SIGNAL_BOOST: Developer Community Pulse", description: "Network activity surge detected. New builder registrations up 340 percent month over month.", label: "COMMUNITY", value: "02:08:51" },
+  { title: "PATCH_NOTES: Security Hardening Complete", description: "All endpoints secured. Row-level security policies updated. Zero vulnerabilities in latest audit.", label: "SECURITY", value: "03:22:04" },
 ];
 
 export default function Blog300(props: BlockProps) {
-  const { theme, heading = "Latest from our blog", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "// FEED", items = DEFAULTS } = props;
+  const glow = theme?.primary ?? "#00ffcc";
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#050505", color: theme?.foreground ?? "#b0b0b0" }} className="px-4 py-16 font-mono">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center gap-3 mb-8">
+          <Terminal className="w-5 h-5" style={{ color: glow }} />
+          <h2 className="text-2xl font-bold tracking-wider" style={{ color: glow }}>{heading}</h2>
+          <div className="flex-1" />
+          <Wifi className="w-4 h-4 animate-pulse" style={{ color: glow, opacity: 0.5 }} />
+          <span className="text-xs opacity-30">LIVE</span>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
+        <div className="space-y-3">
+          {items.map((post, i) => (
+            <article key={i} className="rounded-lg p-4 cursor-pointer group border transition-all" style={{ borderColor: `${glow}22`, backgroundColor: `${glow}05` }}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: glow }} />
+                <span className="text-xs tracking-wider" style={{ color: glow }}>{String(post.label ?? "")}</span>
+                <span className="text-xs opacity-20 ml-auto">[{String(post.value ?? "")}]</span>
+              </div>
+              <h3 className="font-bold text-sm group-hover:pl-1 transition-all" style={{ color: theme?.foreground ?? "#e0e0e0" }}>{post.title}</h3>
+              <p className="text-xs opacity-40 mt-1 leading-relaxed">{post.description}</p>
+              <div className="flex items-center gap-1 mt-2 text-xs opacity-0 group-hover:opacity-50 transition-opacity" style={{ color: glow }}>
+                <span>ACCESS</span>
+                <ChevronRight className="w-3 h-3" />
+              </div>
             </article>
           ))}
+        </div>
+        <div className="mt-8 pt-4 border-t text-xs opacity-20 text-center" style={{ borderColor: `${glow}15` }}>
+          END_OF_TRANSMISSION
         </div>
       </div>
     </section>

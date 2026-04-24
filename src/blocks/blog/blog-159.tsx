@@ -1,32 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Sparkles, Calendar } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "AI-Powered Code Reviews", description: "Using machine learning to catch bugs before they ship.", label: "Jan 2026", value: "AI" },
+  { title: "Design Systems at Scale", description: "Managing tokens, components, and documentation for 50 teams.", label: "Feb 2026", value: "Design" },
+  { title: "The Future of Serverless", description: "Beyond functions: full applications without infrastructure.", label: "Mar 2026", value: "Cloud" },
+  { title: "Progressive Web Apps in 2026", description: "PWAs now rival native apps in capability and performance.", label: "Apr 2026", value: "Mobile" },
 ];
 
 export default function Blog159(props: BlockProps) {
-  const { theme, heading = "What we're thinking", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Curated Reads", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#e3e3e3", color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center gap-2 mb-10">
+          <Sparkles className="w-6 h-6" style={{ color: theme?.primary ?? "#f59e0b" }} />
+          <h2 className="text-3xl font-bold">{heading}</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {items.slice(0, 4).map((item, i) => (
+            <article
+              key={i}
+              className="rounded-2xl p-6 flex gap-4"
+              style={{ backgroundColor: theme?.background ?? "#e3e3e3", boxShadow: "6px 6px 12px #c1c1c1, -6px -6px 12px #ffffff" }}
+            >
+              <div
+                className="w-14 h-14 rounded-xl shrink-0 flex items-center justify-center text-sm font-bold"
+                style={{
+                  backgroundColor: theme?.background ?? "#e3e3e3",
+                  boxShadow: "inset 3px 3px 6px #c1c1c1, inset -3px -3px 6px #ffffff",
+                  color: theme?.primary ?? "#f59e0b",
+                }}
+              >
+                {item.value}
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
+              <div>
+                <h3 className="font-bold">{item.title}</h3>
+                <p className="text-sm opacity-60 mt-1">{item.description}</p>
+                <span className="flex items-center gap-1 text-xs opacity-40 mt-2"><Calendar className="w-3 h-3" />{item.label}</span>
+              </div>
             </article>
           ))}
         </div>

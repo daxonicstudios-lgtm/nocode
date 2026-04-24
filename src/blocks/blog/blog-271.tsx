@@ -1,40 +1,48 @@
 import type { BlockProps } from "@/blocks/types";
+import { Heart, MessageCircle, Share2, User } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const DEFAULTS = [
+  { title: "Just shipped our biggest update yet", description: "200 new components, better performance, and a redesigned editor. We are so excited to share this with you all.", label: "Sarah Chen", value: "2h ago" },
+  { title: "Tips for building your first portfolio", description: "Start with a clean layout, showcase three to five projects, and always include a call to action.", label: "David Okafor", value: "5h ago" },
+  { title: "The no-code community is amazing", description: "Spent the weekend at a builder meetup in Lagos. The energy and creativity were incredible.", label: "Amara Diallo", value: "1d ago" },
 ];
 
 export default function Blog271(props: BlockProps) {
-  const { theme, heading = "Stories & insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Community Feed", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-xl mx-auto">
+        <h2 className="text-2xl font-bold mb-6">{heading}</h2>
+        <div className="space-y-4">
+          {items.map((post, i) => (
+            <article key={i} className="rounded-2xl border p-4" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }}>
+                  <User className="w-5 h-5 opacity-50" />
                 </div>
-              </article>
-            ))}
-          </div>
+                <div>
+                  <p className="text-sm font-semibold">{String(post.label ?? "")}</p>
+                  <p className="text-xs opacity-40">{String(post.value ?? "")}</p>
+                </div>
+              </div>
+              <h3 className="font-semibold">{post.title}</h3>
+              <p className="text-sm opacity-70 mt-1">{post.description}</p>
+              <div className="flex items-center gap-6 mt-4 pt-3 border-t" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                <button className="flex items-center gap-1.5 text-xs opacity-50 hover:opacity-80">
+                  <Heart className="w-4 h-4" />
+                  <span>{12 + i * 7}</span>
+                </button>
+                <button className="flex items-center gap-1.5 text-xs opacity-50 hover:opacity-80">
+                  <MessageCircle className="w-4 h-4" />
+                  <span>{3 + i * 2}</span>
+                </button>
+                <button className="flex items-center gap-1.5 text-xs opacity-50 hover:opacity-80">
+                  <Share2 className="w-4 h-4" />
+                </button>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

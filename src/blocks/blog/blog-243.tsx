@@ -1,32 +1,42 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { FileText, Video, Headphones, ChevronRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+const POSTS = [
+  { title: "Database Migration Strategies", description: "Zero-downtime schema changes for production databases.", label: "article", value: "7 min" },
+  { title: "Building Accessible Components", description: "Live coding session with screen reader testing.", label: "video", value: "45 min" },
+  { title: "The Future of No-Code", description: "Industry experts discuss what comes next.", label: "podcast", value: "28 min" },
 ];
 
+const ICONS: Record<string, React.ReactNode> = {
+  article: <FileText className="w-4 h-4" />,
+  video: <Video className="w-4 h-4" />,
+  podcast: <Headphones className="w-4 h-4" />,
+};
+
 export default function Blog243(props: BlockProps) {
-  const { theme, heading = "From the team", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Latest Content", buttonText = "Browse All", buttonUrl = "#", items = POSTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-end justify-between mb-8">
+          <h2 className="text-3xl font-bold">{heading}</h2>
+          <a href={buttonUrl} className="flex items-center gap-1 text-sm font-medium" style={{ color: theme?.primary ?? "#6366f1" }}>{buttonText}<ChevronRight className="w-4 h-4" /></a>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="space-y-4">
           {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+            <article key={i} className="flex items-center gap-4 p-4 rounded-xl border" style={{ borderColor: theme?.accent ?? "#e5e7eb" }}>
+              <div className="w-10 h-10 shrink-0 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+                {ICONS[post.label ?? "article"]}
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold truncate">{post.title}</h3>
+                <p className="text-sm opacity-60 truncate">{post.description}</p>
+              </div>
+              <div className="shrink-0 text-right">
+                <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#6366f1" }}>{post.label}</span>
+                <p className="text-xs opacity-40">{post.value}</p>
+              </div>
             </article>
           ))}
         </div>

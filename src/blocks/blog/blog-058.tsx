@@ -1,31 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
+import { Calendar } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "Rewriting Our Rendering Engine", description: "A technical deep-dive into the migration from canvas to DOM.", label: "March 12, 2026" },
+  { title: "Hiring Our First Designer", description: "What we looked for and why culture fit trumped portfolio.", label: "February 28, 2026" },
+  { title: "Open-Sourcing Our Icon Pack", description: "1,200 icons, MIT licensed, optimized for the web.", label: "February 15, 2026" },
+  { title: "Building Trust with Transparency", description: "Why we publish our revenue numbers every month.", label: "January 30, 2026" },
 ];
 
 export default function Blog058(props: BlockProps) {
-  const { theme, heading = "Knowledge base", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Timeline", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-14">{heading}</h2>
+        {items.slice(0, 4).map((post, i) => (
+          <div key={i} className={`flex flex-col sm:flex-row gap-4 sm:gap-8 mb-10 last:mb-0 ${i % 2 === 1 ? "sm:flex-row-reverse sm:text-right" : ""}`}>
+            <div className="sm:w-40 shrink-0 flex items-start gap-2 text-xs font-medium opacity-50">
+              <Calendar className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+              {String(post.label)}
+            </div>
+            <div className="flex-1 p-5 rounded-xl border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <h3 className="font-bold text-base">{post.title}</h3>
               <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
-          ))}
-        </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

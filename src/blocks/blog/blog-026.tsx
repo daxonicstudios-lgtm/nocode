@@ -1,30 +1,35 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { User } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+  { title: "How We Design for Emerging Markets", description: "Unique UX challenges and solutions for users in Africa and South Asia.", label: "Design", imageUrl: "", url: "#" },
+  { title: "The Case for Progressive Enhancement", description: "Building sites that work everywhere, then enhancing for modern browsers.", label: "Engineering", imageUrl: "", url: "#" },
+  { title: "Growth Lessons From Our First 1000 Users", description: "What worked, what failed, and what we would do differently.", label: "Growth", imageUrl: "", url: "#" },
 ];
 
 export default function Blog026(props: BlockProps) {
-  const { theme, heading = "Our journal", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Latest Posts", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-12">{heading}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          {items.slice(0, 3).map((post, i) => (
+            <a key={i} href={post.url ?? "#"} className="group block">
+              <div className="aspect-[4/3] rounded-xl overflow-hidden relative" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                {post.imageUrl && <img src={post.imageUrl} alt={post.title ?? ""} className="w-full h-full object-cover" />}
+                <span className="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{String(post.label ?? "")}</span>
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
-            </article>
+              <h3 className="mt-4 text-lg font-bold leading-snug group-hover:underline">{post.title}</h3>
+              <p className="mt-2 text-sm opacity-60 line-clamp-2">{post.description}</p>
+              <div className="mt-4 flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
+                  <User className="w-3.5 h-3.5 opacity-50" />
+                </div>
+                <span className="text-xs opacity-50">Editorial Team</span>
+              </div>
+            </a>
           ))}
         </div>
       </div>

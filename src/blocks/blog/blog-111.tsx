@@ -1,32 +1,39 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "The Death of the Homepage", description: "Why landing pages are replacing traditional homepages for growth-stage startups.", label: "Opinion · Issue 47" },
+  { title: "Code as Craft", description: "Treating software engineering as an artisan discipline, not a factory process.", label: "Essay · Issue 46" },
+  { title: "Digital Minimalism in Product", description: "Removing features to create better user experiences.", label: "Philosophy · Issue 45" },
 ];
 
 export default function Blog111(props: BlockProps) {
-  const { theme, heading = "Insights & resources", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "The Editorial",
+    subheading = "Long-form thinking on technology and craft",
+    bodyText = "Thoughtful essays on building products, leading teams, and shaping technology.",
+    items = DEFAULT_ITEMS,
+    buttonUrl = "#",
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
-              </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
+    <section className="px-5 py-24" style={{ backgroundColor: theme?.background ?? "#fafaf9", color: theme?.foreground ?? "#1c1917" }}>
+      <div className="max-w-4xl mx-auto">
+        <p className="text-xs font-mono uppercase tracking-[0.3em] opacity-40 mb-4">{subheading}</p>
+        <h2 className="text-5xl sm:text-7xl font-black tracking-tighter leading-none mb-4">{heading}</h2>
+        <p className="text-base opacity-40 mb-16 max-w-xl">{bodyText}</p>
+        <div className="divide-y" style={{ borderColor: `${theme?.foreground ?? "#1c1917"}15` }}>
+          {items.slice(0, 3).map((item, i) => (
+            <article key={i} className="py-10 group">
+              <p className="text-xs font-mono uppercase tracking-widest opacity-30 mb-3">{String(item.label)}</p>
+              <a href={buttonUrl} className="block">
+                <h3 className="text-3xl sm:text-4xl font-black tracking-tight group-hover:underline decoration-2 underline-offset-4">{item.title}</h3>
+              </a>
+              <p className="mt-3 text-lg opacity-60 max-w-2xl">{item.description}</p>
+              <a href={buttonUrl} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold" style={{ color: theme?.primary ?? "#dc2626" }}>
+                Read essay <ArrowRight className="w-4 h-4" />
+              </a>
             </article>
           ))}
         </div>

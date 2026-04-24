@@ -1,29 +1,38 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+const TABS = ["For You", "Technology", "Design", "Business", "Lifestyle"];
+const DEFAULTS = [
+  { title: "AI-Powered Design Suggestions", description: "Let the machine recommend layouts that convert better.", label: "Technology", value: "6 min" },
+  { title: "Minimalist Design Trends 2026", description: "Less is more. The design world agrees.", label: "Design", value: "4 min" },
+  { title: "Freelance Pricing Guide", description: "How to charge what you are worth as a no-code builder.", label: "Business", value: "8 min" },
+  { title: "Work-Life Balance for Creators", description: "Burnout is real. Protect your energy.", label: "Lifestyle", value: "5 min" },
 ];
 
 export default function Blog266(props: BlockProps) {
-  const { theme, heading = "Our journal", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Discover", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-6">{heading}</h2>
+        <div className="flex gap-1 mb-8 overflow-x-auto pb-2 -mx-4 px-4">
+          {TABS.map((tab, i) => (
+            <button key={tab} className="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap" style={i === 0 ? { backgroundColor: theme?.foreground ?? "#111", color: theme?.background ?? "#fff" } : { border: `1px solid ${theme?.secondary ?? "#d1d5db"}` }}>
+              {tab}
+            </button>
+          ))}
+        </div>
         <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+          {items.map((post, i) => (
+            <article key={i} className="py-5 flex items-start justify-between gap-4 cursor-pointer group">
+              <div className="flex-1">
+                <span className="text-xs opacity-50">{String(post.label ?? "")}</span>
+                <h3 className="font-semibold text-lg mt-0.5 group-hover:underline">{post.title}</h3>
+                <p className="text-sm opacity-60 mt-1">{post.description}</p>
+                <span className="text-xs opacity-30 mt-2 block">{String(post.value ?? "")} read</span>
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
+              <div className="w-20 h-20 rounded-lg shrink-0" style={{ backgroundColor: theme?.accent ?? "#f3f4f6" }} />
             </article>
           ))}
         </div>

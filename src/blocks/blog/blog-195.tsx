@@ -1,35 +1,40 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Volume2, Play, SkipForward } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "The Art of Saying No", description: "How product teams decide what not to build.", label: "Episode 30", value: "25 min" },
+  { title: "Pricing Psychology", description: "What behavioral science tells us about setting the right price.", label: "Episode 29", value: "33 min" },
+  { title: "Building Trust Online", description: "The signals that make users feel safe on your platform.", label: "Episode 28", value: "29 min" },
+  { title: "Content as Product", description: "Treating your content strategy like a product roadmap.", label: "Episode 27", value: "37 min" },
 ];
 
 export default function Blog195(props: BlockProps) {
-  const { theme, heading = "Latest from our blog", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Wavelength", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#18181b", color: theme?.foreground ?? "#fafafa" }} className="px-5 py-20">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center gap-2 mb-12">
+          <Volume2 className="w-5 h-5" style={{ color: theme?.primary ?? "#22d3ee" }} />
+          <h2 className="text-2xl font-bold">{heading}</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        {items.slice(0, 4).map((item, i) => (
+          <a key={i} href={buttonUrl} className="flex items-center gap-4 py-4 border-b border-white/10 group">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform" style={{ backgroundColor: theme?.primary ?? "#22d3ee" }}>
+              <Play className="w-4 h-4 text-black fill-black" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-semibold uppercase tracking-wider opacity-40">{item.label}</span>
+                <span className="text-[10px] opacity-20">·</span>
+                <span className="text-[10px] opacity-40">{item.value}</span>
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
-            </article>
-          ))}
-        </div>
+              <h3 className="font-bold text-sm mt-0.5 truncate">{item.title}</h3>
+              <p className="text-xs opacity-40 truncate">{item.description}</p>
+            </div>
+            <SkipForward className="w-4 h-4 opacity-0 group-hover:opacity-40 transition-opacity shrink-0" />
+          </a>
+        ))}
       </div>
     </section>
   );

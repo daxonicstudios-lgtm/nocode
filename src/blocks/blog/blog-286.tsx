@@ -1,30 +1,48 @@
 import type { BlockProps } from "@/blocks/types";
+import { Calendar } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+const DEFAULTS = [
+  { title: "Photography Tips for Product Pages", description: "You do not need a professional photographer. Just good lighting and these techniques.", label: "Photography", value: "Mar 28" },
+  { title: "User Testing on a Budget", description: "Get real feedback without expensive tools or agencies.", label: "Research", value: "Mar 24" },
+  { title: "Email List Building Strategies", description: "Grow your subscriber base with these proven tactics.", label: "Growth", value: "Mar 20" },
+  { title: "Choosing the Right Template", description: "Match your template to your industry and goals.", label: "Getting Started", value: "Mar 16" },
 ];
 
 export default function Blog286(props: BlockProps) {
-  const { theme, heading = "Stories & insights", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "From the Blog", items = DEFAULTS } = props;
+  const featured = items[0];
+  const rest = items.slice(1);
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
-          ))}
+        <h2 className="text-3xl font-bold mb-8">{heading}</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <article className="cursor-pointer group">
+            <div className="aspect-[4/3] rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#f3f4f6" }} />
+            <div className="flex items-center gap-2 mb-2">
+              <Calendar className="w-3 h-3 opacity-40" />
+              <span className="text-xs opacity-50">{String(featured?.value ?? "")}</span>
+              <span className="text-xs font-medium px-2 py-0.5 rounded" style={{ backgroundColor: theme?.accent ?? "#f3f4f6" }}>{String(featured?.label ?? "")}</span>
+            </div>
+            <h3 className="text-2xl font-bold group-hover:underline">{featured?.title}</h3>
+            <p className="opacity-70 mt-2">{featured?.description}</p>
+          </article>
+          <div className="space-y-4">
+            {rest.map((post, i) => (
+              <article key={i} className="flex gap-4 cursor-pointer group">
+                <div className="w-24 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#f3f4f6" }} />
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs opacity-40">{String(post.value ?? "")}</span>
+                    <span className="text-xs font-medium opacity-50">{String(post.label ?? "")}</span>
+                  </div>
+                  <h3 className="font-semibold group-hover:underline">{post.title}</h3>
+                  <p className="text-sm opacity-60 mt-0.5 line-clamp-2">{post.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

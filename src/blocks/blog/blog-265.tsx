@@ -1,40 +1,43 @@
 import type { BlockProps } from "@/blocks/types";
+import { Filter, BookOpen } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const CHIPS = ["All", "Guides", "News", "Opinions", "Case Studies"];
+const DEFAULTS = [
+  { title: "The Complete SEO Checklist", description: "Everything your site needs to rank well on search engines.", label: "Guides", value: "12 min read" },
+  { title: "Platform Update: March 2026", description: "Bug fixes, new blocks, and performance improvements.", label: "News", value: "2 min read" },
+  { title: "Why No-Code Is Not Cheating", description: "Building without code is still building. Here is why it matters.", label: "Opinions", value: "4 min read" },
+  { title: "How FreshCart Grew 300%", description: "An e-commerce success story powered by our platform.", label: "Case Studies", value: "7 min read" },
 ];
 
 export default function Blog265(props: BlockProps) {
-  const { theme, heading = "Industry insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Articles & Resources", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center gap-2 mb-6">
+          <BookOpen className="w-5 h-5" style={{ color: theme?.primary ?? "#8b5cf6" }} />
+          <h2 className="text-2xl font-bold">{heading}</h2>
+        </div>
+        <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2">
+          <Filter className="w-4 h-4 opacity-40 shrink-0" />
+          {CHIPS.map((chip, i) => (
+            <span key={chip} className="px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap cursor-pointer" style={i === 0 ? { backgroundColor: theme?.primary ?? "#8b5cf6", color: "#fff" } : { backgroundColor: theme?.accent ?? "#f3f4f6" }}>
+              {chip}
+            </span>
+          ))}
+        </div>
+        <div className="space-y-4">
+          {items.map((post, i) => (
+            <article key={i} className="p-5 rounded-xl cursor-pointer hover:opacity-80" style={{ backgroundColor: theme?.accent ?? "#f5f3ff" }}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary ?? "#8b5cf6" }}>{String(post.label ?? "")}</span>
+                <span className="text-xs opacity-40">{String(post.value ?? "")}</span>
+              </div>
+              <h3 className="text-lg font-semibold">{post.title}</h3>
+              <p className="text-sm opacity-60 mt-1">{post.description}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>

@@ -1,30 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+  { title: "NO MORE FRAMEWORKS", description: "What happens when you build with vanilla everything.", label: "2026.04.18", value: "EXPERIMENT" },
+  { title: "ACCESSIBILITY AS REBELLION", description: "The most radical thing you can do is make your site usable.", label: "2026.04.12", value: "ESSAY" },
 ];
 
 export default function Blog164(props: BlockProps) {
-  const { theme, heading = "Explore our content", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "ZINE", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#ff6600", color: theme?.foreground ?? "#000000" }} className="px-5 py-20">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-6xl sm:text-8xl font-black uppercase tracking-tighter mb-16 -rotate-2" style={{ fontFamily: "monospace" }}>{heading}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+          {items.slice(0, 2).map((item, i) => (
+            <a key={i} href={buttonUrl} className="border-4 border-current p-8 group block hover:bg-black hover:text-white transition-colors">
+              <span className="text-[10px] font-black uppercase tracking-[0.4em]" style={{ fontFamily: "monospace" }}>{item.value}</span>
+              <h3 className="mt-4 text-3xl sm:text-4xl font-black uppercase leading-none" style={{ fontFamily: "monospace" }}>{item.title}</h3>
+              <p className="mt-3 text-sm" style={{ fontFamily: "monospace" }}>{item.description}</p>
+              <div className="mt-6 flex items-center justify-between">
+                <span className="text-xs" style={{ fontFamily: "monospace" }}>{item.label}</span>
+                <MoveRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
-            </article>
+            </a>
           ))}
         </div>
       </div>

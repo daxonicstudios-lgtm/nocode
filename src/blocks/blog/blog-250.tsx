@@ -1,28 +1,43 @@
 import type { BlockProps } from "@/blocks/types";
+import { FileText, Video, Headphones, LayoutGrid, ArrowUpRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+const POSTS = [
+  { title: "Optimistic UI Patterns", description: "Make your app feel instant with optimistic updates.", label: "article", value: "Frontend" },
+  { title: "Docker Deep Dive", description: "Containers from first principles to production deployment.", label: "video", value: "DevOps" },
+  { title: "Product-Market Fit Stories", description: "How companies found their fit and what it took.", label: "podcast", value: "Startup" },
+  { title: "Brand Identity Collection", description: "Visual systems we designed for clients this quarter.", label: "gallery", value: "Design" },
 ];
 
+const ICONS: Record<string, React.ReactNode> = {
+  article: <FileText className="w-4 h-4" />,
+  video: <Video className="w-4 h-4" />,
+  podcast: <Headphones className="w-4 h-4" />,
+  gallery: <LayoutGrid className="w-4 h-4" />,
+};
+
 export default function Blog250(props: BlockProps) {
-  const { theme, heading = "Industry insights", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Explore Everything", subheading = "Articles, videos, podcasts, and visual galleries.", items = POSTS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-2 opacity-60">{subheading}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="group rounded-2xl border p-5 cursor-pointer hover:shadow-lg transition-shadow" style={{ borderColor: theme?.accent ?? "#e5e7eb" }}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+                  {ICONS[post.label ?? "article"]}
+                </div>
+                <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-60 transition-opacity" />
+              </div>
+              <span className="text-xs font-bold uppercase opacity-50">{post.value}</span>
+              <h3 className="mt-1 font-bold">{post.title}</h3>
+              <p className="mt-1 text-sm opacity-70">{post.description}</p>
+              <span className="mt-3 block text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#6366f1" }}>{post.label}</span>
             </article>
           ))}
         </div>

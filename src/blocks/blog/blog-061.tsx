@@ -1,40 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowUpRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "Rethinking Navigation Patterns", description: "How hamburger menus became the default — and why we challenged it.", label: "UX Design" },
+  { title: "State Management Simplified", description: "Zustand, Jotai, or Redux? Our verdict after testing all three.", label: "Engineering" },
+  { title: "The Psychology of Color in SaaS", description: "How your palette affects conversion rates more than you think.", label: "Design" },
 ];
 
 export default function Blog061(props: BlockProps) {
-  const { theme, heading = "Stories & insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Featured Reads", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
+        <h2 className="text-3xl font-bold mb-10">{heading}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((post, i) => (
+            <article key={i} className="group relative rounded-2xl overflow-hidden cursor-pointer">
+              <div className="aspect-[4/3]" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex flex-col justify-end p-6">
+                <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-white/70">{String(post.label)}</span>
+                  <h3 className="mt-1 text-lg font-bold text-white">{post.title}</h3>
+                  <p className="mt-1 text-sm text-white/70">{post.description}</p>
+                  <ArrowUpRight className="mt-3 w-5 h-5 text-white" />
                 </div>
-              </article>
-            ))}
-          </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

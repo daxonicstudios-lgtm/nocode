@@ -1,41 +1,31 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowUpRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "On the Value of Restraint", description: "The most powerful design decisions are often about what you choose not to do.", label: "No. 24", value: "Essay" },
+  { title: "The Anatomy of Elegance", description: "Dissecting what makes certain interfaces feel effortlessly refined.", label: "No. 23", value: "Analysis" },
+  { title: "Curating the Digital Experience", description: "Every touchpoint is an opportunity to demonstrate care and attention.", label: "No. 22", value: "Insight" },
 ];
 
 export default function Blog175(props: BlockProps) {
-  const { theme, heading = "Industry insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Correspondence", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+    <section style={{ backgroundColor: theme?.background ?? "#0d0d0d", color: theme?.foreground ?? "#c9b99a" }} className="px-6 py-24">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-5xl sm:text-6xl font-light tracking-tight mb-2" style={{ fontFamily: "Georgia, serif" }}>{heading}</h2>
+        <div className="w-16 h-px mb-20" style={{ backgroundColor: theme?.primary ?? "#c9b99a" }} />
+        {items.slice(0, 3).map((item, i) => (
+          <a key={i} href={buttonUrl} className="flex items-start gap-6 py-10 border-b group" style={{ borderColor: "rgba(201,185,154,0.15)" }}>
+            <span className="text-xs tracking-[0.2em] opacity-30 shrink-0 pt-2" style={{ fontFamily: "Georgia, serif" }}>{item.label}</span>
+            <div className="flex-1">
+              <span className="text-[10px] uppercase tracking-[0.3em] opacity-40" style={{ fontFamily: "Georgia, serif" }}>{item.value}</span>
+              <h3 className="mt-1 text-xl sm:text-2xl font-light" style={{ fontFamily: "Georgia, serif" }}>{item.title}</h3>
+              <p className="mt-2 text-sm opacity-40 leading-relaxed" style={{ fontFamily: "Georgia, serif" }}>{item.description}</p>
+            </div>
+            <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-60 transition-opacity shrink-0 mt-2" />
+          </a>
+        ))}
       </div>
     </section>
   );

@@ -1,29 +1,60 @@
 import type { BlockProps } from "@/blocks/types";
+import { GraduationCap, BookOpen, Clock, ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "The Science of Effective Studying", description: "Spaced repetition, active recall, and other evidence-based learning techniques.", label: "Study Skills", value: "8 min" },
+  { title: "Online Learning in 2026", description: "How AI tutors and adaptive platforms are reshaping education at every level.", label: "EdTech", value: "6 min" },
+  { title: "Teaching Critical Thinking", description: "Practical frameworks for developing analytical skills in students of all ages.", label: "Pedagogy", value: "10 min" },
 ];
 
 export default function Blog148(props: BlockProps) {
-  const { theme, heading = "Knowledge base", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Education Hub",
+    subheading = "Insights for learners and educators",
+    buttonText = "Start reading",
+    buttonUrl = "#",
+    items = DEFAULT_ITEMS,
+  } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#eff6ff", color: theme?.foreground ?? "#1e3a5f" }}>
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <GraduationCap className="w-8 h-8 mx-auto mb-3" style={{ color: theme?.accent ?? "#2563eb" }} />
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <p className="mt-2 text-sm opacity-50">{subheading}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
+          {items.slice(0, 3).map((item, i) => (
+            <a
+              key={i}
+              href={buttonUrl}
+              className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <BookOpen className="w-5 h-5" style={{ color: theme?.primary ?? "#2563eb" }} />
+                <span className="flex items-center gap-1 text-xs opacity-40">
+                  <Clock className="w-3 h-3" />
+                  {String(item.value)}
+                </span>
+              </div>
+              <span className="text-xs font-semibold" style={{ color: theme?.primary ?? "#2563eb" }}>
+                {String(item.label)}
+              </span>
+              <h3 className="mt-1 text-lg font-bold group-hover:underline">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm opacity-50 line-clamp-2">
+                {item.description}
+              </p>
+              <span
+                className="mt-3 inline-flex items-center gap-1 text-xs font-semibold"
+                style={{ color: theme?.primary ?? "#2563eb" }}
+              >
+                {buttonText} <ArrowRight className="w-3 h-3" />
+              </span>
+            </a>
           ))}
         </div>
       </div>

@@ -1,28 +1,39 @@
 import type { BlockProps } from "@/blocks/types";
+import { Tag } from "lucide-react";
 
+const TAGS = ["Latest", "Tutorials", "Case Studies", "Company News"];
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "Why Mobile-First Design Matters", description: "Over 60% of web traffic now comes from mobile devices.", label: "Tutorials" },
+  { title: "Our Series A Journey", description: "What we learned raising our first institutional round.", label: "Company News" },
+  { title: "How Acme Corp Doubled Conversions", description: "A deep dive into the redesign that changed everything.", label: "Case Studies" },
+  { title: "Getting Started with Components", description: "A beginner-friendly guide to building with blocks.", label: "Tutorials" },
 ];
 
 export default function Blog052(props: BlockProps) {
-  const { theme, heading = "The latest", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Latest Articles", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+          <h2 className="text-3xl font-bold">{heading}</h2>
+          <div className="flex gap-2 flex-wrap">
+            {TAGS.map((t, i) => (
+              <span key={i} className="flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-medium cursor-pointer" style={{ backgroundColor: i === 0 ? (theme?.primary ?? "#6366f1") : (theme?.secondary ?? "#f1f5f9"), color: i === 0 ? "#fff" : theme?.foreground }}>
+                <Tag className="w-3 h-3" />{t}
+              </span>
+            ))}
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="flex gap-4">
+              <div className="w-24 h-24 shrink-0 rounded-lg" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider opacity-50">{String(post.label)}</span>
+                <h3 className="mt-1 font-semibold text-sm leading-snug">{post.title}</h3>
+                <p className="mt-1 text-xs opacity-60">{post.description}</p>
+              </div>
             </article>
           ))}
         </div>

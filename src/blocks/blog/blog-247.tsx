@@ -1,40 +1,42 @@
 import type { BlockProps } from "@/blocks/types";
+import { FileText, Video, Headphones, Image, ArrowRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const POSTS = [
+  { title: "Monolith to Microservices", description: "A pragmatic migration guide.", label: "article" },
+  { title: "Prototyping with Framer", description: "Rapid prototyping and user testing workflows.", label: "video" },
+  { title: "Engineering Culture Podcast", description: "How top teams build and ship.", label: "podcast" },
 ];
 
-export default function Blog247(props: BlockProps) {
-  const { theme, heading = "The latest", items = DEFAULT_ITEMS } = props;
+const FORMAT_INFO: Record<string, { icon: React.ReactNode; bg: string }> = {
+  article: { icon: <FileText className="w-5 h-5 text-white" />, bg: "#3b82f6" },
+  video: { icon: <Video className="w-5 h-5 text-white" />, bg: "#ef4444" },
+  podcast: { icon: <Headphones className="w-5 h-5 text-white" />, bg: "#8b5cf6" },
+  gallery: { icon: <Image className="w-5 h-5 text-white" />, bg: "#f59e0b" },
+};
 
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+export default function Blog247(props: BlockProps) {
+  const { theme, heading = "All Formats", items = POSTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold mb-10 text-center">{heading}</h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          {items.slice(0, 3).map((post, i) => {
+            const info = FORMAT_INFO[post.label ?? "article"];
+            return (
+              <article key={i} className="rounded-2xl overflow-hidden border" style={{ borderColor: theme?.accent ?? "#e5e7eb" }}>
+                <div className="h-3" style={{ backgroundColor: info.bg }} />
+                <div className="p-5">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: info.bg }}>{info.icon}</div>
+                  <span className="text-xs font-bold uppercase" style={{ color: info.bg }}>{post.label}</span>
+                  <h3 className="mt-2 text-lg font-bold">{post.title}</h3>
+                  <p className="mt-1 text-sm opacity-70">{post.description}</p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium" style={{ color: info.bg }}>Open <ArrowRight className="w-3 h-3" /></span>
                 </div>
               </article>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,32 +1,31 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Globe } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "Global Tech Policy Update", description: "New regulations in the EU, US, and Africa shape the next era of digital governance.", label: "World" },
+  { title: "Startup Ecosystem Spotlight: Lagos", description: "Why Nigeria's commercial capital is attracting record venture investment.", label: "Africa" },
+  { title: "AI Ethics Board Publishes Guidelines", description: "A cross-industry effort to establish responsible AI development standards.", label: "AI" },
+  { title: "Supply Chain Tech Gets a Makeover", description: "Blockchain-verified logistics platforms gain mainstream adoption.", label: "Logistics" },
+  { title: "Open Source Sustainability Models", description: "How maintainers fund critical infrastructure projects.", label: "Open Source" },
+  { title: "Mobile Banking Reaches Rural Communities", description: "Agent networks bring financial services to last-mile populations.", label: "Fintech" },
 ];
 
 export default function Blog075(props: BlockProps) {
-  const { theme, heading = "Latest from our blog", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "World News", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.accent ?? "#f8f8f4", color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+        <div className="flex items-center justify-center gap-2 mb-10">
+          <Globe className="w-5 h-5" />
+          <h2 className="text-2xl font-black uppercase tracking-widest">{heading}</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
-              </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+          {items.slice(0, 6).map((post, i) => (
+            <article key={i} className="border-t-2 pt-4" style={{ borderColor: i < 3 ? (theme?.primary ?? "#b91c1c") : (theme?.secondary ?? "#d4d0c8") }}>
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">{String(post.label)}</span>
+              <h3 className="mt-2 font-bold text-base leading-snug">{post.title}</h3>
+              <p className="mt-1 text-sm opacity-60">{post.description}</p>
             </article>
           ))}
         </div>

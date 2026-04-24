@@ -1,29 +1,44 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { TrendingUp, Calendar } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+const DEFAULTS = [
+  { title: "How AI Is Reshaping Content Creation", description: "Tools that once took teams now run solo. The landscape has shifted.", label: "Trending", value: "Jan 12" },
+  { title: "Our Platform Roadmap for Q2", description: "New features, improvements, and what we are excited about.", label: "Product", value: "Jan 8" },
+  { title: "Community Builders to Watch", description: "Ten creators pushing the boundaries of no-code.", label: "Community", value: "Jan 5" },
+  { title: "SEO Strategies That Actually Work", description: "Forget the hacks. These fundamentals drive real traffic.", label: "Marketing", value: "Jan 2" },
 ];
 
 export default function Blog254(props: BlockProps) {
-  const { theme, heading = "Explore our content", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Trending Now", items = DEFAULTS } = props;
+  const featured = items[0];
+  const rest = items.slice(1);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-4xl mx-auto">
+        <div className="sticky top-0 z-10 pb-4" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+          <div className="rounded-2xl p-6 sm:p-8" style={{ backgroundColor: theme?.primary ?? "#1e293b", color: "#fff" }}>
+            <div className="flex items-center gap-2 mb-3">
+              <TrendingUp className="w-5 h-5" />
+              <span className="text-sm font-bold uppercase tracking-wider">{heading}</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-bold">{featured?.title}</h3>
+            <p className="opacity-80 mt-2">{featured?.description}</p>
+            <div className="flex items-center gap-1 text-xs opacity-60 mt-4">
+              <Calendar className="w-3 h-3" />
+              <span>{String(featured?.value ?? "")}</span>
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          {rest.map((post, i) => (
+            <article key={i} className="py-5 cursor-pointer hover:opacity-80">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs font-semibold uppercase opacity-50">{String(post.label ?? "")}</span>
+                <span className="text-xs opacity-30">{String(post.value ?? "")}</span>
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
+              <h3 className="text-lg font-semibold">{post.title}</h3>
+              <p className="text-sm opacity-60 mt-1">{post.description}</p>
             </article>
           ))}
         </div>

@@ -1,28 +1,38 @@
 import type { BlockProps } from "@/blocks/types";
+import { Heart, CornerDownRight, User } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+const DEFAULTS = [
+  { title: "What is your favorite block category?", description: "I personally love the hero sections. So many options to choose from.", label: "Mike Banda", value: "6h ago" },
+  { title: "Heroes are great but check out the testimonials", description: "The social proof blocks have been converting really well for my clients.", label: "Nia Williams", value: "5h ago" },
+  { title: "Pricing tables for me", description: "Clear pricing is the single biggest factor in conversion. These blocks nail it.", label: "Tunde Ojo", value: "4h ago" },
 ];
 
 export default function Blog280(props: BlockProps) {
-  const { theme, heading = "Industry insights", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Discussion", items = DEFAULTS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-xl mx-auto">
+        <h2 className="text-2xl font-bold mb-6">{heading}</h2>
+        <div className="space-y-0">
+          {items.map((post, i) => (
+            <article key={i} className={`flex gap-3 ${i > 0 ? "pl-8 mt-3" : ""}`}>
+              {i > 0 && <CornerDownRight className="w-4 h-4 opacity-20 shrink-0 mt-3" />}
+              <div className="flex-1 border rounded-xl p-4" style={{ borderColor: theme?.secondary ?? "#e5e7eb", backgroundColor: i === 0 ? theme?.accent ?? "#f9fafb" : "transparent" }}>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                    <User className="w-4 h-4 opacity-40" />
+                  </div>
+                  <span className="text-sm font-bold">{String(post.label ?? "")}</span>
+                  <span className="text-xs opacity-30">{String(post.value ?? "")}</span>
+                </div>
+                <h3 className="font-semibold text-sm">{post.title}</h3>
+                <p className="text-sm opacity-60 mt-1">{post.description}</p>
+                <div className="flex items-center gap-4 mt-3">
+                  <button className="flex items-center gap-1 text-xs opacity-40"><Heart className="w-3.5 h-3.5" />{8 + i * 5}</button>
+                  <button className="text-xs opacity-40">Reply</button>
+                </div>
+              </div>
             </article>
           ))}
         </div>

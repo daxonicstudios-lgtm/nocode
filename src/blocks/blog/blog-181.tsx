@@ -1,40 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
+import { Play, Clock } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "Building Your First Landing Page", description: "A complete walkthrough from blank canvas to published site in under 20 minutes.", label: "Tutorial", value: "18:42" },
+  { title: "Design Systems Deep Dive", description: "How to create tokens, components, and documentation that scale.", label: "Workshop", value: "34:15" },
+  { title: "State of Web Development 2026", description: "The trends, tools, and technologies shaping the next era.", label: "Talk", value: "22:08" },
 ];
 
 export default function Blog181(props: BlockProps) {
-  const { theme, heading = "Stories & insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Video Blog", subheading = "Watch and learn", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#111111", color: theme?.foreground ?? "#f5f5f5" }} className="px-5 py-20">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-2">{heading}</h2>
+        <p className="text-sm opacity-50 mb-12">{subheading}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group block">
+              <div className="relative aspect-video rounded-xl overflow-hidden mb-4" style={{ backgroundColor: theme?.secondary ?? "#222" }}>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white/20 backdrop-blur-sm group-hover:bg-white/30 transition-colors">
+                    <Play className="w-6 h-6 text-white fill-white" />
+                  </div>
                 </div>
-              </article>
-            ))}
-          </div>
+                <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded text-xs font-mono bg-black/70 text-white">{item.value}</div>
+              </div>
+              <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: theme?.primary ?? "#6366f1" }}>{item.label}</span>
+              <h3 className="mt-1 font-bold leading-snug group-hover:opacity-80 transition-opacity">{item.title}</h3>
+              <p className="mt-1 text-sm opacity-50">{item.description}</p>
+            </a>
+          ))}
         </div>
       </div>
     </section>

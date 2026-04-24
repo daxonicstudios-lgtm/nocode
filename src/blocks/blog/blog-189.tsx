@@ -1,33 +1,35 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Play, Maximize2 } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "Keynote: The Next Chapter", description: "Our annual keynote covering vision, roadmap, and major announcements for 2026.", label: "Keynote", value: "52:00" },
+  { title: "Workshop: Component Architecture", description: "Hands-on session building a scalable component library.", label: "Workshop", value: "1:30:00" },
+  { title: "AMA: Engineering Team", description: "Our engineers answer your most pressing technical questions.", label: "AMA", value: "45:00" },
+  { title: "Tutorial: Custom Themes", description: "Create and apply custom color themes to any site.", label: "Tutorial", value: "15:20" },
 ];
 
 export default function Blog189(props: BlockProps) {
-  const { theme, heading = "What we're thinking", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Video Hub", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background ?? "#000", color: theme?.foreground ?? "#fff" }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        <h2 className="text-3xl sm:text-4xl font-bold mb-12">{heading}</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {items.slice(0, 4).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group block">
+              <div className="relative aspect-[9/16] sm:aspect-video rounded-xl overflow-hidden" style={{ backgroundColor: theme?.secondary ?? "#1a1a1a" }}>
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                  <Play className="w-8 h-8 text-white/50 group-hover:text-white fill-current transition-colors" />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+                  <span className="text-[10px] font-mono opacity-60">{item.value}</span>
+                  <h3 className="text-xs font-bold mt-0.5 leading-tight">{item.title}</h3>
+                </div>
+                <span className="absolute top-2 right-2 opacity-0 group-hover:opacity-60 transition-opacity"><Maximize2 className="w-3 h-3 text-white" /></span>
+                <span className="absolute top-2 left-2 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-white/20 backdrop-blur-sm">{item.label}</span>
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
-            </article>
+            </a>
           ))}
         </div>
       </div>

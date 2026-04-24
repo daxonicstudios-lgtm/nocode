@@ -1,31 +1,48 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+  { title: "Dependency Injection in TypeScript", description: "Inversion of control without heavy frameworks.", label: "Patterns" },
+  { title: "CSS Cascade Layers", description: "Managing specificity with @layer and the new cascade.", label: "CSS" },
+  { title: "Building Offline-First Apps", description: "Service workers, IndexedDB, and sync strategies.", label: "PWA" },
+  { title: "Effective Code Splitting", description: "Dynamic imports and route-based splitting in practice.", label: "Performance" },
 ];
 
 export default function Blog140(props: BlockProps) {
-  const { theme, heading = "Recent articles", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Browse Articles", subheading = "48 articles across 12 categories", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
-              </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
-            </article>
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#ffffff", color: theme?.foreground ?? "#09090b" }}>
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center gap-3 mb-2">
+          <LayoutGrid className="w-5 h-5 opacity-30" />
+          <h2 className="text-3xl font-bold">{heading}</h2>
+        </div>
+        <p className="text-sm opacity-40 mb-10">{subheading}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-14">
+          {items.slice(0, 4).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group">
+              <div className="aspect-[16/9] rounded-xl mb-3" style={{ backgroundColor: theme?.secondary ?? "#f4f4f5" }} />
+              <span className="text-xs font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>{String(item.label)}</span>
+              <h3 className="mt-1 text-lg font-bold group-hover:underline">{item.title}</h3>
+              <p className="mt-1 text-sm opacity-50">{item.description}</p>
+            </a>
           ))}
+        </div>
+        <div className="flex items-center justify-center">
+          <button className="w-9 h-9 rounded-full border flex items-center justify-center" style={{ borderColor: `${theme?.foreground ?? "#09090b"}15` }}>
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <div className="flex items-center mx-4">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <button key={n} className="w-9 h-9 rounded-full text-sm font-medium" style={n === 1 ? { backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" } : {}}>
+                {n}
+              </button>
+            ))}
+          </div>
+          <button className="w-9 h-9 rounded-full border flex items-center justify-center" style={{ borderColor: `${theme?.foreground ?? "#09090b"}15` }}>
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </section>

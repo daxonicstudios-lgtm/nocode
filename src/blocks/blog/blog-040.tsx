@@ -1,30 +1,60 @@
 import type { BlockProps } from "@/blocks/types";
+import { Calendar, BookOpen } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "Server Components Explained Simply", description: "A clear breakdown of React Server Components and when you should use them.", label: "Apr 22, 2026", imageUrl: "", url: "#" },
+  { title: "Designing Multi-Step Onboarding Flows", description: "How to guide new users through setup without overwhelming them.", label: "Apr 16, 2026", imageUrl: "", url: "#" },
+  { title: "Building Resilient APIs", description: "Patterns for APIs that handle failures gracefully and recover automatically.", label: "Apr 10, 2026", imageUrl: "", url: "#" },
 ];
 
+const ARCHIVES = [{ label: "April 2026", count: 8 }, { label: "March 2026", count: 12 }, { label: "February 2026", count: 6 }, { label: "January 2026", count: 9 }];
+
 export default function Blog040(props: BlockProps) {
-  const { theme, heading = "Industry insights", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "The Library", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
-          ))}
+        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-10">
+          <div className="space-y-6">
+            {items.slice(0, 3).map((post, i) => (
+              <a key={i} href={post.url ?? "#"} className="group flex flex-col sm:flex-row gap-5 p-5 rounded-2xl" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+                <div className="w-full sm:w-48 h-36 rounded-xl shrink-0 overflow-hidden" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                  {post.imageUrl && <img src={post.imageUrl} alt={post.title ?? ""} className="w-full h-full object-cover" />}
+                </div>
+                <div className="flex flex-col justify-center">
+                  <div className="flex items-center gap-1 text-xs opacity-50 mb-1">
+                    <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+                  </div>
+                  <h3 className="text-lg font-bold group-hover:underline">{post.title}</h3>
+                  <p className="mt-1 text-sm opacity-60 line-clamp-2">{post.description}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+          <aside className="space-y-6">
+            <div className="rounded-xl p-5" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+              <div className="flex items-center gap-2 mb-4">
+                <BookOpen className="w-4 h-4" style={{ color: theme?.primary ?? "#6366f1" }} />
+                <h3 className="font-bold text-sm">Archives</h3>
+              </div>
+              <ul className="space-y-2">
+                {ARCHIVES.map((a, i) => (
+                  <li key={i} className="flex items-center justify-between">
+                    <a href="#" className="text-sm opacity-70 hover:underline">{a.label}</a>
+                    <span className="text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>{a.count}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-xl p-5" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+              <h3 className="font-bold text-sm mb-3">Quick Links</h3>
+              {["Changelog", "Tutorials", "Case Studies", "Announcements"].map((l) => (
+                <a key={l} href="#" className="block text-sm py-1 opacity-70 hover:underline">{l}</a>
+              ))}
+            </div>
+          </aside>
         </div>
       </div>
     </section>

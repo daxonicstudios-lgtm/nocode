@@ -1,35 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Terminal } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "SHIPPING DAILY", description: "Our commitment to continuous deployment and what it taught us.", label: "234 words", value: ">" },
+  { title: "KILL YOUR DARLINGS", description: "Deleting 10,000 lines of code made our product better.", label: "412 words", value: ">" },
+  { title: "OFFLINE FIRST", description: "Building for the 3 billion people with unreliable connections.", label: "567 words", value: ">" },
+  { title: "MONOREPO TRUTHS", description: "One repo to rule them all, and the pain that comes with it.", label: "389 words", value: ">" },
+  { title: "TESTING IS DESIGN", description: "Tests are not overhead. They are a design tool.", label: "298 words", value: ">" },
 ];
 
 export default function Blog165(props: BlockProps) {
-  const { theme, heading = "Latest from our blog", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "// LOG", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#1a1a1a", color: theme?.foreground ?? "#e0e0e0" }} className="px-5 py-20">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center gap-2 mb-10">
+          <Terminal className="w-5 h-5" style={{ color: theme?.primary ?? "#00ff88" }} />
+          <h2 className="text-2xl font-black uppercase" style={{ fontFamily: "monospace" }}>{heading}</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        {items.slice(0, 5).map((item, i) => (
+          <a key={i} href={buttonUrl} className="block border-b border-gray-700 py-4 group" style={{ fontFamily: "monospace" }}>
+            <div className="flex items-start gap-3">
+              <span className="text-sm font-bold" style={{ color: theme?.primary ?? "#00ff88" }}>{item.value}</span>
+              <div className="flex-1">
+                <h3 className="text-sm font-bold uppercase group-hover:underline">{item.title}</h3>
+                <p className="text-xs opacity-50 mt-1">{item.description}</p>
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
-            </article>
-          ))}
-        </div>
+              <span className="text-xs opacity-30 shrink-0">{item.label}</span>
+            </div>
+          </a>
+        ))}
       </div>
     </section>
   );

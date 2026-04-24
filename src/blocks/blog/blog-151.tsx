@@ -1,40 +1,41 @@
 import type { BlockProps } from "@/blocks/types";
+import { Calendar, ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "Designing for Accessibility in 2026", description: "How inclusive design principles reshape the way we build products.", label: "Design", value: "May 2, 2026" },
+  { title: "The Rise of Edge Computing", description: "Why moving computation closer to users changes everything.", label: "Engineering", value: "Apr 28, 2026" },
+  { title: "Building a Culture of Feedback", description: "Lessons from creating psychological safety on our team.", label: "Culture", value: "Apr 20, 2026" },
 ];
 
 export default function Blog151(props: BlockProps) {
-  const { theme, heading = "Stories & insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Latest Articles", subheading = "Insights from our team", items = DEFAULT_ITEMS, buttonText = "Read More", buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+    <section style={{ backgroundColor: theme?.background ?? "#e0e0e0", color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-2">{heading}</h2>
+        <p className="text-sm opacity-60 mb-12">{subheading}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {items.slice(0, 3).map((item, i) => (
+            <article
+              key={i}
+              className="rounded-2xl p-6"
+              style={{
+                backgroundColor: theme?.background ?? "#e0e0e0",
+                boxShadow: "8px 8px 16px #bebebe, -8px -8px 16px #ffffff",
+              }}
+            >
+              <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: theme?.primary ?? "#6366f1" }}>{item.label}</span>
+              <h3 className="mt-3 text-lg font-bold leading-snug">{item.title}</h3>
+              <p className="mt-2 text-sm opacity-70 leading-relaxed">{item.description}</p>
+              <div className="mt-4 flex items-center justify-between">
+                <span className="flex items-center gap-1 text-xs opacity-50"><Calendar className="w-3 h-3" />{item.value}</span>
+                <a href={buttonUrl} className="flex items-center gap-1 text-xs font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>
+                  {buttonText} <ArrowRight className="w-3 h-3" />
+                </a>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

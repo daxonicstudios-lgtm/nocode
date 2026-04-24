@@ -1,28 +1,40 @@
 import type { BlockProps } from "@/blocks/types";
+import { Clock } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+const TABS = ["Latest", "Popular", "Tutorials", "Updates"];
+const DEFAULTS = [
+  { title: "Getting Started with Components", description: "A beginner guide to using pre-built blocks effectively.", label: "Tutorials", value: "8 min" },
+  { title: "Version 3.0 Is Here", description: "Faster, smarter, and more beautiful than ever before.", label: "Updates", value: "3 min" },
+  { title: "Top 10 Templates This Month", description: "The most popular designs chosen by our community.", label: "Popular", value: "5 min" },
+  { title: "Accessibility Checklist", description: "Ensure your site works for everyone with this simple checklist.", label: "Latest", value: "6 min" },
 ];
 
 export default function Blog262(props: BlockProps) {
-  const { theme, heading = "The latest", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Explore Articles", subheading = "Filter by what interests you most", items = DEFAULTS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold">{heading}</h2>
+        <p className="opacity-60 text-sm mt-1 mb-6">{subheading}</p>
+        <div className="flex gap-6 border-b mb-8 overflow-x-auto" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          {TABS.map((tab, i) => (
+            <button key={tab} className="pb-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors" style={i === 0 ? { borderBottomColor: theme?.primary ?? "#6366f1", color: theme?.primary ?? "#6366f1" } : { borderBottomColor: "transparent", opacity: 0.5 }}>
+              {tab}
+            </button>
+          ))}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {items.map((post, i) => (
+            <article key={i} className="p-5 rounded-xl cursor-pointer hover:shadow-md transition-shadow border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div className="aspect-[16/9] rounded-lg mb-3" style={{ backgroundColor: theme?.accent ?? "#f3f4f6" }} />
+              <span className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</span>
+              <h3 className="font-semibold mt-1">{post.title}</h3>
+              <p className="text-sm opacity-60 mt-1">{post.description}</p>
+              <div className="flex items-center gap-1 text-xs opacity-40 mt-2">
+                <Clock className="w-3 h-3" />
+                <span>{String(post.value ?? "")}</span>
+              </div>
             </article>
           ))}
         </div>

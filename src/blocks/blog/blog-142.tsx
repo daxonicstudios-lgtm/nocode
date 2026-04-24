@@ -1,29 +1,62 @@
 import type { BlockProps } from "@/blocks/types";
+import { MapPin, Compass, ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "Hidden Gems of the Amalfi Coast", description: "Skip the tourist traps and discover the authentic villages that locals love.", label: "Italy · 7 min" },
+  { title: "Solo Travel in Southeast Asia", description: "A 30-day itinerary covering Thailand, Vietnam, and Cambodia on a budget.", label: "Asia · 12 min" },
+  { title: "Off-Season Iceland", description: "Why visiting in shoulder season gives you the best experience with fewer crowds.", label: "Iceland · 5 min" },
 ];
 
 export default function Blog142(props: BlockProps) {
-  const { theme, heading = "The latest", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Wanderlust Journal",
+    subheading = "Stories from the road less traveled",
+    buttonText = "Read story",
+    buttonUrl = "#",
+    items = DEFAULT_ITEMS,
+  } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#fef7ed", color: theme?.foreground ?? "#422006" }}>
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <Compass className="w-8 h-8 mx-auto mb-3" style={{ color: theme?.accent ?? "#ea580c" }} />
+          <h2 className="text-4xl sm:text-5xl font-serif font-bold">{heading}</h2>
+          <p className="mt-2 text-sm opacity-50">{subheading}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
+          {items.slice(0, 3).map((item, i) => (
+            <a
+              key={i}
+              href={buttonUrl}
+              className="group block rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow"
+            >
+              <div
+                className="h-48"
+                style={{
+                  background: `linear-gradient(${135 + i * 25}deg, ${theme?.primary ?? "#ea580c"}30, ${theme?.accent ?? "#f59e0b"}20)`,
+                }}
+              />
+              <div className="p-5">
+                <div className="flex items-center gap-1 text-xs opacity-40 mb-2">
+                  <MapPin className="w-3 h-3" />
+                  {String(item.label)}
+                </div>
+                <h3 className="text-lg font-bold group-hover:underline">
+                  {item.title}
+                </h3>
+                <p className="mt-1 text-sm opacity-50 line-clamp-2">
+                  {item.description}
+                </p>
+                <span
+                  className="mt-3 inline-flex items-center gap-1 text-xs font-semibold"
+                  style={{ color: theme?.primary ?? "#ea580c" }}
+                >
+                  {buttonText} <ArrowRight className="w-3 h-3" />
+                </span>
+              </div>
+            </a>
           ))}
         </div>
       </div>

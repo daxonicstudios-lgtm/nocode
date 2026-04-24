@@ -1,40 +1,35 @@
 import type { BlockProps } from "@/blocks/types";
+import { Heart, MessageCircle } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const POSTS = [
+  { title: "Async Communication Best Practices", description: "How distributed teams stay aligned without constant meetings.", label: "Remote", value: "12 likes" },
+  { title: "Intro to Vector Databases", description: "The backbone of modern AI search and recommendation engines.", label: "Data", value: "28 likes" },
+  { title: "Writing Better Error Messages", description: "Turn frustrating errors into helpful guidance for users.", label: "UX", value: "19 likes" },
+  { title: "Mobile-First Is Not Enough", description: "Why you should think about thumb zones and one-handed use.", label: "Mobile", value: "34 likes" },
 ];
 
 export default function Blog205(props: BlockProps) {
-  const { theme, heading = "Industry insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Community Favorites", items = POSTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-8">{heading}</h2>
+        <div className="space-y-3">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="flex items-center gap-4 p-4 rounded-xl hover:bg-black/5 transition cursor-pointer">
+              <span className="text-3xl font-black opacity-20 w-8 text-right">{i + 1}</span>
+              <div className="flex-1 min-w-0">
+                <span className="text-xs font-medium uppercase opacity-50">{post.label}</span>
+                <h3 className="font-semibold truncate">{post.title}</h3>
+                <p className="text-sm opacity-60 truncate">{post.description}</p>
+              </div>
+              <div className="shrink-0 flex items-center gap-3 text-xs opacity-50">
+                <span className="flex items-center gap-1"><Heart className="w-3.5 h-3.5" />{post.value}</span>
+                <span className="flex items-center gap-1"><MessageCircle className="w-3.5 h-3.5" />3</span>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

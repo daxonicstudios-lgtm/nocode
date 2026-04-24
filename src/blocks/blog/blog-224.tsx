@@ -1,29 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Eye } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+const POSTS = [
+  { title: "Headless CMS Comparison", description: "Sanity, Strapi, Contentful, and more — side by side.", label: "Tools" },
+  { title: "Dark Mode Implementation", description: "System preference detection and smooth theme toggling.", label: "Frontend" },
+  { title: "OKRs for Engineering Teams", description: "Align your team around measurable outcomes.", label: "Process" },
 ];
 
 export default function Blog224(props: BlockProps) {
-  const { theme, heading = "Explore our content", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Blog Posts", subheading = "Discover our latest content.", items = POSTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-6xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+        <p className="mt-2 opacity-60">{subheading}</p>
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {items.slice(0, 3).map((post, i) => (
+            <article key={i} className="group text-left rounded-2xl overflow-hidden border transition-shadow duration-300 hover:shadow-2xl cursor-pointer" style={{ borderColor: theme?.accent ?? "#e5e7eb" }}>
+              <div className="aspect-video relative overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }}>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                  <Eye className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+              </div>
+              <div className="p-5">
+                <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#6366f1" }}>{post.label}</span>
+                <h3 className="mt-2 text-lg font-bold">{post.title}</h3>
                 <p className="mt-1 text-sm opacity-70">{post.description}</p>
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
             </article>
           ))}
         </div>

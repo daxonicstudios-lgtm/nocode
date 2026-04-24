@@ -1,28 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
+import { BookOpen } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "What We Learned From 500 Customer Interviews", description: "Patterns and insights from three months of intensive user research across West Africa.", label: "Research", imageUrl: "", url: "#" },
+  { title: "Optimizing Page Speed for Mobile Networks", description: "How we reduced load times by 60% for users on 3G connections in emerging markets.", label: "Engineering", imageUrl: "", url: "#" },
+  { title: "The Future of Website Building Is Conversational", description: "Why telling an AI what you want beats dragging and dropping every time.", label: "Product", imageUrl: "", url: "#" },
 ];
 
 export default function Blog004(props: BlockProps) {
-  const { theme, heading = "Read our blog", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Our Blog", items = DEFAULT_ITEMS, buttonText = "Read More" } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-12">{heading}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: theme?.background ?? "#ffffff" }}>
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
+                <BookOpen className="w-5 h-5" style={{ color: theme?.primary ?? "#6366f1" }} />
+              </div>
+              <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: theme?.primary ?? "#6366f1" }}>{String(post.label ?? "")}</span>
+              <h3 className="mt-2 text-lg font-bold leading-snug">{post.title}</h3>
+              <p className="mt-2 text-sm opacity-60 line-clamp-3">{post.description}</p>
+              <a href={post.url ?? "#"} className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>{buttonText}</a>
             </article>
           ))}
         </div>

@@ -1,40 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
+import { ExternalLink } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const POSTS = [
+  { title: "Email Deliverability Tips", description: "Avoid spam folders and reach your audience every time.", label: "Marketing" },
+  { title: "Postgres Performance Tuning", description: "Query plans, vacuum, and config tweaks for speed.", label: "Database" },
+  { title: "Designing Empty States", description: "Turn blank screens into onboarding opportunities.", label: "UX" },
+  { title: "Feature Flags at Scale", description: "Roll out safely with gradual feature releases.", label: "DevOps" },
 ];
 
 export default function Blog223(props: BlockProps) {
-  const { theme, heading = "Knowledge base", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Explore Articles", items = POSTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">{heading}</h2>
+        <div className="grid gap-5 sm:grid-cols-2">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="group p-5 rounded-2xl border transition-all duration-300 hover:shadow-lg hover:border-transparent cursor-pointer" style={{ borderColor: theme?.accent ?? "#e5e7eb" }}>
+              <div className="flex items-start justify-between">
+                <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#6366f1" }}>{post.label}</span>
+                <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
+              </div>
+              <h3 className="mt-3 text-xl font-bold group-hover:underline transition-all duration-200">{post.title}</h3>
+              <p className="mt-2 text-sm opacity-70">{post.description}</p>
+              <div className="mt-4 h-0.5 w-0 group-hover:w-full transition-all duration-500 rounded-full" style={{ backgroundColor: theme?.primary ?? "#6366f1" }} />
+            </article>
+          ))}
         </div>
       </div>
     </section>

@@ -1,29 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Eye, Share2 } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+  { title: "Responsive Images Done Right", description: "srcset, sizes, and modern formats for every screen.", label: "2.4k views", value: "Frontend" },
+  { title: "Zero-Downtime Deployments", description: "Blue-green and canary strategies for production safety.", label: "1.8k views", value: "Infrastructure" },
 ];
 
 export default function Blog158(props: BlockProps) {
-  const { theme, heading = "Blog posts", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Popular Reads", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#dee2e6", color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">{heading}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          {items.slice(0, 2).map((item, i) => (
+            <article
+              key={i}
+              className="rounded-3xl p-8"
+              style={{ backgroundColor: theme?.background ?? "#dee2e6", boxShadow: "10px 10px 20px #bec2c6, -10px -10px 20px #feffff" }}
+            >
+              <div
+                className="aspect-video rounded-xl mb-5"
+                style={{ backgroundColor: theme?.background ?? "#dee2e6", boxShadow: "inset 6px 6px 12px #bec2c6, inset -6px -6px 12px #feffff" }}
+              />
+              <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#7c3aed" }}>{item.value}</span>
+              <h3 className="mt-2 text-xl font-bold">{item.title}</h3>
+              <p className="mt-2 text-sm opacity-60">{item.description}</p>
+              <div className="mt-4 flex items-center gap-4 text-xs opacity-50">
+                <span className="flex items-center gap-1"><Eye className="w-3 h-3" />{item.label}</span>
+                <button className="flex items-center gap-1 hover:opacity-80"><Share2 className="w-3 h-3" />Share</button>
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
             </article>
           ))}
         </div>

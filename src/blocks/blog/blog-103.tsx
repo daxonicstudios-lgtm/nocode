@@ -1,40 +1,61 @@
 import type { BlockProps } from "@/blocks/types";
+import { Bookmark } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "Serverless at the Edge", description: "How edge computing is changing the way we deploy applications worldwide.", label: "Cloud" },
+  { title: "The Art of Code Reviews", description: "Building a culture of constructive feedback within engineering teams.", label: "Culture" },
+  { title: "Responsive Typography Guide", description: "Fluid type scales that look perfect on every screen size.", label: "CSS" },
+  { title: "API Design Patterns", description: "REST, GraphQL, and tRPC compared for modern web applications.", label: "Backend" },
 ];
 
 export default function Blog103(props: BlockProps) {
-  const { theme, heading = "Knowledge base", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const {
+    theme,
+    heading = "Trending Now",
+    subheading = "Most popular this week",
+    buttonText = "Save",
+    items = DEFAULT_ITEMS,
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section
+      className="px-5 py-20"
+      style={{
+        background: theme?.background ?? "linear-gradient(135deg, #141e30 0%, #243b55 100%)",
+        color: theme?.foreground ?? "#f1f5f9",
+      }}
+    >
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-5xl font-black">{heading}</h2>
+          <p className="mt-2 opacity-50 text-sm">{subheading}</p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {items.slice(0, 4).map((item, i) => (
+            <article
+              key={i}
+              className="group relative rounded-3xl p-6 backdrop-blur-2xl border border-white/5 hover:border-white/15 transition-all"
+              style={{ background: "rgba(255,255,255,0.04)" }}
+            >
+              <div className="flex items-start justify-between">
+                <span
+                  className="text-xs font-semibold px-3 py-1 rounded-full"
+                  style={{ background: theme?.primary ?? "#6366f1", color: "#fff" }}
+                >
+                  {String(item.label)}
+                </span>
+                <button className="opacity-40 group-hover:opacity-80 transition-opacity">
+                  <Bookmark className="w-4 h-4" />
+                </button>
+              </div>
+              <h3 className="mt-4 text-xl font-bold">{item.title}</h3>
+              <p className="mt-2 text-sm opacity-60 line-clamp-2">{item.description}</p>
+              <div
+                className="mt-4 h-1 w-12 rounded-full"
+                style={{ background: `linear-gradient(90deg, ${theme?.primary ?? "#6366f1"}, ${theme?.accent ?? "#a855f7"})` }}
+              />
+            </article>
+          ))}
         </div>
       </div>
     </section>

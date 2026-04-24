@@ -1,30 +1,42 @@
 import type { BlockProps } from "@/blocks/types";
+import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "API Rate Limiting Patterns", description: "Protect your services while keeping legitimate users happy.", label: "Backend" },
+  { title: "Figma to Code Workflows", description: "Bridging the design-development gap with automation.", label: "Workflow" },
+  { title: "Lighthouse Score Optimization", description: "Getting to 100 on all four Lighthouse audits.", label: "Performance" },
+  { title: "Service Mesh Explained", description: "Istio, Linkerd, and when you actually need a service mesh.", label: "Infrastructure" },
+  { title: "Component Composition Patterns", description: "Compound components, render props, and hooks compared.", label: "React" },
+  { title: "Database Connection Pooling", description: "PgBouncer, Supavisor, and built-in pool management.", label: "Database" },
 ];
 
 export default function Blog136(props: BlockProps) {
-  const { theme, heading = "Stories & insights", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Articles", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#f1f5f9", color: theme?.foreground ?? "#0f172a" }}>
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
+        <h2 className="text-3xl font-bold mb-10">{heading}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
+          {items.slice(0, 6).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-32 rounded-xl mb-3" style={{ backgroundColor: theme?.secondary ?? "#e2e8f0" }} />
+              <span className="text-xs font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>{String(item.label)}</span>
+              <h3 className="mt-1 font-bold group-hover:underline">{item.title}</h3>
+              <p className="mt-1 text-sm opacity-50 line-clamp-2">{item.description}</p>
+            </a>
           ))}
+        </div>
+        <div className="flex items-center justify-center gap-1">
+          <button className="w-8 h-8 rounded-lg flex items-center justify-center opacity-30"><ChevronsLeft className="w-4 h-4" /></button>
+          <button className="w-8 h-8 rounded-lg flex items-center justify-center opacity-30"><ChevronLeft className="w-4 h-4" /></button>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button key={n} className="w-8 h-8 rounded-lg text-sm font-medium" style={n === 1 ? { backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" } : {}}>
+              {n}
+            </button>
+          ))}
+          <button className="w-8 h-8 rounded-lg flex items-center justify-center"><ChevronRight className="w-4 h-4" /></button>
+          <button className="w-8 h-8 rounded-lg flex items-center justify-center"><ChevronsRight className="w-4 h-4" /></button>
         </div>
       </div>
     </section>

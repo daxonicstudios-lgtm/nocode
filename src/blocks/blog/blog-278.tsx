@@ -1,29 +1,40 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Heart, Clock, User } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+const DEFAULTS = [
+  { title: "Quick tip: use contrast checkers", description: "Always verify your text is readable against its background. Accessibility matters.", label: "Grace Achieng", value: "1h" },
+  { title: "New integration: Stripe payments", description: "Accept payments directly on your no-code site. Setup takes under five minutes.", label: "Tech Team", value: "3h" },
+  { title: "Design challenge: recreate Apple.com", description: "This week challenge is to rebuild the Apple homepage. Share your results in the community.", label: "Creative Lab", value: "6h" },
+  { title: "Webinar: scaling your freelance business", description: "Join us Thursday for a live session on growing your client base sustainably.", label: "Events", value: "8h" },
 ];
 
 export default function Blog278(props: BlockProps) {
-  const { theme, heading = "Blog posts", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Recent Activity", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-2xl mx-auto">
+        <h2 className="text-2xl font-bold mb-6">{heading}</h2>
+        <div className="space-y-3">
+          {items.map((post, i) => (
+            <article key={i} className="flex items-start gap-3 p-3 rounded-xl hover:opacity-80 cursor-pointer" style={{ backgroundColor: theme?.accent ?? "#f9fafb" }}>
+              <div className="w-10 h-10 rounded-full shrink-0 flex items-center justify-center" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                <User className="w-5 h-5 opacity-40" />
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold truncate">{String(post.label ?? "")}</span>
+                  <div className="flex items-center gap-1 text-xs opacity-30 shrink-0">
+                    <Clock className="w-3 h-3" />
+                    <span>{String(post.value ?? "")}</span>
+                  </div>
+                </div>
+                <h3 className="font-medium text-sm mt-0.5">{post.title}</h3>
+                <p className="text-xs opacity-60 mt-0.5 line-clamp-1">{post.description}</p>
+              </div>
+              <button className="flex items-center gap-1 text-xs opacity-40 shrink-0 mt-1">
+                <Heart className="w-3.5 h-3.5" />
+              </button>
             </article>
           ))}
         </div>

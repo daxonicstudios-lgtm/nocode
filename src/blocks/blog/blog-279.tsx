@@ -1,32 +1,41 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Heart, MessageCircle, Bookmark, User } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+const DEFAULTS = [
+  { title: "Studio tour: where the magic happens", description: "A peek inside our workspace. Plants, whiteboards, and lots of coffee.", label: "Design Studio", value: "234 likes" },
+  { title: "Before and after: client site redesign", description: "Transformed a dated website into a modern, conversion-focused experience.", label: "Portfolio", value: "189 likes" },
+  { title: "Sketch to screen in 60 minutes", description: "Time-lapse of building a complete page from a rough wireframe sketch.", label: "Process", value: "312 likes" },
 ];
 
 export default function Blog279(props: BlockProps) {
-  const { theme, heading = "What we're thinking", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Visual Stories", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-lg mx-auto">
+        <h2 className="text-2xl font-bold mb-6">{heading}</h2>
+        <div className="space-y-6">
+          {items.map((post, i) => (
+            <article key={i} className="rounded-2xl overflow-hidden border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div className="flex items-center gap-2 px-4 py-3">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }}>
+                  <User className="w-4 h-4 opacity-40" />
+                </div>
+                <span className="text-sm font-semibold">{String(post.label ?? "")}</span>
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
+              <div className="aspect-square" style={{ backgroundColor: theme?.accent ?? "#f3f4f6" }} />
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-4">
+                    <Heart className="w-5 h-5 cursor-pointer opacity-60" />
+                    <MessageCircle className="w-5 h-5 cursor-pointer opacity-60" />
+                  </div>
+                  <Bookmark className="w-5 h-5 cursor-pointer opacity-60" />
+                </div>
+                <p className="text-xs font-semibold mb-1">{String(post.value ?? "")}</p>
+                <h3 className="text-sm"><span className="font-bold">{String(post.label ?? "")}</span> {post.title}</h3>
+                <p className="text-xs opacity-60 mt-1">{post.description}</p>
+              </div>
             </article>
           ))}
         </div>

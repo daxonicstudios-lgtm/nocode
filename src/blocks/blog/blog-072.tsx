@@ -1,28 +1,29 @@
 import type { BlockProps } from "@/blocks/types";
 
 const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+  { title: "Startup Funding Hits New Record in Q1", description: "Venture capital deals across Africa surpassed $3B for the first time.", label: "Finance" },
+  { title: "How to Build a Brand Voice Guide", description: "Consistent messaging across channels starts with clear documentation.", label: "Marketing" },
+  { title: "Edge Computing Comes to Mobile", description: "Low-latency processing at the network edge unlocks new possibilities.", label: "Tech" },
+  { title: "The Future of Digital Payments", description: "Mobile money, crypto, and CBDC compete for the next billion users.", label: "Fintech" },
+  { title: "Design Systems Save Engineering Time", description: "Teams with mature design systems ship 34% faster on average.", label: "Engineering" },
 ];
 
 export default function Blog072(props: BlockProps) {
-  const { theme, heading = "Fresh off the press", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "News Digest", subheading = "All the stories that matter, in one place.", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.accent ?? "#faf9f6", color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
+        <h2 className="text-3xl font-serif font-bold text-center">{heading}</h2>
+        <p className="text-sm opacity-60 text-center mt-1">{subheading}</p>
+        <div className="h-px my-8" style={{ backgroundColor: theme?.secondary ?? "#d4d0c8" }} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+          {items.slice(0, 5).map((post, i) => (
+            <article key={i} className={i === 0 ? "md:col-span-2 lg:col-span-1" : ""}>
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: theme?.primary ?? "#b91c1c" }}>{String(post.label)}</span>
+              <h3 className="mt-1 font-serif font-bold text-lg leading-snug">{post.title}</h3>
+              <p className="mt-1 text-sm opacity-60">{post.description}</p>
+              {i < items.length - 1 && <div className="h-px mt-6 lg:hidden" style={{ backgroundColor: theme?.secondary ?? "#d4d0c8" }} />}
             </article>
           ))}
         </div>

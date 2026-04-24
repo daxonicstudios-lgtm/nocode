@@ -1,30 +1,46 @@
 import type { BlockProps } from "@/blocks/types";
+import { Pen, Clock } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+const DEFAULTS = [
+  { title: "Writing for the Web", description: "Online readers scan, they do not read. Structure your content for how people actually consume it.", label: "Writing", value: "9 min read" },
+  { title: "A/B Testing Basics", description: "Test headlines, buttons, and layouts to find what works.", label: "Growth", value: "5 min" },
+  { title: "Social Media Integration", description: "Add share buttons and feeds to your website.", label: "Social", value: "4 min" },
+  { title: "Blog Post Templates", description: "Five proven formats for engaging blog content.", label: "Templates", value: "6 min" },
 ];
 
 export default function Blog288(props: BlockProps) {
-  const { theme, heading = "From the team", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Read & Learn", subheading = "Curated articles for builders", items = DEFAULTS } = props;
+  const featured = items[0];
+  const rest = items.slice(1);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-            </article>
-          ))}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <Pen className="w-4 h-4" style={{ color: theme?.primary ?? "#6366f1" }} />
+              <span className="text-sm font-bold uppercase tracking-wider" style={{ color: theme?.primary ?? "#6366f1" }}>{subheading}</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6">{heading}</h2>
+            <div className="p-6 rounded-2xl border-2 mb-4" style={{ borderColor: theme?.primary ?? "#6366f1" }}>
+              <h3 className="text-xl font-bold">{featured?.title}</h3>
+              <p className="opacity-70 mt-2">{featured?.description}</p>
+              <div className="flex items-center gap-1 text-xs opacity-40 mt-3">
+                <Clock className="w-3 h-3" />
+                <span>{String(featured?.value ?? "")}</span>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3">
+            {rest.map((post, i) => (
+              <article key={i} className="p-4 rounded-xl cursor-pointer hover:shadow-sm" style={{ backgroundColor: theme?.accent ?? "#f9fafb" }}>
+                <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#6366f1" }}>{String(post.label ?? "")}</span>
+                <h3 className="font-semibold mt-2">{post.title}</h3>
+                <p className="text-sm opacity-60 mt-1">{post.description}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

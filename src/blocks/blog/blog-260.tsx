@@ -1,29 +1,40 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Newspaper, Circle } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+const DEFAULTS = [
+  { title: "Year in Review: Our Biggest Milestones", description: "From 100 to 100,000 users. A look back at an incredible year.", label: "Recap", value: "Dec 31" },
+  { title: "Introducing Team Collaboration", description: "Work together on projects in real time with your team.", label: "Feature", value: "Dec 15" },
+  { title: "How We Handle Security", description: "Your data is safe. Here is exactly how we protect it.", label: "Security", value: "Dec 1" },
+  { title: "Partnering with African Universities", description: "Bringing no-code education to the next generation.", label: "Education", value: "Nov 20" },
 ];
 
 export default function Blog260(props: BlockProps) {
-  const { theme, heading = "Recent articles", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "The Chronicle", items = DEFAULTS } = props;
+  const featured = items[0];
+  const rest = items.slice(1);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
-              </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
+        <div className="sticky top-0 z-10 pb-6" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+          <div className="flex items-center gap-2 mb-4">
+            <Newspaper className="w-5 h-5" style={{ color: theme?.primary ?? "#3b82f6" }} />
+            <h2 className="text-2xl font-bold">{heading}</h2>
+          </div>
+          <div className="rounded-xl p-5 border-l-4" style={{ backgroundColor: theme?.accent ?? "#eff6ff", borderLeftColor: theme?.primary ?? "#3b82f6" }}>
+            <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#3b82f6" }}>{String(featured?.label ?? "")}</span>
+            <h3 className="text-xl font-bold mt-2">{featured?.title}</h3>
+            <p className="opacity-70 mt-2 text-sm">{featured?.description}</p>
+            <span className="text-xs opacity-40 mt-2 block">{String(featured?.value ?? "")}</span>
+          </div>
+        </div>
+        <div className="relative pl-6 border-l-2 ml-3 space-y-6" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          {rest.map((post, i) => (
+            <article key={i} className="relative cursor-pointer hover:opacity-80">
+              <Circle className="w-3 h-3 absolute -left-[25px] top-1" style={{ color: theme?.primary ?? "#3b82f6", fill: theme?.primary ?? "#3b82f6" }} />
+              <span className="text-xs opacity-40">{String(post.value ?? "")}</span>
+              <h3 className="font-semibold">{post.title}</h3>
+              <p className="text-sm opacity-60 mt-0.5">{post.description}</p>
             </article>
           ))}
         </div>

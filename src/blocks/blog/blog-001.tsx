@@ -1,26 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
+import { Clock } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "How we built our design system", description: "Behind the scenes of our 12-month effort to unify the product.", label: "Engineering · 8 min read" },
-  { title: "The economics of a mobile-first platform", description: "Why we bet the farm on people building websites from phones.", label: "Strategy · 5 min read" },
-  { title: "Shipping changelog: April 2026", description: "Everything we shipped this month, in one post.", label: "Updates · 3 min read" },
+  { title: "How We Built Our Design System", description: "Behind the scenes of our 12-month effort to unify the product experience across every touchpoint.", label: "Engineering", imageUrl: "", url: "#" },
+  { title: "The Economics of Mobile-First Platforms", description: "Why we bet on people building websites from phones and what the data says about it.", label: "Strategy", imageUrl: "", url: "#" },
+  { title: "Shipping Changelog: April 2026", description: "Everything we shipped this month in one concise post. New blocks, bug fixes, and performance wins.", label: "Updates", imageUrl: "", url: "#" },
 ];
 
 export default function Blog001(props: BlockProps) {
-  const { theme, heading = "From the blog", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "From the Blog", subheading = "Insights, updates, and stories from our team.", items = DEFAULT_ITEMS } = props;
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-12">{heading}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((p, i) => (
-            <article key={i}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-60">{String(p.label)}</p>
-              <h3 className="mt-2 text-lg font-semibold leading-snug">{p.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{p.description}</p>
-            </article>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">{heading}</h2>
+        <p className="mt-2 text-base opacity-60 max-w-xl">{subheading}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-12">
+          {items.slice(0, 3).map((post, i) => (
+            <a key={i} href={post.url ?? "#"} className="group block">
+              <div className="aspect-[4/3] rounded-xl overflow-hidden" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                {post.imageUrl && <img src={post.imageUrl} alt={post.title ?? ""} className="w-full h-full object-cover" />}
+              </div>
+              <div className="mt-4">
+                <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: theme?.primary ?? "#6366f1" }}>{String(post.label ?? "")}</span>
+                <h3 className="mt-1 text-lg font-semibold leading-snug group-hover:underline">{post.title}</h3>
+                <p className="mt-2 text-sm opacity-70 line-clamp-2">{post.description}</p>
+                <div className="mt-3 flex items-center gap-1 text-xs opacity-50">
+                  <Clock className="w-3 h-3" />
+                  <span>5 min read</span>
+                </div>
+              </div>
+            </a>
           ))}
         </div>
       </div>

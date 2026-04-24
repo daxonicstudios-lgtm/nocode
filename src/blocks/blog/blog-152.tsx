@@ -1,29 +1,44 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Clock, Bookmark } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+  { title: "Why No-Code Matters for Africa", description: "Lowering barriers to digital entrepreneurship across the continent.", label: "5 min read", value: "Startups" },
+  { title: "Scaling Without a Dev Team", description: "How three founders shipped a product used by 10k people.", label: "8 min read", value: "Growth" },
+  { title: "The Economics of SaaS Pricing", description: "Finding the sweet spot between value and revenue.", label: "6 min read", value: "Business" },
 ];
 
 export default function Blog152(props: BlockProps) {
-  const { theme, heading = "News & updates", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Blog", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#e4e4e4", color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-14">{heading}</h2>
+        <div className="space-y-6">
+          {items.slice(0, 3).map((item, i) => (
+            <article
+              key={i}
+              className="rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4"
+              style={{
+                backgroundColor: theme?.background ?? "#e4e4e4",
+                boxShadow: "6px 6px 12px #c4c4c4, -6px -6px 12px #ffffff",
+              }}
+            >
+              <div
+                className="w-16 h-16 rounded-full shrink-0 flex items-center justify-center"
+                style={{
+                  backgroundColor: theme?.background ?? "#e4e4e4",
+                  boxShadow: "inset 4px 4px 8px #c4c4c4, inset -4px -4px 8px #ffffff",
+                }}
+              >
+                <Bookmark className="w-5 h-5" style={{ color: theme?.primary ?? "#8b5cf6" }} />
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
+              <div className="flex-1">
+                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary ?? "#8b5cf6" }}>{item.value}</span>
+                <h3 className="text-lg font-bold mt-1">{item.title}</h3>
+                <p className="text-sm opacity-60 mt-1">{item.description}</p>
+              </div>
+              <span className="flex items-center gap-1 text-xs opacity-50 shrink-0"><Clock className="w-3 h-3" />{item.label}</span>
             </article>
           ))}
         </div>

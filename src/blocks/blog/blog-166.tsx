@@ -1,29 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
+import { SquareAsterisk } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "AGAINST BEST PRACTICES", description: "Sometimes the best practice is to ignore all best practices.", label: "RANT", value: "04.20" },
+  { title: "PIXEL PERFECT IS A LIE", description: "Embrace the fluidity of the web instead of fighting it.", label: "TRUTH", value: "04.15" },
+  { title: "DARK MODE IS NOT A FEATURE", description: "It is the default. Light mode is the feature.", label: "DEBATE", value: "04.08" },
 ];
 
 export default function Blog166(props: BlockProps) {
-  const { theme, heading = "Stories & insights", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "BROADSIDE", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#fffdd0", color: theme?.foreground ?? "#000" }} className="px-5 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="border-y-8 border-current py-6 mb-12">
+          <h2 className="text-5xl sm:text-7xl font-black uppercase text-center" style={{ fontFamily: "monospace" }}>{heading}</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
+          {items.slice(0, 3).map((item, i) => (
+            <a key={i} href={buttonUrl} className="block border-2 border-current p-5 hover:bg-current group transition-colors">
+              <div className="group-hover:invert">
+                <div className="flex items-center justify-between mb-3">
+                  <SquareAsterisk className="w-4 h-4" />
+                  <span className="text-xs font-black" style={{ fontFamily: "monospace" }}>{item.value}</span>
+                </div>
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] border border-current px-2 py-0.5 inline-block" style={{ fontFamily: "monospace" }}>{item.label}</span>
+                <h3 className="mt-3 text-lg font-black uppercase leading-tight" style={{ fontFamily: "monospace" }}>{item.title}</h3>
+                <p className="mt-2 text-xs opacity-70" style={{ fontFamily: "monospace" }}>{item.description}</p>
+              </div>
+            </a>
           ))}
         </div>
       </div>

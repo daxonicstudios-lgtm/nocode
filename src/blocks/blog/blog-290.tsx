@@ -1,31 +1,44 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Layers, ExternalLink } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+const DEFAULTS = [
+  { title: "The No-Code Manifesto", description: "Everyone deserves the power to build for the web. Technology should be accessible, not exclusive.", label: "Manifesto", value: "Featured" },
+  { title: "Weekly Newsletter Archive", description: "Every edition of our newsletter, searchable and organized.", label: "Archive", value: "Updated weekly" },
+  { title: "Open Source Contributions", description: "How we give back to the community that supports us.", label: "Open Source", value: "Ongoing" },
+  { title: "Partner Program", description: "Earn while you build. Join our referral network.", label: "Partners", value: "Apply now" },
 ];
 
 export default function Blog290(props: BlockProps) {
-  const { theme, heading = "Recent articles", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Explore", items = DEFAULTS } = props;
+  const featured = items[0];
+  const rest = items.slice(1);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
-              </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
-            </article>
-          ))}
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-center gap-2 mb-8">
+          <Layers className="w-5 h-5" style={{ color: theme?.primary ?? "#6366f1" }} />
+          <h2 className="text-3xl font-bold">{heading}</h2>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <article className="lg:col-span-3 rounded-2xl p-8 min-h-[250px] flex flex-col justify-end" style={{ backgroundColor: theme?.primary ?? "#1e293b", color: "#fff" }}>
+            <span className="text-xs font-bold uppercase tracking-wider opacity-60">{String(featured?.label ?? "")}</span>
+            <h3 className="text-2xl sm:text-3xl font-bold mt-2">{featured?.title}</h3>
+            <p className="opacity-80 mt-3 max-w-md">{featured?.description}</p>
+          </article>
+          <div className="lg:col-span-2 space-y-3">
+            {rest.map((post, i) => (
+              <article key={i} className="p-4 rounded-xl border flex items-start justify-between gap-3 cursor-pointer hover:shadow-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                <div>
+                  <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#6366f1" }}>{String(post.label ?? "")}</span>
+                  <h3 className="font-semibold mt-1">{post.title}</h3>
+                  <p className="text-sm opacity-60 mt-0.5">{post.description}</p>
+                  <span className="text-xs opacity-40 mt-1 block">{String(post.value ?? "")}</span>
+                </div>
+                <ExternalLink className="w-4 h-4 opacity-30 shrink-0 mt-1" />
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

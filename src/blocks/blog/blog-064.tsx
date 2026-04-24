@@ -1,28 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
+import { Plus } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "Typography Rules for Web", description: "Line height, measure, and scale — the foundations of readable text.", label: "Design Systems" },
+  { title: "GraphQL vs REST in 2026", description: "An honest comparison for teams choosing their API layer.", label: "Architecture" },
+  { title: "Onboarding Email Sequences", description: "The seven emails that reduce churn by 40 percent.", label: "Marketing" },
+  { title: "Accessible Color Contrast", description: "Tools and techniques for meeting WCAG 2.2 standards.", label: "Accessibility" },
 ];
 
 export default function Blog064(props: BlockProps) {
-  const { theme, heading = "Read our blog", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Knowledge Base", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+        <h2 className="text-3xl font-bold text-center mb-12">{heading}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="group relative overflow-hidden rounded-xl cursor-pointer" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+              <div className="flex items-start gap-4 p-6 transition-transform duration-300 group-hover:-translate-y-1">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 group-hover:rotate-90 transition-transform duration-300" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+                  <Plus className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider opacity-40">{String(post.label)}</span>
+                  <h3 className="mt-1 font-bold text-base">{post.title}</h3>
+                  <p className="mt-1 text-sm opacity-60">{post.description}</p>
+                </div>
+              </div>
             </article>
           ))}
         </div>

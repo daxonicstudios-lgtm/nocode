@@ -1,40 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
+import { X } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "DIGITAL MINIMALISM", description: "Stripping websites to their core function.", label: "APR 2026", value: "LONG READ" },
+  { title: "THE MARKUP MATTERS", description: "Semantic HTML as a design decision, not an afterthought.", label: "MAR 2026", value: "TECHNICAL" },
+  { title: "WEB FONTS ARE BLOAT", description: "A case for system fonts and raw performance.", label: "FEB 2026", value: "HOT TAKE" },
 ];
 
 export default function Blog163(props: BlockProps) {
-  const { theme, heading = "Knowledge base", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "TRANSMISSIONS", subheading = "RAW THOUGHTS ON BUILDING FOR THE WEB", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+    <section style={{ backgroundColor: theme?.background ?? "#000000", color: theme?.foreground ?? "#00ff00" }} className="px-5 py-20">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter mb-1" style={{ fontFamily: "monospace" }}>{heading}</h2>
+        <p className="text-xs uppercase tracking-[0.3em] opacity-60 mb-12" style={{ fontFamily: "monospace" }}>{subheading}</p>
+        <div className="space-y-4">
+          {items.slice(0, 3).map((item, i) => (
+            <article key={i} className="border-2 p-5" style={{ borderColor: theme?.primary ?? "#00ff00" }}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs tracking-widest" style={{ fontFamily: "monospace", color: theme?.primary ?? "#00ff00" }}>{item.value}</span>
+                <span className="text-xs opacity-40" style={{ fontFamily: "monospace" }}>{item.label}</span>
+              </div>
+              <h3 className="text-xl font-black uppercase" style={{ fontFamily: "monospace" }}>{item.title}</h3>
+              <p className="text-sm opacity-70 mt-2" style={{ fontFamily: "monospace" }}>{item.description}</p>
+              <div className="mt-3 flex items-center gap-1 text-xs uppercase tracking-wider opacity-60 cursor-pointer" style={{ fontFamily: "monospace" }}>
+                <X className="w-3 h-3" /> CONTINUE READING
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

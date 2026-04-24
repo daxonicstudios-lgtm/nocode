@@ -1,33 +1,37 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
-
-const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
-];
+import { ArrowLeft, Share2 } from "lucide-react";
 
 export default function Blog092(props: BlockProps) {
-  const { theme, heading = "News & updates", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "How We Reduced Our API Response Time by 80%",
+    subheading = "A deep dive into caching, query optimization, and infrastructure changes that transformed our backend performance.",
+    bodyText = "When our average API response time hit 1.2 seconds, we knew something had to change. Our users were dropping off, and our mobile experience suffered the most. This post covers the three-month journey from diagnosis to resolution. We started by profiling our slowest endpoints, identifying N+1 queries, and adding database indexes. Then we introduced Redis caching for frequently accessed data and implemented connection pooling with PgBouncer. Finally, we moved our compute closer to users with edge functions. The result: a 95th percentile response time of 180ms.",
+    items = [{ title: "David Nzelu", label: "Staff Engineer", value: "Mar 22, 2026" }],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
-              </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
-            </article>
-          ))}
+    <section style={{ backgroundColor: theme?.accent ?? "#fafafa", color: theme?.foreground }} className="px-5 py-20">
+      <article className="max-w-3xl mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <a href="#" className="flex items-center gap-1 text-sm font-medium opacity-60 hover:opacity-100"><ArrowLeft className="w-4 h-4" /> Back to blog</a>
+          <button className="w-9 h-9 rounded-full flex items-center justify-center border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+            <Share2 className="w-4 h-4" />
+          </button>
         </div>
-      </div>
+        <span className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary ?? "#6366f1" }}>Engineering</span>
+        <h1 className="mt-2 text-3xl sm:text-4xl font-bold leading-tight">{heading}</h1>
+        <p className="mt-4 text-lg opacity-60">{subheading}</p>
+        <div className="flex items-center gap-3 mt-6">
+          <div className="w-10 h-10 rounded-full" style={{ backgroundColor: theme?.secondary ?? "#d1d5db" }} />
+          <div>
+            <p className="text-sm font-bold">{items[0]?.title}</p>
+            <p className="text-xs opacity-50">{String(items[0]?.label)} · {String(items[0]?.value)}</p>
+          </div>
+        </div>
+        <div className="h-px my-8" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+        <div className="text-base leading-relaxed opacity-80 whitespace-pre-line">{bodyText}</div>
+      </article>
     </section>
   );
 }

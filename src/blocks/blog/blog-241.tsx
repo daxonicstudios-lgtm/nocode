@@ -1,40 +1,44 @@
 import type { BlockProps } from "@/blocks/types";
+import { FileText, Video, Headphones, Image, Clock } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const POSTS = [
+  { title: "The State of Frontend 2026", description: "Annual survey results and emerging trends.", label: "article", value: "8 min read" },
+  { title: "Live Coding: Build a REST API", description: "Watch us build a full API from scratch in Node.js.", label: "video", value: "22 min" },
+  { title: "Startup Stories: Scaling in Africa", description: "Founders share lessons from building in emerging markets.", label: "podcast", value: "35 min" },
+  { title: "Office Tour: Our New Lagos Hub", description: "A visual walkthrough of our new workspace.", label: "gallery", value: "12 photos" },
 ];
 
-export default function Blog241(props: BlockProps) {
-  const { theme, heading = "Stories & insights", items = DEFAULT_ITEMS } = props;
+const ICONS: Record<string, React.ReactNode> = {
+  article: <FileText className="w-4 h-4" />,
+  video: <Video className="w-4 h-4" />,
+  podcast: <Headphones className="w-4 h-4" />,
+  gallery: <Image className="w-4 h-4" />,
+};
 
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+export default function Blog241(props: BlockProps) {
+  const { theme, heading = "Multi-Format Content", subheading = "Articles, videos, podcasts, and galleries — all in one feed.", items = POSTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center">{heading}</h2>
+        <p className="mt-2 text-center opacity-60">{subheading}</p>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="rounded-xl border p-5 flex gap-4" style={{ borderColor: theme?.accent ?? "#e5e7eb" }}>
+              <div className="w-12 h-12 shrink-0 rounded-lg flex items-center justify-center" style={{ backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" }}>
+                {ICONS[post.label ?? "article"]}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#6366f1" }}>{post.label}</span>
+                  <span className="text-xs opacity-40 flex items-center gap-1"><Clock className="w-3 h-3" />{post.value}</span>
                 </div>
-              </article>
-            ))}
-          </div>
+                <h3 className="font-bold">{post.title}</h3>
+                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

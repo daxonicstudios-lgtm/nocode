@@ -1,40 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
+import { User, Share } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const REACTIONS = ["128077", "10084", "128293", "128640", "128588"];
+const DEFAULTS = [
+  { title: "We just crossed 50,000 users", description: "What started as a weekend project is now serving creators across 12 countries. Grateful for every single user.", label: "Team Blog", value: "Today" },
+  { title: "New tutorial series launching Monday", description: "Ten episodes covering everything from setup to advanced customization. Free for all users.", label: "Content Team", value: "Yesterday" },
+  { title: "Your feedback shaped our roadmap", description: "We read every single suggestion. Here are the top five features coming in Q3.", label: "Product", value: "2 days ago" },
 ];
 
 export default function Blog277(props: BlockProps) {
-  const { theme, heading = "The latest", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Updates", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-xl mx-auto">
+        <h2 className="text-2xl font-bold mb-6">{heading}</h2>
+        <div className="space-y-5">
+          {items.map((post, i) => (
+            <article key={i} className="rounded-2xl border p-5" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" }}>
+                  <User className="w-5 h-5" />
                 </div>
-              </article>
-            ))}
-          </div>
+                <div className="flex-1">
+                  <p className="text-sm font-bold">{String(post.label ?? "")}</p>
+                  <p className="text-xs opacity-40">{String(post.value ?? "")}</p>
+                </div>
+                <Share className="w-4 h-4 opacity-30 cursor-pointer" />
+              </div>
+              <h3 className="text-lg font-bold">{post.title}</h3>
+              <p className="text-sm opacity-70 mt-2 leading-relaxed">{post.description}</p>
+              <div className="flex items-center gap-2 mt-4 pt-3 border-t" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                {REACTIONS.slice(0, 3 + i).map((code, j) => (
+                  <span key={j} className="text-lg cursor-pointer hover:scale-125 transition-transform">
+                    {String.fromCodePoint(Number(code))}
+                  </span>
+                ))}
+                <span className="text-xs opacity-40 ml-2">{42 + i * 18} reactions</span>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

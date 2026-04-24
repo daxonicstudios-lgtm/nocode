@@ -1,28 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
+import { Clock, BarChart3 } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+  { title: "A Complete Guide to Flexbox", description: "Everything you need to know about CSS flexible box layout.", label: "12 min read", value: "80" },
+  { title: "Writing Clean TypeScript", description: "Patterns and anti-patterns for maintainable TS codebases.", label: "8 min read", value: "55" },
+  { title: "Email Marketing That Converts", description: "Subject lines, timing, and segmentation strategies.", label: "6 min read", value: "30" },
 ];
 
 export default function Blog066(props: BlockProps) {
-  const { theme, heading = "Insights & resources", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Long Reads", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center gap-2 mb-10">
+          <BarChart3 className="w-5 h-5" style={{ color: theme?.primary ?? "#6366f1" }} />
+          <h2 className="text-3xl font-bold">{heading}</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="space-y-6">
           {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
+            <article key={i} className="p-6 rounded-xl border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div className="flex items-center gap-2 text-xs opacity-50 mb-2">
+                <Clock className="w-3.5 h-3.5" /> {String(post.label)}
+              </div>
+              <h3 className="font-bold text-lg">{post.title}</h3>
+              <p className="mt-1 text-sm opacity-60">{post.description}</p>
+              <div className="mt-4 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                <div className="h-full rounded-full transition-all" style={{ width: `${post.value ?? 50}%`, backgroundColor: theme?.primary ?? "#6366f1" }} />
+              </div>
+              <p className="mt-1 text-[10px] opacity-40">{post.value}% of readers finish this article</p>
             </article>
           ))}
         </div>

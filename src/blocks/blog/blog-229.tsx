@@ -1,40 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
+import { Layers } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const POSTS = [
+  { title: "Schema Design for NoSQL", description: "Model data for reads, not relations.", label: "Database" },
+  { title: "Animated Micro-Interactions", description: "Subtle motion that delights users and guides attention.", label: "UI" },
+  { title: "Retention Over Acquisition", description: "Why keeping users is more valuable than finding new ones.", label: "Growth" },
+  { title: "Zero Downtime Deployments", description: "Blue-green, canary, and rolling deploy strategies.", label: "DevOps" },
 ];
 
 export default function Blog229(props: BlockProps) {
-  const { theme, heading = "Read our blog", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Blog Grid", items = POSTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold mb-10">{heading}</h2>
+        <div className="grid gap-5 sm:grid-cols-2">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="group rounded-2xl border p-5 transition-all duration-300 hover:shadow-lg cursor-pointer" style={{ borderColor: theme?.accent ?? "#e5e7eb" }}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:rotate-12" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+                  <Layers className="w-5 h-5 text-white" />
                 </div>
-              </article>
-            ))}
-          </div>
+                <span className="text-xs font-bold uppercase opacity-60">{post.label}</span>
+              </div>
+              <h3 className="text-lg font-bold transition-colors duration-300" style={{ color: undefined }}>{post.title}</h3>
+              <p className="mt-2 text-sm opacity-70">{post.description}</p>
+              <div className="mt-4 h-0.5 w-0 group-hover:w-1/2 transition-all duration-500 rounded" style={{ backgroundColor: theme?.primary ?? "#6366f1" }} />
+            </article>
+          ))}
         </div>
       </div>
     </section>

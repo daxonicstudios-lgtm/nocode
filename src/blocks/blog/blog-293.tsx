@@ -1,26 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
+import { MoveRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Announcing v2.0", description: "A major update with 500+ new components.", label: "Apr 20" },
-  { title: "Tips for Better Conversion Rates", description: "Small changes that make a big difference.", label: "Apr 18" },
-  { title: "Interview with Our CEO", description: "The vision behind the platform.", label: "Apr 14" },
+const DEFAULTS = [
+  { title: "WE SHIP FAST", description: "New features every single week. No excuses.", label: "CULTURE", value: "01" },
+  { title: "BUILD DIFFERENT", description: "Stop copying. Start creating something original.", label: "OPINION", value: "02" },
+  { title: "CODE IS DEAD", description: "Long live no-code. The future is visual.", label: "MANIFESTO", value: "03" },
+  { title: "DESIGN MATTERS", description: "Every pixel. Every interaction. Every detail.", label: "DESIGN", value: "04" },
 ];
 
 export default function Blog293(props: BlockProps) {
-  const { theme, heading = "Blog posts", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "THE BLOG", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto">
-        <h2 className="text-2xl font-bold mb-8">{heading}</h2>
-        <div className="space-y-6">
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="group cursor-pointer">
-              <div className="flex items-baseline justify-between gap-4">
-                <h3 className="font-semibold group-hover:underline">{post.title}</h3>
-                <span className="text-xs opacity-40 shrink-0">{String(post.label ?? "")}</span>
+    <section style={{ backgroundColor: theme?.background ?? "#000", color: theme?.foreground ?? "#fff" }} className="px-4 py-16">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-5xl sm:text-7xl font-black tracking-tighter mb-12">{heading}</h2>
+        <div className="space-y-0 divide-y" style={{ borderColor: theme?.secondary ?? "#333" }}>
+          {items.map((post, i) => (
+            <article key={i} className="py-8 sm:py-10 flex items-start justify-between gap-4 cursor-pointer group">
+              <div className="flex-1">
+                <span className="text-xs font-bold tracking-[0.2em] opacity-40">{String(post.label ?? "")}</span>
+                <h3 className="text-2xl sm:text-4xl font-black tracking-tight mt-2 group-hover:opacity-60 transition-opacity">{post.title}</h3>
+                <p className="text-sm sm:text-base opacity-50 mt-2 max-w-lg">{post.description}</p>
               </div>
-              <p className="mt-1 text-sm opacity-60">{post.description}</p>
+              <div className="flex items-center gap-2 shrink-0 mt-4">
+                <span className="text-3xl font-black opacity-10">{String(post.value ?? "")}</span>
+                <MoveRight className="w-6 h-6 opacity-30 group-hover:opacity-60 transition-opacity" />
+              </div>
             </article>
           ))}
         </div>

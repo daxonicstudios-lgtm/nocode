@@ -1,28 +1,38 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Inside our latest Series B", description: "Why we raised, what we're spending it on, and what we're not.", label: "April 18, 2026" },
-  { title: "Thinking in systems, not pages", description: "A framework for building websites that actually scale with your brand.", label: "April 11, 2026" },
-  { title: "Why we killed our flagship feature", description: "An honest post-mortem on a tough decision.", label: "April 3, 2026" },
-  { title: "Field notes from 200 customer calls", description: "Patterns we noticed in 3 months of user research.", label: "March 27, 2026" },
+  { title: "A Beginner's Guide to No-Code Tools", description: "Explore the landscape of no-code platforms and find the right fit for your next project.", label: "Guides", imageUrl: "", url: "#" },
+  { title: "Why Accessibility Matters for Every Website", description: "Practical tips to make your site usable by everyone, regardless of ability.", label: "Design", imageUrl: "", url: "#" },
+  { title: "Scaling Your Online Store Without Code", description: "Real strategies from founders who grew their e-commerce businesses on no-code tools.", label: "Business", imageUrl: "", url: "#" },
 ];
 
 export default function Blog002(props: BlockProps) {
-  const { theme, heading = "Latest essays", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Latest Articles", items = DEFAULT_ITEMS } = props;
 
   return (
     <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-10">{heading}</h2>
-        <ul className="space-y-8">
-          {items.slice(0, 4).map((p, i) => (
-            <li key={i} className="border-b pb-8 last:border-b-0" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-              <p className="text-xs opacity-60">{String(p.label)}</p>
-              <h3 className="mt-2 text-2xl font-semibold leading-snug">{p.title}</h3>
-              <p className="mt-2 text-base opacity-75">{p.description}</p>
-            </li>
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-end justify-between mb-10">
+          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+          <a href="#" className="hidden sm:flex items-center gap-1 text-sm font-medium" style={{ color: theme?.primary ?? "#6366f1" }}>
+            View all <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((post, i) => (
+            <article key={i} className="rounded-2xl overflow-hidden border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div className="aspect-[4/3]" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                {post.imageUrl && <img src={post.imageUrl} alt={post.title ?? ""} className="w-full h-full object-cover" />}
+              </div>
+              <div className="p-5">
+                <span className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</span>
+                <h3 className="mt-2 font-bold text-lg leading-snug">{post.title}</h3>
+                <p className="mt-2 text-sm opacity-60 line-clamp-2">{post.description}</p>
+              </div>
+            </article>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

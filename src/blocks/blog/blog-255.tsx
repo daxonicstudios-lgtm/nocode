@@ -1,35 +1,47 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Hash } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+const DEFAULTS = [
+  { title: "The Definitive Guide to Landing Pages", description: "Everything you need to convert visitors into customers.", label: "Guide", value: "15 min read" },
+  { title: "Color Psychology in Web Design", description: "Why certain colors drive more clicks than others.", label: "Design", value: "8 min read" },
+  { title: "Automating Your Workflow", description: "Save hours every week with smart automation setups.", label: "Productivity", value: "6 min read" },
+  { title: "Writing Copy That Converts", description: "Words matter more than design. Here is how to get them right.", label: "Copywriting", value: "5 min read" },
 ];
 
 export default function Blog255(props: BlockProps) {
-  const { theme, heading = "Latest from our blog", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Must-Read Articles", items = DEFAULTS } = props;
+  const featured = items[0];
+  const rest = items.slice(1);
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold mb-6">{heading}</h2>
+        <div className="sticky top-0 z-10 pb-4" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+          <div className="flex flex-col sm:flex-row gap-5 rounded-xl border p-4" style={{ borderColor: theme?.primary ?? "#6366f1" }}>
+            <div className="sm:w-48 h-32 sm:h-auto rounded-lg shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
+            <div className="flex-1">
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" }}>{String(featured?.label ?? "")}</span>
+              <h3 className="text-xl font-bold mt-2">{featured?.title}</h3>
+              <p className="opacity-70 text-sm mt-1">{featured?.description}</p>
+              <span className="text-xs opacity-40 mt-2 block">{String(featured?.value ?? "")}</span>
+            </div>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        <ol className="mt-4 space-y-3">
+          {rest.map((post, i) => (
+            <li key={i} className="flex items-start gap-3 p-3 rounded-lg hover:opacity-80 cursor-pointer">
+              <div className="flex items-center justify-center w-8 h-8 rounded-full shrink-0 text-sm font-bold" style={{ backgroundColor: theme?.accent ?? "#f3f4f6" }}>
+                <Hash className="w-3 h-3 opacity-40" />
+                {i + 1}
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
-            </article>
+              <div>
+                <h3 className="font-semibold">{post.title}</h3>
+                <p className="text-sm opacity-60 mt-0.5">{post.description}</p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

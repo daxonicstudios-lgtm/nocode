@@ -1,28 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
+import { User } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "Choosing the Right Tech Stack", description: "A framework for evaluating tools based on team size and product stage.", label: "Sarah Chen", value: "CTO & Co-founder" },
+  { title: "How We Hire Remote Engineers", description: "Our process for finding great talent across time zones.", label: "James Okafor", value: "Head of Engineering" },
+  { title: "Lessons from Our First Pivot", description: "We started as a marketplace before finding product-market fit.", label: "Amina Diallo", value: "CEO" },
 ];
 
 export default function Blog076(props: BlockProps) {
-  const { theme, heading = "Stories & insights", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Team Perspectives", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <h2 className="text-3xl font-bold mb-12">{heading}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+            <article key={i} className="rounded-xl overflow-hidden border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div className="aspect-[16/9]" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+              <div className="p-5">
+                <h3 className="font-bold text-base">{post.title}</h3>
+                <p className="mt-2 text-sm opacity-60">{post.description}</p>
+                <div className="flex items-center gap-3 mt-4 pt-4 border-t" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+                    <User className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold">{String(post.label)}</p>
+                    <p className="text-xs opacity-50">{String(post.value)}</p>
+                  </div>
+                </div>
+              </div>
             </article>
           ))}
         </div>

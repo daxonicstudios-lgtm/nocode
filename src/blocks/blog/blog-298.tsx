@@ -1,31 +1,34 @@
 import type { BlockProps } from "@/blocks/types";
+import { ChevronRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+const COLORS = ["#6366f1", "#ec4899", "#f59e0b", "#10b981"];
+const DEFAULTS = [
+  { title: "MAKE IT LOUD", description: "Websites that whisper get ignored. Build something people remember." },
+  { title: "BREAK THE RULES", description: "Conventions are starting points, not prisons. Know them, then transcend them." },
+  { title: "LAUNCH TODAY", description: "A shipped product beats a perfect mockup. Every single time." },
+  { title: "THINK BIGGER", description: "Your no-code site can be as ambitious as any coded application." },
 ];
 
 export default function Blog298(props: BlockProps) {
-  const { theme, heading = "Knowledge base", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "MANIFESTO", items = DEFAULTS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
-          ))}
-        </div>
+    <section style={{ backgroundColor: theme?.background ?? "#000", color: theme?.foreground ?? "#fff" }} className="py-16">
+      <div className="max-w-5xl mx-auto px-4">
+        <h2 className="text-6xl sm:text-8xl font-black tracking-tighter mb-8 opacity-20">{heading}</h2>
+      </div>
+      <div className="space-y-2">
+        {items.map((post, i) => (
+          <article key={i} className="px-4 py-8 sm:py-12 cursor-pointer group" style={{ backgroundColor: theme?.primary ?? COLORS[i % COLORS.length] }}>
+            <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
+              <div>
+                <h3 className="text-2xl sm:text-4xl font-black text-white tracking-tight">{post.title}</h3>
+                <p className="text-sm sm:text-base text-white opacity-70 mt-2">{post.description}</p>
+              </div>
+              <ChevronRight className="w-8 h-8 text-white opacity-40 shrink-0 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

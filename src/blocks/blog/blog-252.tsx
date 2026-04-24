@@ -1,28 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
+import { Star, ArrowDown } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+const DEFAULTS = [
+  { title: "Why We Rebuilt Everything From Scratch", description: "Sometimes you have to tear it all down to build something truly great.", label: "Featured", value: "Mar 15" },
+  { title: "5 Lessons From Our First Year", description: "What launching a startup in Africa taught us about resilience.", label: "Startup", value: "Mar 10" },
+  { title: "Design Tokens Explained", description: "A practical guide to creating consistent design systems.", label: "Design", value: "Mar 8" },
+  { title: "Performance Optimization Tips", description: "Speed up your website with these proven techniques.", label: "Dev", value: "Mar 5" },
 ];
 
 export default function Blog252(props: BlockProps) {
-  const { theme, heading = "Fresh off the press", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Latest Stories", items = DEFAULTS } = props;
+  const featured = items[0];
+  const rest = items.slice(1);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-4xl mx-auto">
+        <div className="sticky top-0 z-10 pb-6 pt-2" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+          <div className="flex items-center gap-3 mb-4">
+            <Star className="w-5 h-5" style={{ color: theme?.primary ?? "#f59e0b" }} />
+            <h2 className="text-2xl font-bold">{heading}</h2>
+          </div>
+          <div className="rounded-xl border-2 p-5 sm:p-6" style={{ borderColor: theme?.primary ?? "#f59e0b" }}>
+            <span className="text-xs font-bold px-2 py-1 rounded" style={{ backgroundColor: theme?.primary ?? "#f59e0b", color: "#fff" }}>{String(featured?.label ?? "Featured")}</span>
+            <h3 className="text-xl sm:text-2xl font-bold mt-3">{featured?.title}</h3>
+            <p className="opacity-70 mt-2 text-sm sm:text-base">{featured?.description}</p>
+            <span className="text-xs opacity-40 mt-2 inline-block">{String(featured?.value ?? "")}</span>
+          </div>
+          <div className="flex justify-center mt-3">
+            <ArrowDown className="w-4 h-4 opacity-30 animate-bounce" />
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
+        <div className="space-y-3 mt-2">
+          {rest.map((post, i) => (
+            <article key={i} className="p-4 rounded-lg hover:opacity-80 cursor-pointer" style={{ backgroundColor: theme?.accent ?? "#f9fafb" }}>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium opacity-50">{String(post.label ?? "")}</span>
+                <span className="text-xs opacity-40">{String(post.value ?? "")}</span>
+              </div>
+              <h3 className="font-semibold mt-1">{post.title}</h3>
+              <p className="text-sm opacity-60 mt-1">{post.description}</p>
             </article>
           ))}
         </div>

@@ -1,32 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Heart, MessageCircle } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "Remote Work is Here to Stay", description: "The data behind the shift and what it means for product teams.", label: "124", value: "18" },
+  { title: "Component-Driven Development", description: "Building UIs from small, reusable pieces for maximum flexibility.", label: "89", value: "7" },
+  { title: "Onboarding Users in Under 60 Seconds", description: "Reduce friction and boost activation with these proven patterns.", label: "201", value: "32" },
 ];
 
 export default function Blog153(props: BlockProps) {
-  const { theme, heading = "From the team", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Trending Posts", subheading = "Most loved by our readers", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
+    <section style={{ backgroundColor: theme?.background ?? "#e2e2e2", color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+          <p className="mt-2 text-sm opacity-60">{subheading}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {items.slice(0, 3).map((item, i) => (
+            <article
+              key={i}
+              className="rounded-2xl p-6 text-center"
+              style={{
+                backgroundColor: theme?.background ?? "#e2e2e2",
+                boxShadow: "10px 10px 20px #c0c0c0, -10px -10px 20px #ffffff",
+              }}
+            >
+              <div
+                className="w-20 h-20 rounded-full mx-auto mb-4"
+                style={{
+                  backgroundColor: theme?.background ?? "#e2e2e2",
+                  boxShadow: "inset 5px 5px 10px #c0c0c0, inset -5px -5px 10px #ffffff",
+                }}
+              />
+              <h3 className="text-lg font-bold">{item.title}</h3>
+              <p className="mt-2 text-sm opacity-60 leading-relaxed">{item.description}</p>
+              <div className="mt-4 flex items-center justify-center gap-4 text-xs opacity-50">
+                <span className="flex items-center gap-1"><Heart className="w-3 h-3" />{item.label}</span>
+                <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3" />{item.value}</span>
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
             </article>
           ))}
         </div>

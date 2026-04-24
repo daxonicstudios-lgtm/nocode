@@ -1,26 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
+import { TrendingUp } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Announcing v2.0", description: "A major update with 500+ new components.", label: "Apr 20" },
-  { title: "Tips for Better Conversion Rates", description: "Small changes that make a big difference.", label: "Apr 18" },
-  { title: "Interview with Our CEO", description: "The vision behind the platform.", label: "Apr 14" },
+  { title: "WebAssembly Beyond the Browser", description: "Running Wasm on servers, IoT devices, and embedded systems.", label: "Wasm" },
+  { title: "Monorepo Strategies That Scale", description: "Turborepo, Nx, and Bazel compared for large codebases.", label: "DevOps" },
+  { title: "Animation Performance Secrets", description: "GPU-accelerated transitions without janky frame drops.", label: "CSS" },
+  { title: "Building a Design System CLI", description: "Automate component scaffolding and docs generation.", label: "Tooling" },
 ];
 
 export default function Blog107(props: BlockProps) {
-  const { theme, heading = "News & updates", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "What's Trending", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto">
-        <h2 className="text-2xl font-bold mb-8">{heading}</h2>
-        <div className="space-y-6">
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="group cursor-pointer">
-              <div className="flex items-baseline justify-between gap-4">
-                <h3 className="font-semibold group-hover:underline">{post.title}</h3>
-                <span className="text-xs opacity-40 shrink-0">{String(post.label ?? "")}</span>
+    <section
+      className="px-5 py-20"
+      style={{
+        background: theme?.background ?? "linear-gradient(135deg, #020617, #0f172a, #1e293b)",
+        color: theme?.foreground ?? "#f1f5f9",
+      }}
+    >
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-center gap-3 mb-10">
+          <TrendingUp className="w-6 h-6" style={{ color: theme?.accent ?? "#22d3ee" }} />
+          <h2 className="text-3xl font-black">{heading}</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {items.slice(0, 4).map((item, i) => (
+            <article
+              key={i}
+              className="rounded-2xl p-5 backdrop-blur-xl border border-white/5 hover:border-white/20 transition-all group"
+              style={{ background: "rgba(255,255,255,0.04)" }}
+            >
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-black mb-4"
+                style={{ background: `${theme?.primary ?? "#6366f1"}25`, color: theme?.primary ?? "#818cf8" }}
+              >
+                #{i + 1}
               </div>
-              <p className="mt-1 text-sm opacity-60">{post.description}</p>
+              <span className="text-xs font-medium opacity-40">{String(item.label)}</span>
+              <h3 className="mt-1 text-base font-bold leading-snug group-hover:underline">{item.title}</h3>
+              <p className="mt-2 text-xs opacity-50 line-clamp-2">{item.description}</p>
             </article>
           ))}
         </div>

@@ -1,30 +1,50 @@
 import type { BlockProps } from "@/blocks/types";
+import { Play, FileText, Mic, Grid3X3 } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+const FEATURED = { title: "Building Products for Africa", description: "A deep dive into mobile-first design, payment integration, and infrastructure challenges unique to the continent.", label: "video", value: "38 min" };
+const POSTS = [
+  { title: "Edge Functions Explained", description: "Run code at the edge for faster responses.", label: "article" },
+  { title: "Weekly Dev Roundup", description: "This week in tech, tools, and trends.", label: "podcast" },
+  { title: "Design Showcase: Q1 2026", description: "Our best design work from the first quarter.", label: "gallery" },
 ];
 
+const ICONS: Record<string, React.ReactNode> = {
+  article: <FileText className="w-4 h-4" />,
+  video: <Play className="w-6 h-6" />,
+  podcast: <Mic className="w-4 h-4" />,
+  gallery: <Grid3X3 className="w-4 h-4" />,
+};
+
 export default function Blog244(props: BlockProps) {
-  const { theme, heading = "Read our blog", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Explore Our Content", items = POSTS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
-          ))}
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">{heading}</h2>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <article className="rounded-2xl overflow-hidden relative" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }}>
+            <div className="aspect-video flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/90 backdrop-blur">{ICONS[FEATURED.label]}</div>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
+              <span className="text-xs font-bold uppercase opacity-80">{FEATURED.label} — {FEATURED.value}</span>
+              <h3 className="mt-1 text-xl font-bold">{FEATURED.title}</h3>
+              <p className="mt-1 text-sm opacity-80">{FEATURED.description}</p>
+            </div>
+          </article>
+          <div className="space-y-4">
+            {items.slice(0, 3).map((post, i) => (
+              <article key={i} className="flex gap-4 p-4 rounded-xl border" style={{ borderColor: theme?.accent ?? "#e5e7eb" }}>
+                <div className="w-10 h-10 shrink-0 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{ICONS[post.label ?? "article"]}</div>
+                <div className="flex-1 min-w-0">
+                  <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#6366f1" }}>{post.label}</span>
+                  <h3 className="mt-1 font-bold">{post.title}</h3>
+                  <p className="mt-1 text-sm opacity-70">{post.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

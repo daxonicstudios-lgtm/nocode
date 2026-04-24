@@ -1,35 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Heart, Eye } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+const POSTS = [
+  { title: "Microfrontends in Practice", description: "Breaking monolithic frontends into manageable pieces.", label: "Architecture", value: "1.2k views" },
+  { title: "Data-Driven Product Decisions", description: "How to use analytics without losing your creative instinct.", label: "Product", value: "890 views" },
 ];
 
 export default function Blog207(props: BlockProps) {
-  const { theme, heading = "Fresh off the press", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Trending Now", items = POSTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
-              </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold mb-10">{heading}</h2>
+        {items.slice(0, 2).map((post, i) => (
+          <article key={i} className="flex flex-col sm:flex-row gap-6 mb-8 p-6 rounded-2xl" style={{ backgroundColor: theme?.accent ? `${theme.accent}22` : "#f9fafb" }}>
+            <div className="w-full sm:w-48 h-36 shrink-0 rounded-xl" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
+            <div className="flex-1">
+              <span className="text-xs font-bold uppercase tracking-wide" style={{ color: theme?.primary ?? "#6366f1" }}>{post.label}</span>
+              <h3 className="mt-2 text-xl font-bold">{post.title}</h3>
               <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
-            </article>
-          ))}
-        </div>
+              <div className="mt-4 flex items-center gap-4">
+                <button className="flex items-center gap-1 text-sm opacity-60 hover:opacity-100 transition"><Heart className="w-4 h-4" /> Save</button>
+                <span className="flex items-center gap-1 text-sm opacity-40"><Eye className="w-4 h-4" />{post.value}</span>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

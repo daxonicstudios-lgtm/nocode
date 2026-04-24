@@ -1,29 +1,49 @@
 import type { BlockProps } from "@/blocks/types";
+import { Tag, ChevronRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+  { title: "Mastering Tailwind CSS Utilities", description: "Advanced tips for productive utility-first styling.", label: "Tutorial", value: "10 min read" },
+  { title: "State Management Patterns Compared", description: "Zustand vs Redux vs Jotai for real-world apps.", label: "Deep Dive", value: "12 min read" },
+  { title: "Shipping Faster with Feature Flags", description: "Decouple deployment from release to reduce risk.", label: "DevOps", value: "6 min read" },
 ];
 
 export default function Blog156(props: BlockProps) {
-  const { theme, heading = "Insights & resources", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Developer Blog", subheading = "Technical insights and tutorials", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-            </article>
+    <section style={{ backgroundColor: theme?.background ?? "#e8e8e8", color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold">{heading}</h2>
+        <p className="text-sm opacity-60 mt-1 mb-10">{subheading}</p>
+        <div className="space-y-5">
+          {items.slice(0, 3).map((item, i) => (
+            <a
+              key={i}
+              href={buttonUrl}
+              className="rounded-xl p-5 flex items-center gap-4 group"
+              style={{
+                backgroundColor: theme?.background ?? "#e8e8e8",
+                boxShadow: "5px 5px 10px #cbcbcb, -5px -5px 10px #ffffff",
+              }}
+            >
+              <div
+                className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center"
+                style={{
+                  backgroundColor: theme?.background ?? "#e8e8e8",
+                  boxShadow: "inset 2px 2px 5px #cbcbcb, inset -2px -2px 5px #ffffff",
+                }}
+              >
+                <Tag className="w-4 h-4" style={{ color: theme?.primary ?? "#6366f1" }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold truncate">{item.title}</h3>
+                <p className="text-sm opacity-60 truncate">{item.description}</p>
+              </div>
+              <div className="text-right shrink-0 hidden sm:block">
+                <span className="text-xs opacity-40">{item.value}</span>
+              </div>
+              <ChevronRight className="w-4 h-4 opacity-30 group-hover:opacity-70 transition-opacity shrink-0" />
+            </a>
           ))}
         </div>
       </div>

@@ -1,29 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Timer, TrendingUp } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+  { title: "Building Resilient APIs", description: "Rate limiting, circuit breakers, and retry strategies for production.", label: "11 min" },
+  { title: "The Art of Code Review", description: "Give feedback that helps people grow, not just fixes bugs.", label: "5 min" },
+  { title: "Landing Page Conversion Tips", description: "Above the fold, social proof, and the one CTA rule.", label: "4 min" },
+  { title: "Monitoring with OpenTelemetry", description: "Distributed tracing setup for modern microservices.", label: "14 min" },
 ];
 
 export default function Blog068(props: BlockProps) {
-  const { theme, heading = "Blog posts", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Estimated Reading Times", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center gap-3 mb-10">
+          <TrendingUp className="w-6 h-6" style={{ color: theme?.primary ?? "#6366f1" }} />
+          <h2 className="text-2xl sm:text-3xl font-bold">{heading}</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="flex items-start gap-4 p-5 rounded-xl" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+              <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>
+                <Timer className="w-5 h-5 text-white" />
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-sm">{post.title}</h3>
+                  <span className="text-[10px] font-mono font-bold shrink-0 ml-2" style={{ color: theme?.primary ?? "#6366f1" }}>{String(post.label)}</span>
+                </div>
+                <p className="mt-1 text-xs opacity-60">{post.description}</p>
+              </div>
             </article>
           ))}
         </div>

@@ -1,36 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
-
-const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
-];
+import { BookOpen, Clock } from "lucide-react";
 
 export default function Blog093(props: BlockProps) {
-  const { theme, heading = "From the team", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "The Complete Guide to Design Tokens",
+    subheading = "From Figma variables to production CSS custom properties — a practical implementation guide.",
+    bodyText = "Design tokens are the single source of truth for your visual language. They capture decisions about color, typography, spacing, and motion in a format that bridges design and engineering. In this guide, we cover token naming conventions, how to structure your token hierarchy, and tools for syncing tokens across platforms. We also share our pipeline for automatically generating Tailwind config, CSS variables, and native mobile styles from a single token definition.",
+    items = [{ title: "Lina Petrov", label: "Lead Designer", value: "15 min" }],
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <article className="max-w-2xl mx-auto">
+        <div className="flex items-center gap-4 text-sm mb-6">
+          <span className="flex items-center gap-1 px-3 py-1 rounded-full" style={{ backgroundColor: theme?.secondary ?? "#eef2ff", color: theme?.primary ?? "#6366f1" }}>
+            <BookOpen className="w-3.5 h-3.5" /> Guide
+          </span>
+          <span className="flex items-center gap-1 opacity-50 text-xs"><Clock className="w-3.5 h-3.5" />{String(items[0]?.value)} read</span>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
-              </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
-            </article>
-          ))}
+        <h1 className="text-3xl sm:text-4xl font-bold leading-tight">{heading}</h1>
+        <p className="mt-3 text-base opacity-60">{subheading}</p>
+        <div className="flex items-center gap-3 mt-6 p-4 rounded-xl" style={{ backgroundColor: theme?.accent ?? "#f8fafc" }}>
+          <div className="w-10 h-10 rounded-full shrink-0" style={{ backgroundColor: theme?.secondary ?? "#d1d5db" }} />
+          <div>
+            <p className="text-sm font-bold">{items[0]?.title}</p>
+            <p className="text-xs opacity-50">{String(items[0]?.label)}</p>
+          </div>
         </div>
-      </div>
+        <div className="aspect-[2/1] rounded-xl my-8" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+        <div className="text-base leading-relaxed opacity-80 whitespace-pre-line">{bodyText}</div>
+      </article>
     </section>
   );
 }

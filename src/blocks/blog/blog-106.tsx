@@ -1,28 +1,46 @@
 import type { BlockProps } from "@/blocks/types";
+import { Calendar, User } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "Migrating to TypeScript 6.0", description: "A step-by-step guide to upgrading your codebase with zero downtime.", label: "TypeScript", value: "Mar 15" },
+  { title: "Designing for Dark Mode", description: "Beyond inverting colors — creating truly adaptive interfaces.", label: "UI/UX", value: "Mar 12" },
+  { title: "Real-time Collaboration Patterns", description: "CRDTs, OT, and pragmatic approaches to multiplayer editing.", label: "Systems", value: "Mar 9" },
 ];
 
 export default function Blog106(props: BlockProps) {
-  const { theme, heading = "Stories & insights", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Recent Posts", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+    <section
+      className="px-5 py-20"
+      style={{
+        background: theme?.background ?? "linear-gradient(to bottom right, #0f172a, #1e1b4b)",
+        color: theme?.foreground ?? "#e2e8f0",
+      }}
+    >
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-extrabold mb-12">{heading}</h2>
+        <div className="space-y-5">
+          {items.slice(0, 3).map((item, i) => (
+            <article
+              key={i}
+              className="rounded-2xl backdrop-blur-xl border border-white/10 p-6 flex flex-col sm:flex-row gap-4 hover:bg-white/5 transition-colors"
+              style={{ background: "rgba(255,255,255,0.03)" }}
+            >
+              <div
+                className="w-full sm:w-20 h-20 rounded-xl flex-shrink-0 flex items-center justify-center text-2xl font-black"
+                style={{ background: `${theme?.primary ?? "#6366f1"}30`, color: theme?.primary ?? "#818cf8" }}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <div>
+                <h3 className="text-lg font-bold">{item.title}</h3>
+                <p className="mt-1 text-sm opacity-60">{item.description}</p>
+                <div className="flex gap-4 mt-2 text-xs opacity-40">
+                  <span className="flex items-center gap-1"><User className="w-3 h-3" />Staff Writer</span>
+                  <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{String(item.value)}</span>
+                </div>
+              </div>
             </article>
           ))}
         </div>

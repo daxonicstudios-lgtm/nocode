@@ -1,30 +1,41 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { Play, Clock, ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+  { title: "Fireside Chat: Building in Africa", description: "Founders share stories of shipping products across the continent.", label: "Panel", value: "38:00" },
+  { title: "Quick Tip: Dark Mode in 5 Minutes", description: "Add a polished dark mode toggle to any site.", label: "Quick Tip", value: "4:52" },
+  { title: "Behind the Scenes: Our Design Process", description: "From wireframe to pixel-perfect implementation.", label: "BTS", value: "22:30" },
 ];
 
 export default function Blog188(props: BlockProps) {
-  const { theme, heading = "Blog posts", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Latest Videos", buttonText = "View all videos", buttonUrl = "#", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background ?? "#1c1917", color: theme?.foreground ?? "#fafaf9" }} className="px-5 py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center justify-between mb-12">
+          <h2 className="text-3xl font-bold">{heading}</h2>
+          <a href={buttonUrl} className="hidden sm:flex items-center gap-1 text-sm" style={{ color: theme?.primary ?? "#f97316" }}>
+            {buttonText} <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group block rounded-2xl overflow-hidden" style={{ backgroundColor: theme?.secondary ?? "#292524" }}>
+              <div className="relative aspect-video">
+                <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: theme?.secondary ?? "#292524" }}>
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center border-2 border-white/30 group-hover:border-white/60 transition-colors">
+                    <Play className="w-5 h-5 text-white fill-white" />
+                  </div>
+                </div>
+                <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase" style={{ backgroundColor: theme?.primary ?? "#f97316", color: "#fff" }}>{item.label}</span>
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
-            </article>
+              <div className="p-4">
+                <h3 className="font-bold text-sm">{item.title}</h3>
+                <p className="text-xs opacity-50 mt-1">{item.description}</p>
+                <span className="flex items-center gap-1 text-[10px] opacity-40 mt-2"><Clock className="w-3 h-3" />{item.value}</span>
+              </div>
+            </a>
           ))}
         </div>
       </div>

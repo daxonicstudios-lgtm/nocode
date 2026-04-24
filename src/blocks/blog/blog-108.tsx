@@ -1,31 +1,58 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight, Tag } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+  { title: "GraphQL Federation in Practice", description: "Stitching microservice APIs into a unified graph layer.", label: "API", imageUrl: "" },
+  { title: "Motion Design with Framer", description: "Creating delightful micro-interactions for web apps.", label: "Motion", imageUrl: "" },
+  { title: "Testing Strategies for 2026", description: "Shift-left testing and AI-powered test generation.", label: "QA", imageUrl: "" },
 ];
 
 export default function Blog108(props: BlockProps) {
-  const { theme, heading = "From the team", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "From the Lab",
+    subheading = "Experimental ideas and deep research",
+    buttonUrl = "#",
+    items = DEFAULT_ITEMS,
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-            </article>
-          ))}
-        </div>
+    <section
+      className="px-5 py-20"
+      style={{
+        background: theme?.background ?? "linear-gradient(180deg, #0c0a1d 0%, #16132b 50%, #0c0a1d 100%)",
+        color: theme?.foreground ?? "#ddd6fe",
+      }}
+    >
+      <div className="max-w-6xl mx-auto text-center mb-12">
+        <h2 className="text-4xl sm:text-5xl font-black">{heading}</h2>
+        <p className="mt-3 text-sm opacity-50 max-w-md mx-auto">{subheading}</p>
+      </div>
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        {items.slice(0, 3).map((item, i) => (
+          <a
+            key={i}
+            href={buttonUrl}
+            className="group block rounded-3xl overflow-hidden border border-white/5 backdrop-blur-2xl hover:shadow-lg hover:shadow-purple-500/10 transition-all"
+            style={{ background: "rgba(255,255,255,0.03)" }}
+          >
+            <div
+              className="h-44 relative"
+              style={{ background: `linear-gradient(${100 + i * 30}deg, ${theme?.primary ?? "#7c3aed"}50, ${theme?.accent ?? "#ec4899"}30)` }}
+            >
+              <div className="absolute bottom-3 left-3 flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full bg-black/40 backdrop-blur-sm">
+                <Tag className="w-3 h-3" /> {String(item.label)}
+              </div>
+            </div>
+            <div className="p-5">
+              <h3 className="text-lg font-bold group-hover:underline">{item.title}</h3>
+              <p className="mt-2 text-sm opacity-50 line-clamp-2">{item.description}</p>
+              <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold" style={{ color: theme?.primary ?? "#a78bfa" }}>
+                Continue reading <ArrowRight className="w-3 h-3" />
+              </span>
+            </div>
+          </a>
+        ))}
       </div>
     </section>
   );

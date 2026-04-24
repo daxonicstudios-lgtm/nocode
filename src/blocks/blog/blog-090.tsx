@@ -1,31 +1,35 @@
 import type { BlockProps } from "@/blocks/types";
+import { Heart, MessageCircle, ExternalLink } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+  { title: "The Joy of Refactoring", description: "Why cleaning up code is one of the most satisfying parts of engineering.", label: "92 likes", value: "27 comments" },
+  { title: "Building Products People Love", description: "Emotional design, delight moments, and the details that matter.", label: "148 likes", value: "43 comments" },
+  { title: "Growing a Side Project", description: "From weekend hack to $5K MRR without quitting your day job.", label: "203 likes", value: "61 comments" },
 ];
 
 export default function Blog090(props: BlockProps) {
-  const { theme, heading = "Latest from our blog", subheading = "Thoughts, stories, and ideas from our team.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Popular Posts", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-            </article>
-          ))}
-        </div>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold mb-10">{heading}</h2>
+        {items.slice(0, 3).map((post, i) => (
+          <article key={i} className="flex flex-col sm:flex-row gap-5 py-6 border-b last:border-0" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+            <div className="flex-1">
+              <h3 className="font-bold text-lg">{post.title}</h3>
+              <p className="mt-1 text-sm opacity-60">{post.description}</p>
+              <div className="flex items-center gap-4 mt-3 text-xs opacity-50">
+                <span className="flex items-center gap-1"><Heart className="w-3.5 h-3.5" />{String(post.label).replace(" likes", "")}</span>
+                <span className="flex items-center gap-1"><MessageCircle className="w-3.5 h-3.5" />{String(post.value).replace(" comments", "")}</span>
+                <a href="#" className="flex items-center gap-1 ml-auto" style={{ color: theme?.primary ?? "#6366f1" }}>
+                  <ExternalLink className="w-3.5 h-3.5" /> Share
+                </a>
+              </div>
+            </div>
+            <div className="w-full sm:w-36 h-24 shrink-0 rounded-lg" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+          </article>
+        ))}
       </div>
     </section>
   );

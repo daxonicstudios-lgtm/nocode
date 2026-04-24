@@ -1,41 +1,52 @@
 import type { BlockProps } from "@/blocks/types";
+import { Minus, ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "The Founder's Dilemma", description: "When to build vs. when to buy. A framework for early-stage decisions.", label: "Startup" },
+  { title: "Writing for Engineers", description: "How better documentation leads to faster shipping and fewer bugs.", label: "Communication" },
+  { title: "Remote Work, Two Years Later", description: "Data from 500 companies on what actually works in distributed teams.", label: "Research" },
 ];
 
 export default function Blog115(props: BlockProps) {
-  const { theme, heading = "Industry insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const {
+    theme,
+    heading = "The Observer",
+    subheading = "Weekly perspectives on tech and business",
+    bodyText = "Sharp analysis from people who build and ship products every day.",
+    buttonText = "Read more",
+    buttonUrl = "#",
+    items = DEFAULT_ITEMS,
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
+    <section className="px-5 py-24" style={{ backgroundColor: theme?.background ?? "#fffbeb", color: theme?.foreground ?? "#1c1917" }}>
+      <div className="max-w-3xl mx-auto text-center mb-16">
+        <h2 className="text-6xl sm:text-7xl font-serif font-bold italic">{heading}</h2>
+        <p className="mt-3 text-sm opacity-40 font-mono">{subheading}</p>
+        <Minus className="w-12 h-12 mx-auto mt-4 opacity-20" />
+        <p className="mt-4 text-base opacity-40 max-w-md mx-auto">{bodyText}</p>
+      </div>
+      <div className="max-w-3xl mx-auto space-y-12">
+        {items.slice(0, 3).map((item, i) => (
+          <article key={i} className="border-l-2 pl-6" style={{ borderColor: theme?.primary ?? "#b91c1c" }}>
+            <span className="text-xs font-mono uppercase tracking-widest opacity-30">
+              {String(item.label)}
+            </span>
+            <a href={buttonUrl}>
+              <h3 className="mt-2 text-2xl sm:text-3xl font-bold hover:underline">
+                {item.title}
+              </h3>
+            </a>
+            <p className="mt-2 text-base opacity-50 leading-relaxed">{item.description}</p>
+            <a
+              href={buttonUrl}
+              className="mt-3 inline-flex items-center gap-1 text-sm font-semibold"
+              style={{ color: theme?.primary ?? "#b91c1c" }}
+            >
+              {buttonText} <ArrowRight className="w-4 h-4" />
+            </a>
           </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   );

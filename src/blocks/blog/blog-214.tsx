@@ -1,28 +1,30 @@
 import type { BlockProps } from "@/blocks/types";
+import { Clock, Zap } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+const POSTS = [
+  { title: "Performance Budgets That Work", description: "Set measurable goals for page speed and stick to them.", label: "Intermediate", value: "6 min" },
+  { title: "Authentication Patterns Compared", description: "JWTs, sessions, OAuth — pros and cons of each approach.", label: "Advanced", value: "11 min" },
+  { title: "Your First Pull Request", description: "A beginner-friendly walkthrough of the contribution workflow.", label: "Beginner", value: "3 min" },
 ];
 
 export default function Blog214(props: BlockProps) {
-  const { theme, heading = "Read our blog", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Quick Reads & Deep Dives", items = POSTS } = props;
+  const diffColor = (l: string) => l === "Advanced" ? "#ef4444" : l === "Intermediate" ? "#eab308" : "#22c55e";
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold mb-10 text-center">{heading}</h2>
+        <div className="grid gap-5 sm:grid-cols-3">
           {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+            <article key={i} className="border-l-4 pl-4 py-2" style={{ borderColor: diffColor(post.label ?? "") }}>
+              <div className="flex items-center gap-2 text-xs mb-2">
+                <Zap className="w-3 h-3" style={{ color: diffColor(post.label ?? "") }} />
+                <span className="font-bold" style={{ color: diffColor(post.label ?? "") }}>{post.label}</span>
+                <span className="opacity-40 flex items-center gap-1"><Clock className="w-3 h-3" />{post.value}</span>
+              </div>
+              <h3 className="font-bold text-lg">{post.title}</h3>
+              <p className="mt-1 text-sm opacity-70">{post.description}</p>
             </article>
           ))}
         </div>

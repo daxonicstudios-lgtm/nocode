@@ -1,29 +1,58 @@
 import type { BlockProps } from "@/blocks/types";
+import { Scissors, ArrowUpRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+  { title: "Spring 2026 Trend Report", description: "The colors, silhouettes, and textures defining this season on runways worldwide.", label: "Trends" },
+  { title: "Capsule Wardrobe Essentials", description: "Build a versatile wardrobe with just 30 carefully chosen pieces that work together.", label: "Style Guide" },
+  { title: "Sustainable Fashion Brands to Watch", description: "Emerging labels leading the charge on ethical production and transparent sourcing.", label: "Sustainability" },
 ];
 
 export default function Blog144(props: BlockProps) {
-  const { theme, heading = "What we're thinking", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Style Edit",
+    subheading = "Fashion insights and curated picks",
+    bodyText = "Exploring the intersection of personal style, sustainability, and culture.",
+    buttonText = "Read",
+    buttonUrl = "#",
+    items = DEFAULT_ITEMS,
+  } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#fdf2f8", color: theme?.foreground ?? "#4a044e" }}>
+      <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+          <Scissors className="w-6 h-6 mx-auto mb-3 opacity-40" />
+          <h2 className="text-4xl sm:text-5xl font-serif italic">{heading}</h2>
+          <p className="mt-2 text-sm opacity-50">{subheading}</p>
+          <p className="mt-3 text-sm opacity-30 max-w-md mx-auto">{bodyText}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-            </article>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.slice(0, 3).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group block">
+              <div
+                className="aspect-[3/4] rounded-2xl mb-4"
+                style={{ backgroundColor: theme?.secondary ?? "#fce7f3" }}
+              />
+              <span
+                className="text-xs font-semibold tracking-wider uppercase"
+                style={{ color: theme?.primary ?? "#be185d" }}
+              >
+                {String(item.label)}
+              </span>
+              <h3 className="mt-1 text-lg font-bold group-hover:underline">
+                {item.title}
+              </h3>
+              <p className="mt-1 text-sm opacity-50 line-clamp-2">
+                {item.description}
+              </p>
+              <span
+                className="mt-2 inline-flex items-center gap-1 text-xs font-semibold"
+                style={{ color: theme?.primary ?? "#be185d" }}
+              >
+                {buttonText} <ArrowUpRight className="w-3 h-3" />
+              </span>
+            </a>
           ))}
         </div>
       </div>

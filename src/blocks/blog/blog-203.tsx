@@ -1,26 +1,31 @@
 import type { BlockProps } from "@/blocks/types";
+import { Heart, Share2 } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Announcing v2.0", description: "A major update with 500+ new components.", label: "Apr 20" },
-  { title: "Tips for Better Conversion Rates", description: "Small changes that make a big difference.", label: "Apr 18" },
-  { title: "Interview with Our CEO", description: "The vision behind the platform.", label: "Apr 14" },
+const POSTS = [
+  { title: "Zero to Launch in 30 Days", description: "A step-by-step playbook for shipping your MVP fast.", label: "Startup", imageUrl: "" },
+  { title: "Color Psychology in Branding", description: "Why the colors you choose affect how customers feel about your brand.", label: "Design", imageUrl: "" },
+  { title: "Serverless Architecture Demystified", description: "Understanding when serverless makes sense and when it does not.", label: "Engineering", imageUrl: "" },
 ];
 
 export default function Blog203(props: BlockProps) {
-  const { theme, heading = "Blog posts", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Popular This Week", subheading = "Top-liked posts by our community.", items = POSTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-2xl mx-auto">
-        <h2 className="text-2xl font-bold mb-8">{heading}</h2>
-        <div className="space-y-6">
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="group cursor-pointer">
-              <div className="flex items-baseline justify-between gap-4">
-                <h3 className="font-semibold group-hover:underline">{post.title}</h3>
-                <span className="text-xs opacity-40 shrink-0">{String(post.label ?? "")}</span>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16 sm:py-24">
+      <div className="max-w-5xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
+        <p className="mt-2 opacity-60">{subheading}</p>
+        <div className="mt-12 grid gap-8 sm:grid-cols-3">
+          {items.slice(0, 3).map((post, i) => (
+            <article key={i} className="text-left">
+              <div className="aspect-video rounded-xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
+              <span className="text-xs font-semibold uppercase tracking-wide opacity-50">{post.label}</span>
+              <h3 className="mt-1 text-lg font-bold">{post.title}</h3>
+              <p className="mt-1 text-sm opacity-70">{post.description}</p>
+              <div className="mt-3 flex items-center gap-3">
+                <button className="flex items-center gap-1 text-sm opacity-60 hover:opacity-100 transition" aria-label="Like"><Heart className="w-4 h-4" /> 42</button>
+                <button className="flex items-center gap-1 text-sm opacity-60 hover:opacity-100 transition" aria-label="Share"><Share2 className="w-4 h-4" /> Share</button>
               </div>
-              <p className="mt-1 text-sm opacity-60">{post.description}</p>
             </article>
           ))}
         </div>

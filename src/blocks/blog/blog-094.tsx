@@ -1,32 +1,38 @@
 import type { BlockProps } from "@/blocks/types";
-
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
-];
+import { ChevronRight } from "lucide-react";
 
 export default function Blog094(props: BlockProps) {
-  const { theme, heading = "Read our blog", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const {
+    theme,
+    heading = "Scaling Your Product Team Without Losing Speed",
+    subheading = "Lessons from growing from 5 to 50 engineers while maintaining deployment velocity.",
+    bodyText = "Every growing company hits the same inflection point: the processes that worked at five people break down at fifteen, and what works at fifteen fails at fifty. This article shares our experience restructuring teams around domains, adopting an internal platform model, and investing in developer experience tooling. We cover squad topology, communication patterns, and the metrics we track to ensure that adding people actually increases — rather than decreases — our shipping speed.",
+    items = [
+      { title: "Table of Contents", description: "Introduction" },
+      { title: "", description: "The early stage: move fast" },
+      { title: "", description: "Growing pains at 15 engineers" },
+      { title: "", description: "The platform team approach" },
+      { title: "", description: "Measuring output, not activity" },
+    ],
+  } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <article className="max-w-3xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl font-bold leading-tight">{heading}</h1>
+        <p className="mt-4 text-lg opacity-60">{subheading}</p>
+        <div className="mt-8 p-5 rounded-xl border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+          <p className="text-sm font-bold mb-3">{items[0]?.title || "Table of Contents"}</p>
+          {items.slice(1).map((item, i) => (
+            <a key={i} href="#" className="flex items-center gap-2 py-2 text-sm border-t hover:opacity-100 opacity-60" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <ChevronRight className="w-3.5 h-3.5 shrink-0" style={{ color: theme?.primary ?? "#6366f1" }} />
+              {item.description}
+            </a>
           ))}
         </div>
-      </div>
+        <div className="aspect-[2/1] rounded-xl my-8" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+        <div className="text-base leading-relaxed opacity-80 whitespace-pre-line">{bodyText}</div>
+      </article>
     </section>
   );
 }

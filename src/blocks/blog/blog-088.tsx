@@ -1,28 +1,42 @@
 import type { BlockProps } from "@/blocks/types";
+import { MessageCircle, AtSign, Link2, Mail } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "Migrating from REST to GraphQL", description: "A phased approach that kept our API stable during the transition.", label: "45 comments" },
+  { title: "Employee Equity Explained", description: "Stock options, vesting schedules, and tax implications simplified.", label: "22 comments" },
+  { title: "Building a Developer Community", description: "From Discord server to 10,000 active members in one year.", label: "67 comments" },
 ];
 
 export default function Blog088(props: BlockProps) {
-  const { theme, heading = "Knowledge base", subheading = "Learn from our experience building products.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Trending Articles", items = DEFAULT_ITEMS } = props;
+  const shareIcons = [AtSign, Link2, Mail];
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold mb-10">{heading}</h2>
+        <div className="space-y-6">
           {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+            <article key={i} className="p-6 rounded-2xl border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                <div className="w-full sm:w-44 h-28 shrink-0 rounded-xl" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+                <div className="flex-1">
+                  <h3 className="font-bold text-lg">{post.title}</h3>
+                  <p className="mt-1 text-sm opacity-60">{post.description}</p>
+                  <div className="flex items-center gap-4 mt-3">
+                    <span className="flex items-center gap-1 text-xs opacity-50">
+                      <MessageCircle className="w-3.5 h-3.5" /> {String(post.label)}
+                    </span>
+                    <div className="flex gap-2 ml-auto">
+                      {shareIcons.map((Icon, j) => (
+                        <button key={j} className="w-7 h-7 rounded-full flex items-center justify-center" style={{ backgroundColor: theme?.secondary ?? "#f1f5f9" }}>
+                          <Icon className="w-3.5 h-3.5 opacity-50" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </article>
           ))}
         </div>

@@ -1,29 +1,39 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowUpRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+  { title: "From Idea to Launch in a Weekend", description: "A step-by-step walkthrough of our 48-hour sprint process.", label: "Product", value: "Apr 15" },
+  { title: "The Psychology of Color in Web Design", description: "How color choices influence user behavior and trust.", label: "Design", value: "Apr 10" },
+  { title: "Optimizing Performance on Low-End Devices", description: "Techniques to keep your site fast on budget smartphones.", label: "Engineering", value: "Apr 5" },
+  { title: "Community-Led Growth Strategies", description: "Building a loyal user base through authentic engagement.", label: "Marketing", value: "Mar 28" },
 ];
 
 export default function Blog154(props: BlockProps) {
-  const { theme, heading = "Read our blog", subheading = "Tips, tricks, and best practices.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Recent Writings", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
-            </article>
+    <section style={{ backgroundColor: theme?.background ?? "#e6e6e6", color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold mb-10">{heading}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {items.slice(0, 4).map((item, i) => (
+            <a
+              key={i}
+              href={buttonUrl}
+              className="rounded-2xl p-6 block group"
+              style={{
+                backgroundColor: theme?.background ?? "#e6e6e6",
+                boxShadow: "7px 7px 14px #c5c5c5, -7px -7px 14px #ffffff",
+              }}
+            >
+              <div className="flex items-start justify-between">
+                <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#7c3aed" }}>{item.label}</span>
+                <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+              <h3 className="mt-3 font-bold text-lg leading-snug">{item.title}</h3>
+              <p className="mt-2 text-sm opacity-60">{item.description}</p>
+              <span className="mt-3 block text-xs opacity-40">{item.value}</span>
+            </a>
           ))}
         </div>
       </div>

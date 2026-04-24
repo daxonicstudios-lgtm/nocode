@@ -1,32 +1,36 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { MessageSquare, Send, Bookmark } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "How We Handle Incidents", description: "Our on-call rotation, runbook culture, and post-mortem process.", label: "12", value: "56" },
+  { title: "The Case for Monorepos", description: "Shared code, unified CI, and consistent tooling across projects.", label: "28", value: "93" },
+  { title: "Writing Accessible Forms", description: "Labels, ARIA attributes, and keyboard navigation done right.", label: "8", value: "34" },
+  { title: "Optimizing Database Queries", description: "Index strategies and query planning for Postgres.", label: "19", value: "71" },
 ];
 
 export default function Blog087(props: BlockProps) {
-  const { theme, heading = "Fresh off the press", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Community Favorites", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.accent ?? "#f9fafb", color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        <h2 className="text-3xl font-bold text-center mb-12">{heading}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="p-5 rounded-xl" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+              <h3 className="font-bold text-base">{post.title}</h3>
+              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+              <div className="flex items-center gap-5 mt-4 pt-3 border-t" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                <button className="flex items-center gap-1 text-xs opacity-50 hover:opacity-100 transition-opacity">
+                  <MessageSquare className="w-3.5 h-3.5" /> {String(post.label)}
+                </button>
+                <button className="flex items-center gap-1 text-xs opacity-50 hover:opacity-100 transition-opacity">
+                  <Send className="w-3.5 h-3.5" /> {String(post.value)}
+                </button>
+                <button className="ml-auto opacity-50 hover:opacity-100 transition-opacity">
+                  <Bookmark className="w-3.5 h-3.5" />
+                </button>
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
             </article>
           ))}
         </div>

@@ -1,40 +1,45 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "Micro Frontends at Scale", description: "Module federation and single-spa for enterprise applications.", label: "Architecture" },
+  { title: "E2E Testing with Playwright", description: "Cross-browser testing automation that actually works.", label: "Testing" },
+  { title: "Database Sharding Strategies", description: "Horizontal partitioning for high-traffic applications.", label: "Database" },
+  { title: "Tailwind CSS Custom Plugins", description: "Extending the utility framework with your own utilities.", label: "CSS" },
+  { title: "WebRTC Fundamentals", description: "Peer-to-peer communication for video, audio, and data.", label: "Real-time" },
+  { title: "React 20 New Features", description: "A rundown of the newest additions to the React ecosystem.", label: "React" },
+  { title: "Edge Caching Strategies", description: "Cache invalidation patterns for CDN-first architectures.", label: "Performance" },
+  { title: "Functional Error Handling", description: "Result types and Either monads in TypeScript.", label: "TypeScript" },
+  { title: "Platform Engineering", description: "Internal developer platforms that increase velocity.", label: "DevOps" },
 ];
 
 export default function Blog139(props: BlockProps) {
-  const { theme, heading = "Read our blog", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "All Articles", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#fafaf9", color: theme?.foreground ?? "#1c1917" }}>
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+        <h2 className="text-3xl font-bold mb-10">{heading}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+          {items.slice(0, 9).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group p-4 rounded-lg border hover:shadow transition-shadow bg-white" style={{ borderColor: `${theme?.foreground ?? "#1c1917"}06` }}>
+              <span className="text-xs font-medium opacity-40">{String(item.label)}</span>
+              <h3 className="mt-1 text-sm font-bold group-hover:underline line-clamp-1">{item.title}</h3>
+              <p className="mt-0.5 text-xs opacity-40 line-clamp-2">{item.description}</p>
+            </a>
+          ))}
+        </div>
+        <div className="flex items-center justify-center gap-2">
+          {[1, 2, 3].map((n) => (
+            <button key={n} className="w-10 h-10 rounded-xl text-sm font-bold" style={n === 1 ? { backgroundColor: theme?.foreground ?? "#1c1917", color: theme?.background ?? "#fafaf9" } : { border: `1px solid ${theme?.foreground ?? "#1c1917"}12` }}>
+              {n}
+            </button>
+          ))}
+          <span className="opacity-30 mx-1">...</span>
+          <button className="w-10 h-10 rounded-xl text-sm font-bold border" style={{ borderColor: `${theme?.foreground ?? "#1c1917"}12` }}>8</button>
+          <button className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" }}>
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </section>

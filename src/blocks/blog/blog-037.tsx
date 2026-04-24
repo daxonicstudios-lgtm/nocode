@@ -1,40 +1,59 @@
 import type { BlockProps } from "@/blocks/types";
+import { Calendar } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "Getting the Most Out of Our Template Library", description: "Tips for customizing templates to match your brand without starting from scratch.", label: "Apr 20, 2026", imageUrl: "", url: "#" },
+  { title: "Semantic HTML Matters More Than You Think", description: "Why proper markup improves accessibility, SEO, and maintainability all at once.", label: "Apr 14, 2026", imageUrl: "", url: "#" },
+  { title: "What We Learned at AfricaTech Summit", description: "Key takeaways from the largest technology conference on the continent.", label: "Apr 8, 2026", imageUrl: "", url: "#" },
+  { title: "The ROI of Good Design", description: "Hard numbers on how design investment translates to business outcomes.", label: "Apr 2, 2026", imageUrl: "", url: "#" },
 ];
 
-export default function Blog037(props: BlockProps) {
-  const { theme, heading = "The latest", items = DEFAULT_ITEMS } = props;
+const RECENT = ["Shipping Changelog: March", "New Pricing Announcement", "How We Hire Engineers", "Introducing Dark Mode"];
 
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+export default function Blog037(props: BlockProps) {
+  const { theme, heading = "Articles", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-10">
           <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
+            {items.slice(0, 4).map((post, i) => (
+              <a key={i} href={post.url ?? "#"} className="group flex flex-col sm:flex-row gap-5 p-4 rounded-xl" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+                <div className="w-full sm:w-44 h-32 rounded-lg shrink-0 overflow-hidden" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }}>
+                  {post.imageUrl && <img src={post.imageUrl} alt={post.title ?? ""} className="w-full h-full object-cover" />}
                 </div>
-              </article>
+                <div className="flex flex-col justify-center">
+                  <div className="flex items-center gap-1 text-xs opacity-50 mb-1">
+                    <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+                  </div>
+                  <h3 className="font-bold leading-snug group-hover:underline">{post.title}</h3>
+                  <p className="mt-1 text-sm opacity-60 line-clamp-2">{post.description}</p>
+                </div>
+              </a>
             ))}
           </div>
+          <aside>
+            <div className="rounded-xl p-5" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+              <h3 className="font-bold mb-4">Recent Posts</h3>
+              <ul className="space-y-3">
+                {RECENT.map((title, i) => (
+                  <li key={i}>
+                    <a href="#" className="text-sm hover:underline opacity-70">{title}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-xl p-5 mt-4" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+              <h3 className="font-bold mb-3">Topics</h3>
+              <div className="flex flex-wrap gap-2">
+                {["Design", "Code", "Growth", "AI", "Mobile"].map((t) => (
+                  <a key={t} href="#" className="text-xs px-3 py-1.5 rounded-full" style={{ backgroundColor: theme?.accent ?? "#f1f5f9", color: theme?.primary ?? "#6366f1" }}>{t}</a>
+                ))}
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

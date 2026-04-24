@@ -1,32 +1,33 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+  { title: "The Art of Slow Design", description: "Why intentional, unhurried design produces lasting work that resonates with audiences.", label: "Perspectives", value: "April 2026" },
+  { title: "Crafting Digital Experiences", description: "The intersection of technology and artistry in modern web design.", label: "Craft", value: "March 2026" },
+  { title: "On Simplicity and Restraint", description: "The discipline of removing until only the essential remains.", label: "Philosophy", value: "February 2026" },
 ];
 
 export default function Blog171(props: BlockProps) {
-  const { theme, heading = "Insights & resources", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Journal", subheading = "Thoughts on design, craft, and intentional making", items = DEFAULT_ITEMS, buttonText = "Continue Reading", buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+    <section style={{ backgroundColor: theme?.background ?? "#0f0f0f", color: theme?.foreground ?? "#e8e4de" }} className="px-6 py-24">
+      <div className="max-w-4xl mx-auto">
+        <p className="text-xs uppercase tracking-[0.4em] mb-4 opacity-50" style={{ fontFamily: "Georgia, serif" }}>{subheading}</p>
+        <h2 className="text-4xl sm:text-5xl font-light tracking-tight mb-20" style={{ fontFamily: "Georgia, serif" }}>{heading}</h2>
+        <div className="space-y-16">
+          {items.slice(0, 3).map((item, i) => (
+            <article key={i} className="group">
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-xs uppercase tracking-[0.3em] opacity-40" style={{ fontFamily: "Georgia, serif" }}>{item.label}</span>
+                <span className="flex-1 h-px opacity-20" style={{ backgroundColor: theme?.foreground ?? "#e8e4de" }} />
+                <span className="text-xs opacity-40" style={{ fontFamily: "Georgia, serif" }}>{item.value}</span>
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
+              <h3 className="text-2xl sm:text-3xl font-light leading-snug" style={{ fontFamily: "Georgia, serif" }}>{item.title}</h3>
+              <p className="mt-3 text-sm opacity-50 max-w-2xl leading-relaxed" style={{ fontFamily: "Georgia, serif" }}>{item.description}</p>
+              <a href={buttonUrl} className="inline-flex items-center gap-2 mt-5 text-xs uppercase tracking-[0.2em] opacity-60 group-hover:opacity-100 transition-opacity" style={{ fontFamily: "Georgia, serif" }}>
+                {buttonText} <ArrowRight className="w-3 h-3" />
+              </a>
             </article>
           ))}
         </div>

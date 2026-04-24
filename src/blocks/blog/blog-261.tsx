@@ -1,32 +1,40 @@
 import type { BlockProps } from "@/blocks/types";
-import { Calendar } from "lucide-react";
+import { Tag, ArrowUpRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Product Update: New Editor Features", description: "We just shipped drag-and-drop, undo/redo, and 50 new blocks.", label: "Apr 15, 2026" },
-  { title: "How to Build a Landing Page in 5 Minutes", description: "Step-by-step guide to creating high-converting pages.", label: "Apr 10, 2026" },
-  { title: "Customer Story: Lagos Fashion Co", description: "How a fashion brand built their entire site on mobile.", label: "Apr 5, 2026" },
+const CATS = ["All", "Design", "Engineering", "Business"];
+const DEFAULTS = [
+  { title: "Responsive Images: A Complete Guide", description: "Serve the right image size for every screen.", label: "Engineering", value: "May 5" },
+  { title: "Brand Identity in 30 Minutes", description: "Quick exercises to define your visual brand.", label: "Design", value: "May 2" },
+  { title: "Subscription Models That Work", description: "Recurring revenue strategies for digital products.", label: "Business", value: "Apr 28" },
+  { title: "CSS Grid vs Flexbox", description: "When to use which layout system for best results.", label: "Engineering", value: "Apr 22" },
 ];
 
 export default function Blog261(props: BlockProps) {
-  const { theme, heading = "Insights & resources", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Browse by Topic", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.accent ?? "#f8fafc", color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold mb-6">{heading}</h2>
+        <div className="flex flex-wrap gap-2 mb-8">
+          {CATS.map((cat, i) => (
+            <button key={cat} className="px-4 py-2 rounded-full text-sm font-medium transition-colors" style={i === 0 ? { backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" } : { backgroundColor: theme?.accent ?? "#f3f4f6" }}>
+              {cat}
+            </button>
+          ))}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: theme?.background ?? "#fff" }}>
-              <div className="aspect-[3/2] rounded-xl mb-4" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
-              <div className="flex items-center gap-1 text-xs opacity-50 mb-2">
-                <Calendar className="w-3 h-3" /> {String(post.label ?? "")}
+        <div className="space-y-4">
+          {items.map((post, i) => (
+            <article key={i} className="flex items-start justify-between gap-4 p-4 rounded-xl border cursor-pointer hover:shadow-sm transition-shadow" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Tag className="w-3 h-3 opacity-40" />
+                  <span className="text-xs font-medium opacity-50">{String(post.label ?? "")}</span>
+                </div>
+                <h3 className="font-semibold">{post.title}</h3>
+                <p className="text-sm opacity-60 mt-1">{post.description}</p>
               </div>
-              <h3 className="font-bold text-lg">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-              <a href="#" className="mt-4 inline-block text-sm font-semibold" style={{ color: theme?.primary ?? "#6366f1" }}>Read more</a>
+              <ArrowUpRight className="w-4 h-4 opacity-30 shrink-0 mt-1" />
             </article>
           ))}
         </div>

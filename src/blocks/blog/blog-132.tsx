@@ -1,30 +1,48 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "Building Scalable Systems", description: "Learn how to architect systems that grow with your business.", label: "Engineering · 8 min" },
-  { title: "Design Trends for 2026", description: "The latest design trends shaping the web this year.", label: "Design · 5 min" },
-  { title: "Startup Lessons Learned", description: "What we wish we knew before launching our product.", label: "Business · 6 min" },
+  { title: "Kubernetes for Small Teams", description: "When K8s makes sense and when simpler solutions win.", label: "Infrastructure" },
+  { title: "Progressive Enhancement in 2026", description: "Building robust web experiences that work for everyone.", label: "Web" },
+  { title: "Technical Writing That Ships", description: "Documentation strategies that keep pace with rapid releases.", label: "Process" },
+  { title: "GraphQL Subscriptions", description: "Real-time data with GraphQL over WebSockets.", label: "API" },
 ];
 
 export default function Blog132(props: BlockProps) {
-  const { theme, heading = "Fresh off the press", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Blog", subheading = "Page 1 of 12", items = DEFAULT_ITEMS, buttonUrl = "#" } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section className="px-5 py-20" style={{ backgroundColor: theme?.background ?? "#fafafa", color: theme?.foreground ?? "#18181b" }}>
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-end justify-between mb-10">
+          <h2 className="text-3xl font-bold">{heading}</h2>
+          <span className="text-sm opacity-40">{subheading}</span>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="group">
-              <div className="aspect-[4/3] rounded-xl mb-4 overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold group-hover:underline">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-70">{post.description}</p>
-            </article>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-12">
+          {items.slice(0, 4).map((item, i) => (
+            <a key={i} href={buttonUrl} className="group p-5 rounded-xl border hover:shadow-md transition-shadow bg-white" style={{ borderColor: `${theme?.foreground ?? "#18181b"}08` }}>
+              <span className="text-xs font-medium px-2 py-0.5 rounded" style={{ backgroundColor: `${theme?.primary ?? "#6366f1"}10`, color: theme?.primary ?? "#6366f1" }}>
+                {String(item.label)}
+              </span>
+              <h3 className="mt-3 text-lg font-bold group-hover:underline">{item.title}</h3>
+              <p className="mt-1 text-sm opacity-50">{item.description}</p>
+            </a>
           ))}
+        </div>
+        <div className="flex items-center justify-between">
+          <button className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium" style={{ borderColor: `${theme?.foreground ?? "#18181b"}15` }}>
+            <ArrowLeft className="w-4 h-4" /> Previous
+          </button>
+          <div className="hidden sm:flex items-center gap-1">
+            {[1, 2, 3, "...", 12].map((n, i) => (
+              <button key={i} className="w-8 h-8 rounded-md text-sm" style={n === 1 ? { backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" } : {}}>
+                {n}
+              </button>
+            ))}
+          </div>
+          <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium" style={{ backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" }}>
+            Next <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </section>

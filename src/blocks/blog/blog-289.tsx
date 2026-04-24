@@ -1,40 +1,42 @@
 import type { BlockProps } from "@/blocks/types";
+import { ArrowRight, BookOpen } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+const DEFAULTS = [
+  { title: "Comprehensive Guide to Web Typography", description: "Font sizes, line heights, and spacing rules that make your text sing.", label: "Typography", value: "14 min" },
+  { title: "Video Backgrounds Done Right", description: "Add motion without killing performance.", label: "Media", value: "5 min" },
+  { title: "Footer Design Patterns", description: "The most overlooked section of every website.", label: "Layout", value: "4 min" },
+  { title: "Contact Page Best Practices", description: "Make it easy for visitors to reach you.", label: "Conversion", value: "3 min" },
 ];
 
 export default function Blog289(props: BlockProps) {
-  const { theme, heading = "Read our blog", items = DEFAULT_ITEMS } = props;
-
+  const { theme, heading = "Featured Reading", items = DEFAULTS } = props;
   const featured = items[0];
-  const rest = items.slice(1, 3);
+  const rest = items.slice(1);
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-3xl font-bold">{heading}</h2>
+          <button className="flex items-center gap-1 text-sm font-medium opacity-60 hover:opacity-100">
+            View all <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <article className="lg:row-span-2 rounded-2xl p-6 flex flex-col justify-end min-h-[280px]" style={{ backgroundColor: theme?.accent ?? "#f0fdf4", borderLeft: `4px solid ${theme?.primary ?? "#10b981"}` }}>
+            <BookOpen className="w-6 h-6 mb-3" style={{ color: theme?.primary ?? "#10b981" }} />
+            <span className="text-xs font-bold uppercase" style={{ color: theme?.primary ?? "#10b981" }}>{String(featured?.label ?? "")}</span>
+            <h3 className="text-xl font-bold mt-2">{featured?.title}</h3>
+            <p className="opacity-70 mt-2 text-sm">{featured?.description}</p>
+            <span className="text-xs opacity-40 mt-3">{String(featured?.value ?? "")} read</span>
           </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          {rest.map((post, i) => (
+            <article key={i} className="p-4 rounded-xl border cursor-pointer hover:shadow-sm" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <span className="text-xs font-medium opacity-50">{String(post.label ?? "")}</span>
+              <h3 className="font-semibold mt-1">{post.title}</h3>
+              <p className="text-sm opacity-60 mt-0.5">{post.description}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>

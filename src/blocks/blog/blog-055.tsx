@@ -1,40 +1,39 @@
 import type { BlockProps } from "@/blocks/types";
+import { Hash } from "lucide-react";
 
+const PILLS = ["#design", "#engineering", "#startup", "#product", "#growth"];
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "Component-Driven Development", description: "Build UIs faster with isolated, reusable components.", label: "#engineering" },
+  { title: "Brand Identity on a Shoestring", description: "Create a cohesive brand without hiring an agency.", label: "#design" },
+  { title: "Lean Startup Metrics", description: "The only four numbers early-stage founders should track.", label: "#startup" },
+  { title: "Running Effective Sprint Retros", description: "Templates and tips for productive retrospectives.", label: "#product" },
 ];
 
 export default function Blog055(props: BlockProps) {
-  const { theme, heading = "Industry insights", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Tagged Posts", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-5 py-20">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+        <h2 className="text-3xl font-bold mb-4">{heading}</h2>
+        <div className="flex gap-2 flex-wrap mb-10">
+          {PILLS.map((p, i) => (
+            <span key={i} className="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-mono font-medium cursor-pointer hover:opacity-80 transition-opacity" style={{ backgroundColor: theme?.secondary ?? "#f1f5f9" }}>
+              <Hash className="w-3 h-3" />{p.slice(1)}
+            </span>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {items.slice(0, 4).map((post, i) => (
+            <article key={i} className="group rounded-xl overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#fafafa" }}>
+              <div className="aspect-[2/1]" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+              <div className="p-6">
+                <span className="text-xs font-mono opacity-50">{String(post.label)}</span>
+                <h3 className="mt-2 font-bold text-lg group-hover:underline">{post.title}</h3>
+                <p className="mt-2 text-sm opacity-60">{post.description}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

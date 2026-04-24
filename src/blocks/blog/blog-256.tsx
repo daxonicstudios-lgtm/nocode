@@ -1,28 +1,42 @@
 import type { BlockProps } from "@/blocks/types";
+import { Sparkles, ArrowRight } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Why We Chose Next.js for Our Platform", description: "The technical decisions behind our stack.", label: "Engineering · 10 min" },
-  { title: "Designing for Africa's Mobile Users", description: "Unique challenges and solutions for mobile-first markets.", label: "Design · 7 min" },
-  { title: "Scaling to 10,000 Users", description: "Infrastructure lessons from our first year.", label: "Infrastructure · 9 min" },
+const DEFAULTS = [
+  { title: "Launching in Lagos: Our Africa Story", description: "How we went from idea to product in one of the fastest-growing tech ecosystems.", label: "Story", value: "Dec 20" },
+  { title: "Template Design Best Practices", description: "Create templates that users actually want to use.", label: "Design", value: "Dec 15" },
+  { title: "Mobile-First Is Not Optional", description: "Most of your users are on phones. Design for them.", label: "Strategy", value: "Dec 10" },
 ];
 
 export default function Blog256(props: BlockProps) {
-  const { theme, heading = "Stories & insights", subheading = "Stay up to date with the latest news.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Featured & Recent", items = DEFAULTS } = props;
+  const featured = items[0];
+  const rest = items.slice(1);
 
   return (
-    <section className="px-4 py-20" style={{ backgroundColor: theme?.primary ?? "#0f172a", color: "#e2e8f0" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">{heading}</h2>
-          <p className="mt-3 opacity-60">{subheading}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-3xl mx-auto">
+        <div className="sticky top-0 z-10 pb-6" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+          <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+            <Sparkles className="w-5 h-5" style={{ color: theme?.primary ?? "#ec4899" }} />
+            {heading}
+          </h2>
+          <div className="p-[2px] rounded-2xl" style={{ background: `linear-gradient(135deg, ${theme?.primary ?? "#ec4899"}, ${theme?.accent ?? "#8b5cf6"})` }}>
+            <div className="rounded-2xl p-6" style={{ backgroundColor: theme?.background ?? "#fff", color: theme?.foreground }}>
+              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary ?? "#ec4899" }}>{String(featured?.label ?? "")}</span>
+              <h3 className="text-xl sm:text-2xl font-bold mt-2">{featured?.title}</h3>
+              <p className="opacity-70 mt-2">{featured?.description}</p>
+              <span className="text-xs opacity-40 mt-3 block">{String(featured?.value ?? "")}</span>
+            </div>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.slice(0, 3).map((post, i) => (
-            <article key={i} className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              <div className="aspect-[4/3] rounded-xl mb-4" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
-              <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{post.title}</h3>
-              <p className="mt-2 text-sm opacity-60">{post.description}</p>
+        <div className="space-y-3">
+          {rest.map((post, i) => (
+            <article key={i} className="flex items-center justify-between gap-4 p-4 rounded-xl cursor-pointer hover:opacity-80" style={{ backgroundColor: theme?.accent ?? "#fdf2f8" }}>
+              <div>
+                <span className="text-xs opacity-50">{String(post.label ?? "")}</span>
+                <h3 className="font-semibold">{post.title}</h3>
+              </div>
+              <ArrowRight className="w-4 h-4 opacity-30 shrink-0" />
             </article>
           ))}
         </div>

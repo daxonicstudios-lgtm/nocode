@@ -1,29 +1,43 @@
 import type { BlockProps } from "@/blocks/types";
-import { ArrowRight } from "lucide-react";
+import { ThumbsUp, MessageSquare, Bookmark, User } from "lucide-react";
 
-const DEFAULT_ITEMS = [
-  { title: "Getting Started with Our Platform", description: "A beginner-friendly guide to your first project.", label: "Tutorial · 4 min" },
-  { title: "Advanced Customization Techniques", description: "Take your projects to the next level with these tips.", label: "Advanced · 7 min" },
-  { title: "Community Spotlight: March Edition", description: "Highlighting amazing projects built by our community.", label: "Community · 3 min" },
+const DEFAULTS = [
+  { title: "Behind the Scenes: How We Design Components", description: "Every block starts with a sketch. Here is our process from idea to pixel-perfect code.", label: "Design Team", value: "3h ago" },
+  { title: "Weekly Roundup: Top Projects", description: "Check out the five most impressive sites built on our platform this week.", label: "Editorial", value: "8h ago" },
+  { title: "Ask Me Anything: CEO Edition", description: "Our CEO answers the community top questions about the platform roadmap.", label: "Community", value: "1d ago" },
 ];
 
 export default function Blog272(props: BlockProps) {
-  const { theme, heading = "News & updates", subheading = "Expert insights to help you grow.", items = DEFAULT_ITEMS } = props;
+  const { theme, heading = "Social Updates", items = DEFAULTS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2">{heading}</h2>
-        <p className="opacity-60 mb-10">{subheading}</p>
-        <div className="divide-y" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
-          {items.slice(0, 5).map((post, i) => (
-            <article key={i} className="py-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                <h3 className="mt-1 text-lg font-semibold">{post.title}</h3>
-                <p className="mt-1 text-sm opacity-70">{post.description}</p>
+    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-16">
+      <div className="max-w-lg mx-auto">
+        <h2 className="text-2xl font-bold mb-6">{heading}</h2>
+        <div className="space-y-5">
+          {items.map((post, i) => (
+            <article key={i} className="rounded-2xl overflow-hidden border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+              <div className="aspect-[16/9]" style={{ backgroundColor: theme?.accent ?? "#f3f4f6" }} />
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: theme?.primary ?? "#6366f1", color: "#fff" }}>
+                    <User className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold">{String(post.label ?? "")}</p>
+                    <p className="text-xs opacity-40">{String(post.value ?? "")}</p>
+                  </div>
+                </div>
+                <h3 className="font-semibold">{post.title}</h3>
+                <p className="text-sm opacity-60 mt-1">{post.description}</p>
+                <div className="flex items-center justify-between mt-4 pt-3 border-t" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
+                  <div className="flex items-center gap-4">
+                    <button className="flex items-center gap-1 text-xs opacity-50"><ThumbsUp className="w-4 h-4" /> {24 + i * 11}</button>
+                    <button className="flex items-center gap-1 text-xs opacity-50"><MessageSquare className="w-4 h-4" /> {5 + i * 3}</button>
+                  </div>
+                  <button className="opacity-40"><Bookmark className="w-4 h-4" /></button>
+                </div>
               </div>
-              <ArrowRight className="w-5 h-5 shrink-0 mt-2 opacity-30" />
             </article>
           ))}
         </div>

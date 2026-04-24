@@ -1,40 +1,32 @@
 import type { BlockProps } from "@/blocks/types";
+import { Quote } from "lucide-react";
 
 const DEFAULT_ITEMS = [
-  { title: "The Complete Guide to No-Code Development", description: "Everything you need to know about building without code, from tools to techniques.", label: "Featured · 12 min" },
-  { title: "Mobile-First Design Principles", description: "Why starting with mobile leads to better products.", label: "Design · 6 min" },
-  { title: "AI and the Future of Web Building", description: "How artificial intelligence is changing web development.", label: "Technology · 8 min" },
+  { title: "Content Strategy for Startups", description: "Create once, distribute everywhere — a framework for small teams.", label: "Rachel Kim", value: "Content Lead" },
+  { title: "From Engineer to Manager", description: "The skills that made me a great IC almost held me back as a leader.", label: "Ben Okoro", value: "Engineering Manager" },
+  { title: "Data-Informed vs Data-Driven", description: "Why instinct still matters in a world of dashboards and metrics.", label: "Priya Sharma", value: "Data Analyst" },
 ];
 
 export default function Blog079(props: BlockProps) {
-  const { theme, heading = "Read our blog", items = DEFAULT_ITEMS } = props;
-
-  const featured = items[0];
-  const rest = items.slice(1, 3);
+  const { theme, heading = "Author Spotlights", items = DEFAULT_ITEMS } = props;
 
   return (
-    <section style={{ backgroundColor: theme?.background, color: theme?.foreground }} className="px-4 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-10">{heading}</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <article>
-            <div className="aspect-video rounded-2xl mb-4" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: theme?.primary }}>{String(featured?.label ?? "Featured")}</p>
-            <h3 className="mt-2 text-2xl font-bold">{featured?.title}</h3>
-            <p className="mt-2 opacity-70">{featured?.description}</p>
-          </article>
-          <div className="space-y-6">
-            {rest.map((post, i) => (
-              <article key={i} className="flex gap-4">
-                <div className="w-32 h-24 rounded-xl shrink-0" style={{ backgroundColor: theme?.accent ?? "#e5e7eb" }} />
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider opacity-50">{String(post.label ?? "")}</p>
-                  <h3 className="mt-1 font-semibold">{post.title}</h3>
-                  <p className="mt-1 text-sm opacity-70 line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+    <section style={{ backgroundColor: theme?.accent ?? "#fafafa", color: theme?.foreground }} className="px-5 py-20">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">{heading}</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {items.slice(0, 3).map((post, i) => (
+            <article key={i} className="text-center" style={{ backgroundColor: theme?.background ?? "#fff" }}>
+              <div className="rounded-2xl p-6">
+                <div className="w-16 h-16 rounded-full mx-auto mb-3" style={{ backgroundColor: theme?.secondary ?? "#e5e7eb" }} />
+                <p className="font-bold text-sm">{String(post.label)}</p>
+                <p className="text-[10px] opacity-50">{String(post.value)}</p>
+                <Quote className="w-5 h-5 mx-auto mt-4 opacity-20" />
+                <h3 className="mt-2 font-bold text-base">{post.title}</h3>
+                <p className="mt-2 text-sm opacity-60">{post.description}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
