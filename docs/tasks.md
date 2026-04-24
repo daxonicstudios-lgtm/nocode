@@ -361,7 +361,7 @@
 
 ### S-120: Pricing — All 300 variants (pricing-001 to pricing-300)
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
