@@ -172,12 +172,12 @@
 
 ---
 
-## INFRASTRUCTURE — DAX
+## INFRASTRUCTURE — SONIC (originally DAX)
 
 ### D-001: shadcn/ui Components — Batch 1
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** —
 - **Files to create:** `src/components/ui/card.tsx`, `src/components/ui/badge.tsx`, `src/components/ui/skeleton.tsx`, `src/components/ui/input.tsx`, `src/components/ui/textarea.tsx`
@@ -185,9 +185,9 @@
 - **Done when:** All 5 components exist, import without errors, build passes.
 
 ### D-002: shadcn/ui Components — Batch 2
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** —
 - **Files to create:** `src/components/ui/dialog.tsx`, `src/components/ui/dropdown-menu.tsx`, `src/components/ui/select.tsx`, `src/components/ui/toast.tsx`, `src/components/ui/avatar.tsx`
@@ -195,9 +195,9 @@
 - **Done when:** All 5 components exist, import without errors, toast provider in root layout if needed, build passes.
 
 ### D-003: Shared Components
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** D-001
 - **Files to create:** `src/components/shared/loading-spinner.tsx`, `src/components/shared/empty-state.tsx`, `src/components/shared/project-card.tsx`, `src/components/shared/skeleton-card.tsx`, `src/components/shared/skeleton-table.tsx`
@@ -205,9 +205,9 @@
 - **Done when:** All 5 components render correctly. Build passes. Mobile responsive.
 
 ### D-004: Admin Components Page — Wire Up
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** D-001, D-002 (needs Card, Badge, Select, Skeleton)
 - **Files to modify:** `src/app/(admin)/admin/components/page.tsx`
@@ -215,9 +215,9 @@
 - **Done when:** Page loads real blocks from API. All 3 filters work. Pro toggle works. Loading and empty states work. Note: if Sonic's API (S-009) isn't deployed yet, use mock data and swap later.
 
 ### D-005: Admin Users Page — Wire Up
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** D-001 (needs Badge)
 - **Files to modify:** `src/app/(admin)/admin/users/page.tsx`
@@ -225,9 +225,9 @@
 - **Done when:** Table shows real users. Plan toggle works. Loading state works.
 
 ### D-006: Admin Publish Requests Page — Wire Up
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** D-001, D-002 (needs Badge, Dialog)
 - **Files to modify:** `src/app/(admin)/admin/publish-requests/page.tsx`
@@ -235,9 +235,9 @@
 - **Done when:** Table shows real publish requests. Approve/Reject buttons work with confirmation. Status badges are color-coded.
 
 ### D-007: Admin Mobile Menu
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** D-002 (needs DropdownMenu)
 - **Files to modify:** `src/app/(admin)/layout.tsx`
@@ -245,9 +245,9 @@
 - **Done when:** Mobile hamburger menu works on small screens. Desktop sidebar unchanged. All 4 nav links present.
 
 ### D-008: Dashboard User Menu & Footer
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** D-002 (needs DropdownMenu, Avatar)
 - **Files to create:** `src/components/shared/user-menu.tsx`, `src/components/shared/footer.tsx`
@@ -256,9 +256,9 @@
 - **Done when:** User menu shows in dashboard header with logout. Footer shows at bottom. Logout works.
 
 ### D-009: Marketing Page Polish
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** D-008
 - **Files to modify:** `src/app/(marketing)/page.tsx`, `src/app/globals.css`
@@ -453,12 +453,12 @@
 
 ---
 
-### DAX — Navbars (500 variants, 10 tasks)
+### SONIC — Navbars (500 variants, 10 tasks)
 
 ### D-100: Navbars Batch 1 — Simple & centered (navbar-001 to navbar-050)
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001 (needs BlockProps type)
 - **Files to create:** `src/blocks/navbars/navbar-001.tsx` through `src/blocks/navbars/navbar-050.tsx`
@@ -466,21 +466,21 @@
 - **Done when:** 50 files. All responsive with working mobile menu. Visually distinct.
 
 ### D-101: Navbars Batch 2-10 (navbar-051 to navbar-500)
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/navbars/navbar-051.tsx` through `src/blocks/navbars/navbar-500.tsx`
 - **What to do:** Build remaining 450 navbar variants. Include: double-row, with search bar, with user avatar/cart/notification, mega-menu style, sidebar navigation, sticky with shrink, transparent-to-solid on scroll, with language switcher, with announcement bar, dark, light, glassmorphism, industry-specific (e-commerce with cart, restaurant with reservation, SaaS with login/signup, dashboard with breadcrumbs).
 - **Done when:** 450 files. Total 500 navbars. All with working mobile menu.
 
-### DAX — Footers (500 variants)
+### SONIC — Footers (500 variants)
 
 ### D-110: Footers — All 500 variants (footer-001 to footer-500)
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/footers/footer-001.tsx` through `src/blocks/footers/footer-500.tsx`
@@ -488,9 +488,9 @@
 - **Done when:** 500 files. All mobile responsive. Visually distinct.
 
 ### D-999: Cross-category sample pass — 3 variants per untouched category (Session 1: Core Sections)
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [x]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
 - **Files to create:** 81 `.tsx` files + 27 `index.ts` barrels across: `features/`, `about/`, `services/`, `pricing/`, `testimonials/`, `cta/`, `faq/`, `contact/`, `teams/`, `stats/`, `blog/`, `galleries/`, `portfolio/`, `steps/`, `newsletter/`, `logos/`, `comparison/`, `timeline/`, `video/`, `maps/`, `download/`, `trust/`, `banners/`, `dividers/`, `content/`, `events/`, `careers/`. Plus registry.ts barrel imports.
@@ -498,12 +498,12 @@
 - **Done when:** 81 sample files compile. All 27 new categories appear in the BlockPicker. Typecheck passes (existing hero-454.tsx unicode bug is out of scope).
 - **Notes:** Follow-up sessions D-999b/c/d will cover e-commerce/forms, dashboards/templates/animations, and 28 industries (375 sample blocks total when done).
 
-### DAX — About (300), Services (300), Testimonials (300), Contact (300)
+### SONIC — About (300), Services (300), Testimonials (300), Contact (300)
 
 ### D-120: About — All 300 variants
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/about/about-001.tsx` through `src/blocks/about/about-300.tsx`
@@ -511,9 +511,9 @@
 - **Done when:** 300 files. Build passes.
 
 ### D-130: Services — All 300 variants
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/services/services-001.tsx` through `src/blocks/services/services-300.tsx`
@@ -521,9 +521,9 @@
 - **Done when:** 300 files. Build passes.
 
 ### D-140: Testimonials — All 300 variants
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/testimonials/testimonials-001.tsx` through `src/blocks/testimonials/testimonials-300.tsx`
@@ -531,21 +531,21 @@
 - **Done when:** 300 files. Build passes.
 
 ### D-150: Contact — All 300 variants
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/contact/contact-001.tsx` through `src/blocks/contact/contact-300.tsx`
 - **What to do:** Build 300 contact section variants.
 - **Done when:** 300 files. Build passes.
 
-### DAX — FAQ (200), Team (200), Stats (200), Gallery (300)
+### SONIC — FAQ (200), Team (200), Stats (200), Gallery (300)
 
 ### D-160: FAQ — All 200 variants
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/faq/faq-001.tsx` through `src/blocks/faq/faq-200.tsx`
@@ -553,9 +553,9 @@
 - **Done when:** 200 files. Build passes.
 
 ### D-170: Team — All 200 variants
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/teams/team-001.tsx` through `src/blocks/teams/team-200.tsx`
@@ -563,9 +563,9 @@
 - **Done when:** 200 files. Build passes.
 
 ### D-180: Stats — All 200 variants
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/stats/stats-001.tsx` through `src/blocks/stats/stats-200.tsx`
@@ -573,56 +573,56 @@
 - **Done when:** 200 files. Build passes.
 
 ### D-190: Gallery — All 300 variants
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
 - **Files to create:** `src/blocks/galleries/gallery-001.tsx` through `src/blocks/galleries/gallery-300.tsx`
 - **What to do:** Build 300 gallery/media section variants.
 - **Done when:** 300 files. Build passes.
 
-### DAX — Newsletter (150), Logos (150), Timeline (150), Maps (100), Trust (150), Banners (150), Dividers (100), Events (150), Careers (150)
+### SONIC — Newsletter (150), Logos (150), Timeline (150), Maps (100), Trust (150), Banners (150), Dividers (100), Events (150), Careers (150)
 
 ### D-200: Newsletter — All 150 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/newsletter/newsletter-001.tsx` through `newsletter-150.tsx`
 
 ### D-210: Logos/Partners — All 150 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/logos/logos-001.tsx` through `logos-150.tsx`
 
 ### D-220: Timeline — All 150 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/timeline/timeline-001.tsx` through `timeline-150.tsx`
 
 ### D-230: Maps/Location — All 100 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/maps/maps-001.tsx` through `maps-100.tsx`
 
 ### D-240: Social Proof/Trust — All 150 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/trust/trust-001.tsx` through `trust-150.tsx`
 
 ### D-250: Banners — All 150 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/banners/banners-001.tsx` through `banners-150.tsx`
 
 ### D-260: Dividers — All 100 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/dividers/dividers-001.tsx` through `dividers-100.tsx`
 
 ### D-270: Events — All 150 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/events/events-001.tsx` through `events-150.tsx`
 
 ### D-280: Careers — All 150 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/careers/careers-001.tsx` through `careers-150.tsx`
 
 ---
 
-## WAVE 2 — E-COMMERCE (SONIC) + FORMS (DAX)
+## WAVE 2 — E-COMMERCE + FORMS
 
 ### S-300: E-Commerce Product Grids — 200 variants
 - **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
@@ -676,51 +676,51 @@
 - **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/ecom-account/ecom-account-001.tsx` through `ecom-account-100.tsx`
 
-### DAX — Forms (1,280 variants)
+### SONIC — Forms (1,280 variants)
 
 ### D-300: Login Forms — 200 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-login/form-login-001.tsx` through `form-login-200.tsx`
 
 ### D-310: Signup Forms — 200 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-signup/form-signup-001.tsx` through `form-signup-200.tsx`
 
 ### D-320: Contact Forms — 150 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-contact/form-contact-001.tsx` through `form-contact-150.tsx`
 
 ### D-330: Multi-Step Forms — 100 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-multistep/form-multistep-001.tsx` through `form-multistep-100.tsx`
 
 ### D-340: Booking Forms — 150 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-booking/form-booking-001.tsx` through `form-booking-150.tsx`
 
 ### D-350: Survey/Quiz Forms — 100 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-survey/form-survey-001.tsx` through `form-survey-100.tsx`
 
 ### D-360: Payment Forms — 100 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-payment/form-payment-001.tsx` through `form-payment-100.tsx`
 
 ### D-370: Search Bars — 80 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-search/form-search-001.tsx` through `form-search-080.tsx`
 
 ### D-380: Registration Forms — 100 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/form-registration/form-registration-001.tsx` through `form-registration-100.tsx`
 
 ### D-390: Application Forms — 100 variants
-- **Who:** DAX | **Status:** [ ] | **Branch:** dax | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/form-application/form-application-001.tsx` through `form-application-100.tsx`
 
 ---
 
-## WAVE 3 — DASHBOARD (SONIC) + INDUSTRY (DAX)
+## WAVE 3 — DASHBOARD + INDUSTRY
 
 > Sonic builds all 1,760 dashboard components. Dax builds all 2,220 industry-specific components.
 > Same pattern: each task = full category. See component-map.md for variant details.
@@ -751,15 +751,15 @@
 - **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** testing (after all done) | **Depends on:** S-001
 - **Files:** Each in `src/blocks/dash-{category}/` with sequential numbering
 
-### DAX — Industry-Specific (2,220 total)
+### SONIC — Industry-Specific (2,220 total)
 
 ### D-400: Restaurant — 100 | D-410: Real Estate — 100 | D-420: Medical — 100 | D-430: Education — 100 | D-440: Fitness — 80 | D-450: Legal — 80 | D-460: Automotive — 80 | D-470: Beauty — 80 | D-480: Construction — 60 | D-490: Church — 60 | D-491: Wedding — 80 | D-492: Photography — 80 | D-493: Music — 80 | D-494: Pets — 60 | D-495: Travel — 100 | D-496: Finance — 100 | D-497: NonProfit — 80 | D-498: Coaching — 60 | D-499: Fashion — 80 | D-500: Agriculture — 40 | D-501: Interior Design — 60 | D-502: Architecture — 60 | D-503: Gaming — 60 | D-504: Podcast — 60 | D-505: News — 80 | D-506: Logistics — 40 | D-507: HR — 60
-- **Who:** DAX | **Status:** [ ] each | **Branch:** dax | **Push to:** testing (after all done) | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** testing (after all done) | **Depends on:** S-001
 - **Files:** Each in `src/blocks/ind-{category}/` with sequential numbering
 
 ---
 
-## WAVE 4 — SONIC: INDUSTRY + PAGES + ANIMATIONS | DAX: PAGES + NAV + ANIMATIONS
+## WAVE 4 — INDUSTRY + PAGES + ANIMATIONS
 
 ### SONIC — Industry (560) + Pages (310) + Animations (350)
 
@@ -775,18 +775,18 @@
 - **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/anim-{category}/`
 
-### DAX — Pages (320) + Navigation (360) + Animations (390)
+### SONIC — Pages (320) + Navigation (360) + Animations (390)
 
 ### D-700: Thank You — 60 | D-710: Link in Bio — 80 | D-720: Splash — 40 | D-730: Maintenance — 40 | D-740: Under Construction — 40 | D-750: Password Protected — 30 | D-760: Offline — 30
-- **Who:** DAX | **Status:** [ ] each | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/page-{category}/`
 
 ### D-800: Breadcrumbs — 40 | D-810: Pagination — 50 | D-820: Tabs — 60 | D-830: Mega Menus — 60 | D-840: Mobile Menus — 80 | D-850: Sticky Headers — 40 | D-860: Back to Top — 30
-- **Who:** DAX | **Status:** [ ] each | **Branch:** dax | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/nav-{category}/`
 
 ### D-900: Hover Effects — 100 | D-910: Loading Animations — 60 | D-920: Marquee — 50 | D-930: Counters — 50 | D-940: Transitions — 50 | D-950: Micro-interactions — 80
-- **Who:** DAX | **Status:** [ ] each | **Branch:** dax | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [ ] each | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/anim-{category}/`
 
 ---
@@ -815,24 +815,24 @@
 - **Done when:** AI correctly suggests blocks from the real registry. Missing block fallback works.
 
 ### D-900: Barrel Files for All Categories
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
-- **Depends on:** ALL of DAX's component tasks
-- **Files to create:** `src/blocks/*/index.ts` for all DAX-owned categories
+- **Depends on:** ALL component tasks
+- **Files to create:** `src/blocks/*/index.ts` for all categories
 - **What to do:** Create barrel file for each category that exports an array of block metadata with lazy imports. Format: `export const blocks = [{ slug, name, component: () => import("./file") }, ...]`
-- **Done when:** Every DAX category has an index.ts with all blocks listed. Imports resolve correctly.
+- **Done when:** Every category has an index.ts with all blocks listed. Imports resolve correctly.
 
 ### D-901: Accessibility Pass
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
-- **Branch:** dax
+- **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** D-900
-- **Files to modify:** All block files in DAX-owned categories
+- **Files to modify:** All block files
 - **What to do:** Review all blocks and add: aria-labels, alt attributes on images, semantic HTML (section, nav, main, footer), proper heading hierarchy, focus management, keyboard navigation for interactive elements.
-- **Done when:** All DAX blocks pass basic accessibility review. No images without alt. Proper semantic HTML throughout.
+- **Done when:** All blocks pass basic accessibility review. No images without alt. Proper semantic HTML throughout.
 
 ---
 
@@ -848,7 +848,7 @@
 - **Done when:** Full build passes. End-to-end flow works. Admin works. Mobile works. No console errors.
 
 ### D-999: Final Polish & Mobile Testing
-- **Who:** DAX
+- **Who:** SONIC
 - **Status:** [ ]
 - **Branch:** testing
 - **Push to:** staging
