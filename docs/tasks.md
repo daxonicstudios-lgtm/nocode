@@ -585,39 +585,39 @@
 ### SONIC — Newsletter (150), Logos (150), Timeline (150), Maps (100), Trust (150), Banners (150), Dividers (100), Events (150), Careers (150)
 
 ### D-200: Newsletter — All 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/newsletter/newsletter-001.tsx` through `newsletter-150.tsx`
 
 ### D-210: Logos/Partners — All 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/logos/logos-001.tsx` through `logos-150.tsx`
 
 ### D-220: Timeline — All 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/timeline/timeline-001.tsx` through `timeline-150.tsx`
 
 ### D-230: Maps/Location — All 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/maps/maps-001.tsx` through `maps-100.tsx`
 
 ### D-240: Social Proof/Trust — All 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/trust/trust-001.tsx` through `trust-150.tsx`
 
 ### D-250: Banners — All 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/banners/banners-001.tsx` through `banners-150.tsx`
 
 ### D-260: Dividers — All 100 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** stay | **Depends on:** S-001
 - **Files:** `src/blocks/dividers/dividers-001.tsx` through `dividers-100.tsx`
 
 ### D-270: Events — All 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/events/events-001.tsx` through `events-150.tsx`
 
 ### D-280: Careers — All 150 variants
-- **Who:** SONIC | **Status:** [ ] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
+- **Who:** SONIC | **Status:** [x] | **Branch:** sonic | **Push to:** testing | **Depends on:** S-001
 - **Files:** `src/blocks/careers/careers-001.tsx` through `careers-150.tsx`
 
 ---
