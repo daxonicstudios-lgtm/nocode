@@ -544,7 +544,7 @@
 
 ### D-160: FAQ — All 200 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
@@ -554,7 +554,7 @@
 
 ### D-170: Team — All 200 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -564,7 +564,7 @@
 
 ### D-180: Stats — All 200 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** stay
 - **Depends on:** S-001
@@ -574,7 +574,7 @@
 
 ### D-190: Gallery — All 300 variants
 - **Who:** SONIC
-- **Status:** [ ]
+- **Status:** [x]
 - **Branch:** sonic
 - **Push to:** testing
 - **Depends on:** S-001
