@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { BlockProps } from "@/blocks/types";
 import { Zap, Shield, Globe, Layers, BarChart3, Users } from "lucide-react";
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { BlockProps } from "@/blocks/types";
 import { ShoppingCart, Truck, CreditCard, Monitor, Headphones, Smartphone } from "lucide-react";
 

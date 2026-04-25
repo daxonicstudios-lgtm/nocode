@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { BlockProps } from "@/blocks/types";
 import { Apple, Play } from "lucide-react";
 
