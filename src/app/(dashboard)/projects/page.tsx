@@ -124,7 +124,7 @@ export default function ProjectsPage() {
             disabled={creating || prompt.trim().length === 0}
             className="inline-flex h-10 items-center justify-center self-end rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
           >
-            {creating ? "Building..." : "Build My Site"}
+            {creating ? "Building your site... (this may take 30-60 seconds)" : "Build My Site"}
           </button>
         </form>
       </div>

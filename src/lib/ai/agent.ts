@@ -216,40 +216,64 @@ Respond ONLY with valid JSON:
   ]
 }`;
 
+async function callGemini(prompt: string, apiKey: string): Promise<AIResponse> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 90_000); // 90s fetch timeout
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 4096,
+            responseMimeType: "application/json",
+          },
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(`Gemini API error: ${response.status} — ${error}`);
+    }
+
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!text) {
+      throw new Error("No response from Gemini");
+    }
+
+    return JSON.parse(text) as AIResponse;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function parseUserPrompt(prompt: string): Promise<AIResponse> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     throw new Error("GEMINI_API_KEY is not set");
   }
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 4096,
-          responseMimeType: "application/json",
-        },
-      }),
+  // Try up to 2 times (retry once on failure)
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      return await callGemini(prompt, apiKey);
+    } catch (err) {
+      console.error(`Gemini attempt ${attempt} failed:`, err);
+      if (attempt === 2) throw err;
+      // Wait 2s before retry
+      await new Promise((r) => setTimeout(r, 2000));
     }
-  );
-
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Gemini API error: ${response.status} — ${error}`);
   }
 
-  const data = await response.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-  if (!text) {
-    throw new Error("No response from Gemini");
-  }
-
-  return JSON.parse(text) as AIResponse;
+  throw new Error("Failed to get response from AI");
 }
