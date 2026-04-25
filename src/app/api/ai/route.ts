@@ -3,11 +3,13 @@ import { parseUserPrompt } from "@/lib/ai/agent";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 function generateSlug(name: string): string {
-  return name
+  const base = name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "")
-    .slice(0, 60);
+    .slice(0, 50);
+  const suffix = Math.random().toString(36).slice(2, 8);
+  return `${base}-${suffix}`;
 }
 
 export async function POST(request: NextRequest) {
