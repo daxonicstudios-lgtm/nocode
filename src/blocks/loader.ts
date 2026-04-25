@@ -153,8 +153,24 @@ export function loadBlockBySlug(
   const match = slug.match(/^(.+)-(\d{3})$/);
   if (!match) return undefined;
 
-  const categorySlug = match[1];
+  let categorySlug = match[1];
   const num = match[2];
+
+  // Handle slug→directory mismatches (DB slugs use singular file prefix,
+  // but directories use plural names)
+  const aliasMap: Record<string, string> = {
+    "navbar": "navbars",
+    "hero": "heroes",
+    "footer": "footers",
+    "gallery": "galleries",
+    "galleries": "galleries",
+    "team": "teams",
+    "teams": "teams",
+  };
+  if (aliasMap[categorySlug]) {
+    categorySlug = aliasMap[categorySlug];
+  }
+
   const loader = categoryLoaders[categorySlug];
   if (!loader) return undefined;
 
