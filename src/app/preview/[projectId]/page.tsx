@@ -1,7 +1,42 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { fetchProjectWithDetails } from "@/lib/api/projects";
+import { createAdminClient } from "@/lib/supabase/admin";
+import type { PageBlockWithMeta } from "@/lib/api/projects";
 import BlockRenderer from "@/components/editor/BlockRenderer";
+
+/** Fetch project details using admin client (bypasses RLS for public preview) */
+async function fetchProjectPublic(projectId: string) {
+  const supabase = createAdminClient();
+
+  const { data: project } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("id", projectId)
+    .single();
+
+  if (!project) return null;
+
+  const { data: pages } = await supabase
+    .from("project_pages")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("sort_order");
+
+  if (!pages || pages.length === 0) return null;
+
+  const pageBlocks: Record<string, PageBlockWithMeta[]> = {};
+  for (const page of pages) {
+    const { data: blocks } = await supabase
+      .from("page_blocks")
+      .select("*, block:blocks(*)")
+      .eq("page_id", page.id)
+      .order("sort_order");
+
+    pageBlocks[page.id] = (blocks ?? []) as PageBlockWithMeta[];
+  }
+
+  return { project, pages, pageBlocks };
+}
 
 interface PreviewPageProps {
   params: Promise<{ projectId: string }>;
@@ -12,7 +47,7 @@ export async function generateMetadata({
   params,
 }: PreviewPageProps): Promise<Metadata> {
   const { projectId } = await params;
-  const result = await fetchProjectWithDetails(projectId);
+  const result = await fetchProjectPublic(projectId);
 
   if (!result) {
     return { title: "Project Not Found" };
@@ -33,7 +68,7 @@ export default async function PreviewPage({ params, searchParams }: PreviewPageP
   const { projectId } = await params;
   const { page: pageSlug } = await searchParams;
 
-  const result = await fetchProjectWithDetails(projectId);
+  const result = await fetchProjectPublic(projectId);
 
   if (!result) {
     notFound();

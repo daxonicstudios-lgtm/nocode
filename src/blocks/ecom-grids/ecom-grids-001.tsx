@@ -1,5 +1,6 @@
 import type { BlockProps } from "@/blocks/types";
 import { ShoppingCart } from "lucide-react";
+import { placeholderProduct } from "@/blocks/placeholder";
 const DEFAULT_ITEMS = [
   { title: "Classic T-Shirt", description: "$29.99", label: "New" },
   { title: "Slim Fit Jeans", description: "$59.99", label: "Sale" },
@@ -19,7 +20,8 @@ export default function EcomGrids001(props: BlockProps) {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {items.slice(0, 6).map((p, i) => (
             <div key={i} className="group">
-              <div className="aspect-[3/4] rounded-xl relative" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
+              <div className="aspect-[3/4] rounded-xl relative overflow-hidden" style={{ backgroundColor: theme?.accent ?? "#f1f5f9" }}>
+                <img src={placeholderProduct(400, 530, p.title ?? "Product")} alt={p.title ?? ""} className="w-full h-full object-cover" />
                 {String(p.label ?? "") && <span className="absolute top-3 left-3 text-xs font-bold px-2 py-1 rounded-full text-white" style={{ backgroundColor: theme?.primary ?? "#6366f1" }}>{String(p.label ?? "")}</span>}
               </div>
               <h3 className="mt-3 font-medium text-sm">{p.title}</h3>

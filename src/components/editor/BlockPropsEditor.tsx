@@ -82,28 +82,21 @@ export default function BlockPropsEditor({ className }: BlockPropsEditorProps) {
 
   if (!selectedBlock) return null;
 
-  const props = selectedBlock.custom_props ?? {};
-  const entries = Object.entries(props).filter(([key]) => !HIDDEN_KEYS.has(key));
+  // Standard editable fields from BlockProps — always shown regardless of custom_props
+  const STANDARD_FIELDS: Array<{ key: string; label: string; type: "text" | "textarea" | "url" }> = [
+    { key: "heading", label: "Heading", type: "text" },
+    { key: "subheading", label: "Subheading", type: "text" },
+    { key: "bodyText", label: "Body Text", type: "textarea" },
+    { key: "buttonText", label: "Button Text", type: "text" },
+    { key: "buttonUrl", label: "Button URL", type: "url" },
+    { key: "secondaryButtonText", label: "Secondary Button", type: "text" },
+    { key: "secondaryButtonUrl", label: "Secondary Button URL", type: "url" },
+    { key: "imageUrl", label: "Image URL", type: "url" },
+    { key: "logoUrl", label: "Logo URL", type: "url" },
+    { key: "backgroundImageUrl", label: "Background Image URL", type: "url" },
+  ];
 
-  if (entries.length === 0) {
-    return (
-      <div className={className}>
-        <div className="flex items-center justify-between border-b px-4 py-3">
-          <h3 className="text-sm font-semibold">Block Properties</h3>
-          <button
-            onClick={() => selectBlock(null)}
-            className="rounded p-1 hover:bg-accent"
-            aria-label="Close properties"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-        <p className="px-4 py-6 text-center text-xs text-muted-foreground">
-          This block has no editable properties.
-        </p>
-      </div>
-    );
-  }
+  const customProps = selectedBlock.custom_props ?? {};
 
   return (
     <div className={className}>
@@ -131,72 +124,22 @@ export default function BlockPropsEditor({ className }: BlockPropsEditorProps) {
         </div>
       </div>
 
-      {/* Fields */}
+      {/* Standard Fields */}
       <div className="space-y-4 overflow-y-auto p-4">
-        {entries.map(([key, value]) => {
-          const fieldType = detectFieldType(key, value);
-          const label = formatLabel(key);
+        {STANDARD_FIELDS.map(({ key, label, type }) => {
+          const value = typeof customProps[key] === "string" ? customProps[key] as string : "";
 
-          // Skip complex objects we can't edit inline (items/navLinks)
-          if (fieldType === "items") {
+          if (type === "textarea") {
             return (
               <div key={key}>
                 <div className="mb-1 flex items-center gap-1.5">
-                  {fieldIcon(fieldType)}
-                  <label className="text-xs font-medium text-muted-foreground">
-                    {label}
-                  </label>
-                </div>
-                <p className="text-xs text-muted-foreground/60">
-                  {Array.isArray(value) ? `${value.length} items` : "Complex data"} — edit
-                  via JSON in a future update
-                </p>
-              </div>
-            );
-          }
-
-          const stringValue = typeof value === "string" ? value : String(value ?? "");
-
-          if (fieldType === "color") {
-            return (
-              <div key={key}>
-                <div className="mb-1 flex items-center gap-1.5">
-                  {fieldIcon(fieldType)}
-                  <label className="text-xs font-medium text-muted-foreground">
-                    {label}
-                  </label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={stringValue || "#000000"}
-                    onChange={(e) => handleChange(key, e.target.value)}
-                    className="h-8 w-8 cursor-pointer rounded border"
-                  />
-                  <input
-                    type="text"
-                    value={stringValue}
-                    onChange={(e) => handleChange(key, e.target.value)}
-                    placeholder="#000000"
-                    className="h-8 flex-1 rounded-md border bg-transparent px-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-              </div>
-            );
-          }
-
-          if (fieldType === "textarea") {
-            return (
-              <div key={key}>
-                <div className="mb-1 flex items-center gap-1.5">
-                  {fieldIcon(fieldType)}
-                  <label className="text-xs font-medium text-muted-foreground">
-                    {label}
-                  </label>
+                  {fieldIcon("textarea")}
+                  <label className="text-xs font-medium text-muted-foreground">{label}</label>
                 </div>
                 <textarea
-                  value={stringValue}
+                  value={value}
                   onChange={(e) => handleChange(key, e.target.value)}
+                  placeholder={`Enter ${label.toLowerCase()}...`}
                   rows={3}
                   className="w-full resize-y rounded-md border bg-transparent px-2 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
                 />
@@ -204,39 +147,35 @@ export default function BlockPropsEditor({ className }: BlockPropsEditorProps) {
             );
           }
 
-          if (fieldType === "url") {
+          if (type === "url") {
             return (
               <div key={key}>
                 <div className="mb-1 flex items-center gap-1.5">
-                  {fieldIcon(fieldType)}
-                  <label className="text-xs font-medium text-muted-foreground">
-                    {label}
-                  </label>
+                  {fieldIcon("url")}
+                  <label className="text-xs font-medium text-muted-foreground">{label}</label>
                 </div>
                 <input
                   type="url"
-                  value={stringValue}
+                  value={value}
                   onChange={(e) => handleChange(key, e.target.value)}
-                  placeholder="https://"
+                  placeholder="https://..."
                   className="h-8 w-full rounded-md border bg-transparent px-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
                 />
               </div>
             );
           }
 
-          // Default: text input
           return (
             <div key={key}>
               <div className="mb-1 flex items-center gap-1.5">
-                {fieldIcon(fieldType)}
-                <label className="text-xs font-medium text-muted-foreground">
-                  {label}
-                </label>
+                {fieldIcon("text")}
+                <label className="text-xs font-medium text-muted-foreground">{label}</label>
               </div>
               <input
                 type="text"
-                value={stringValue}
+                value={value}
                 onChange={(e) => handleChange(key, e.target.value)}
+                placeholder={`Enter ${label.toLowerCase()}...`}
                 className="h-8 w-full rounded-md border bg-transparent px-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>

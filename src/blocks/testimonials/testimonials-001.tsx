@@ -1,4 +1,5 @@
 import type { BlockProps } from "@/blocks/types";
+import { placeholderAvatar } from "@/blocks/placeholder";
 
 const DEFAULT_ITEMS = [
   { title: "Amara Okonkwo", description: "This platform saved my boutique during lockdown. I built my whole online store in an afternoon on my phone.", label: "Founder, Okonkwo Style" },
@@ -18,7 +19,7 @@ export default function Testimonials001(props: BlockProps) {
             <div key={i} className="p-7 rounded-2xl border" style={{ borderColor: theme?.secondary ?? "#e5e7eb" }}>
               <p className="text-base leading-relaxed">&ldquo;{t.description}&rdquo;</p>
               <div className="mt-6 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full" style={{ backgroundColor: theme?.primary }} />
+                <img src={placeholderAvatar(t.title ?? "U", 40)} alt={t.title ?? ""} className="w-10 h-10 rounded-full" />
                 <div>
                   <p className="font-semibold text-sm">{t.title}</p>
                   <p className="text-xs opacity-60">{t.label}</p>
