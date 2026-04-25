@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
           }
 
           if (!matchingBlocks || matchingBlocks.length === 0) {
-            // Fallback 1: try DB without tag filter
+            // Fallback: try DB without tag filter
             const { data: fallbackBlocks } = await supabase
               .from("blocks")
               .select("id")
@@ -130,19 +130,6 @@ export async function POST(request: NextRequest) {
               } else {
                 totalBlockCount += fallbackBlocks.length;
               }
-              continue;
-            }
-
-            // Fallback 2: generate slug-based references for blocks not yet in DB
-            // The editor/preview will resolve these via the client-side registry
-            const slugBase = blockSelection.category;
-            const qty = blockSelection.quantity;
-            for (let q = 0; q < qty; q++) {
-              const slugNum = String(q + 1).padStart(3, "0");
-              const slug = `${slugBase}-${slugNum}`;
-              console.log(`Registry fallback: using ${slug} for ${blockSelection.category}`);
-              totalBlockCount++;
-              blockSortOrder++;
             }
             continue;
           }
