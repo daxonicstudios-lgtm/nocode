@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import type { PageBlock, Block, EditorTheme } from "@/types";
-import { getBlockComponent } from "@/blocks/registry";
+import { loadBlockBySlug } from "@/blocks/loader";
 
 interface BlockRendererProps {
   pageBlock: PageBlock;
@@ -34,7 +34,7 @@ function MissingBlock({ slug, name }: { slug: string; name: string }) {
 }
 
 export default function BlockRenderer({ pageBlock, block, theme }: BlockRendererProps) {
-  const Component = getBlockComponent(block.slug);
+  const Component = loadBlockBySlug(block.slug);
 
   if (!Component) {
     return <MissingBlock slug={block.slug} name={block.name} />;

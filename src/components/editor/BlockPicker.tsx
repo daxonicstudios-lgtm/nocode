@@ -2,10 +2,11 @@
 
 import { useState, useMemo } from "react";
 import {
-  getAllBlocks,
-  getCategories,
-  type BlockMeta,
-} from "@/blocks/registry";
+  getCatalogCategories,
+  getCatalogEntries,
+  type CatalogEntry,
+  type CategoryInfo,
+} from "@/blocks/catalog";
 import { useEditorStore } from "@/stores/editor-store";
 import type { PageBlockWithMeta } from "@/lib/api/projects";
 import {
@@ -28,18 +29,18 @@ function formatCategoryName(slug: string): string {
     .join(" ");
 }
 
-function createPageBlock(meta: BlockMeta, pageId: string, sortOrder: number): PageBlockWithMeta {
+function createPageBlock(entry: CatalogEntry, pageId: string, sortOrder: number): PageBlockWithMeta {
   return {
     id: crypto.randomUUID(),
     page_id: pageId,
-    block_id: meta.slug,
+    block_id: entry.slug,
     sort_order: sortOrder,
     custom_props: {},
     block: {
-      id: meta.slug,
-      category: meta.category,
-      name: meta.name,
-      slug: meta.slug,
+      id: entry.slug,
+      category: entry.category,
+      name: entry.name,
+      slug: entry.slug,
       description: null,
       thumbnail_url: null,
       is_pro: false,
@@ -61,8 +62,8 @@ function CategorySection({
   onAdd,
 }: {
   category: string;
-  blocks: BlockMeta[];
-  onAdd: (meta: BlockMeta) => void;
+  blocks: CatalogEntry[];
+  onAdd: (entry: CatalogEntry) => void;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -122,25 +123,27 @@ export default function BlockPicker({
   const [search, setSearch] = useState("");
   const { blocks, addBlock, activePageId } = useEditorStore();
 
-  // Gather all registered blocks grouped by category
-  const allBlocks = useMemo(() => getAllBlocks(), []);
-  const categories = useMemo(() => getCategories(), []);
+  // Lightweight catalog — no component imports
+  const categories = useMemo(() => getCatalogCategories(), []);
 
   const filtered = useMemo(() => {
     if (!search.trim()) return null; // null = show categories
 
     const q = search.toLowerCase();
-    return allBlocks.filter(
-      (b) =>
-        b.name.toLowerCase().includes(q) ||
-        b.slug.toLowerCase().includes(q) ||
-        b.category.toLowerCase().includes(q)
-    );
-  }, [search, allBlocks]);
+    // Search across all categories
+    const results: CatalogEntry[] = [];
+    for (const cat of categories) {
+      if (cat.label.toLowerCase().includes(q) || cat.slug.toLowerCase().includes(q)) {
+        // Category match — show first 6 entries
+        results.push(...getCatalogEntries(cat.slug).slice(0, 6));
+      }
+    }
+    return results;
+  }, [search, categories]);
 
-  const handleAdd = (meta: BlockMeta) => {
+  const handleAdd = (entry: CatalogEntry) => {
     if (!activePageId) return;
-    const newBlock = createPageBlock(meta, activePageId, blocks.length);
+    const newBlock = createPageBlock(entry, activePageId, blocks.length);
     addBlock(newBlock);
   };
 
@@ -194,17 +197,14 @@ export default function BlockPicker({
             No blocks registered yet.
           </p>
         ) : (
-          categories.map((cat) => {
-            const catBlocks = allBlocks.filter((b) => b.category === cat);
-            return (
-              <CategorySection
-                key={cat}
-                category={cat}
-                blocks={catBlocks}
-                onAdd={handleAdd}
-              />
-            );
-          })
+          categories.map((cat) => (
+            <CategorySection
+              key={cat.slug}
+              category={cat.label}
+              blocks={getCatalogEntries(cat.slug).slice(0, 20)}
+              onAdd={handleAdd}
+            />
+          ))
         )}
       </div>
     </>
