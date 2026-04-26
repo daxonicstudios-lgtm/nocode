@@ -183,13 +183,33 @@ For each block, specify:
 - quantity: how many blocks from this category (usually 1)
 - notes: specific content/style guidance
 
+INDUSTRY MATCHING (critical — use the correct industry tag):
+- "crypto", "blockchain", "web3", "exchange", "trading", "defi" → industry: "finance", use ind-finance blocks, style: "dark"
+- "restaurant", "food", "menu", "chef", "dining" → industry: "restaurant", use ind-restaurant blocks
+- "gym", "fitness", "workout", "training" → industry: "fitness", use ind-fitness blocks
+- "real estate", "property", "housing" → industry: "realestate", use ind-realestate blocks
+- "doctor", "hospital", "health", "medical", "clinic" → industry: "medical", use ind-medical blocks
+- "school", "course", "education", "tutorial" → industry: "education", use ind-education blocks
+- "law", "attorney", "legal" → industry: "legal", use ind-legal blocks
+- "salon", "beauty", "spa" → industry: "beauty", use ind-beauty blocks
+- "wedding", "bride", "marriage" → industry: "wedding", use ind-wedding blocks
+- "photography", "photographer" → industry: "photography", use ind-photography blocks
+- "travel", "tourism", "hotel" → industry: "travel", use ind-travel blocks
+- "charity", "nonprofit", "donation" → industry: "nonprofit", use ind-nonprofit blocks
+- "fashion", "clothing", "apparel" → industry: "fashion", use ind-fashion blocks
+- "SaaS", "software", "app", "startup" → industry: "saas", use ind-finance or features blocks, style: "modern"
+- "podcast", "audio", "show" → industry: "podcast", use ind-podcast blocks
+- "news", "media", "magazine" → industry: "news", use ind-news blocks
+
 RULES:
-1. Every site needs at least: navbar, hero, footer
-2. Match the industry — if user says "gym website", use ind-fitness blocks + fitness-tagged blocks
+1. Every site needs at least: navbars (1), heroes (1), footers (1)
+2. Match the industry — ALWAYS set the industry field on every block to match the site's purpose
 3. E-commerce sites need: ecom-grids, ecom-cards, ecom-cart, ecom-checkout at minimum
 4. Dashboard apps need: dash-layouts, dash-sidebars, dash-tables at minimum
-5. Keep pages focused — 4-8 blocks per page is ideal
-6. Use industry-specific blocks when available (ind-*) alongside generic ones
+5. Keep pages focused — 5-8 blocks per page is ideal
+6. Use industry-specific blocks (ind-*) alongside generic ones — include at least 2 ind-* blocks per homepage
+7. Set tags on EVERY block to help match the right variant (e.g., ["finance", "crypto", "dark", "trading"])
+8. Crypto/finance sites should ALWAYS use style: "dark" and include pricing, stats, features sections
 
 Respond ONLY with valid JSON:
 {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseUserPrompt } from "@/lib/ai/agent";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { BLOCK_METADATA, type BlockMetaLite } from "@/blocks/metadata";
 
 function generateSlug(name: string): string {
   const base = name
@@ -12,22 +13,84 @@ function generateSlug(name: string): string {
   return `${base}-${suffix}`;
 }
 
+function pickRandom<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/**
+ * Smart block selection with cascading fallback.
+ * Tries industry-specific → tag-matched → style-matched → any.
+ */
+function selectBlocks(
+  category: string,
+  tags: string[],
+  industry: string,
+  style: string,
+  quantity: number
+): string[] {
+  const byCategory = BLOCK_METADATA.filter((b) => b.category === category);
+  if (byCategory.length === 0) return [];
+
+  // 1. Exact: category + industry match
+  if (industry) {
+    const industryMatches = byCategory.filter(
+      (b) => b.industries.length > 0 && b.industries.some((ind) => ind === industry || industry.includes(ind) || ind.includes(industry))
+    );
+    if (industryMatches.length >= quantity) {
+      return shuffle(industryMatches).slice(0, quantity).map((b) => b.slug);
+    }
+    if (industryMatches.length > 0) {
+      // Partial match — use what we have + fill from tag matches
+      const slugs = industryMatches.map((b) => b.slug);
+      const remaining = quantity - slugs.length;
+      const tagMatches = byCategory.filter(
+        (b) => !slugs.includes(b.slug) && tags.length > 0 && b.tags.some((t) => tags.includes(t))
+      );
+      slugs.push(...shuffle(tagMatches).slice(0, remaining).map((b) => b.slug));
+      if (slugs.length >= quantity) return slugs.slice(0, quantity);
+    }
+  }
+
+  // 2. Tag match: category + any tag overlap
+  if (tags.length > 0) {
+    const tagMatches = byCategory.filter(
+      (b) => b.tags.some((t) => tags.some((qt) => t.includes(qt) || qt.includes(t)))
+    );
+    if (tagMatches.length >= quantity) {
+      return shuffle(tagMatches).slice(0, quantity).map((b) => b.slug);
+    }
+  }
+
+  // 3. Style match
+  if (style) {
+    const styleMatches = byCategory.filter((b) => b.style === style);
+    if (styleMatches.length >= quantity) {
+      return shuffle(styleMatches).slice(0, quantity).map((b) => b.slug);
+    }
+  }
+
+  // 4. Last resort: random from category
+  return shuffle(byCategory).slice(0, quantity).map((b) => b.slug);
+}
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { prompt, userId } = await request.json();
 
     if (!prompt || typeof prompt !== "string") {
-      return NextResponse.json(
-        { error: "Prompt is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
-
     if (!userId || typeof userId !== "string") {
-      return NextResponse.json(
-        { error: "userId is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "userId is required" }, { status: 400 });
     }
 
     const aiResult = await parseUserPrompt(prompt);
@@ -48,17 +111,14 @@ export async function POST(request: NextRequest) {
 
     if (projectError || !project) {
       console.error("Failed to create project:", projectError?.message);
-      return NextResponse.json(
-        { error: "Failed to create project" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Failed to create project" }, { status: 500 });
     }
 
     const projectId = project.id;
     let totalBlockCount = 0;
 
     try {
-      // 2. Create pages and assign blocks
+      // 2. Create pages and assign blocks using METADATA (not Supabase blocks table)
       for (let pageIndex = 0; pageIndex < aiResult.pages.length; pageIndex++) {
         const pageDef = aiResult.pages[pageIndex];
 
@@ -75,92 +135,50 @@ export async function POST(request: NextRequest) {
           .single();
 
         if (pageError || !page) {
-          throw new Error(
-            `Failed to create page "${pageDef.name}": ${pageError?.message}`
-          );
+          throw new Error(`Failed to create page "${pageDef.name}": ${pageError?.message}`);
         }
 
         let blockSortOrder = 0;
 
-        // 3. For each block selection, find matching blocks in the DB
         for (const blockSelection of pageDef.blocks) {
-          let query = supabase
-            .from("blocks")
-            .select("id")
-            .eq("category", blockSelection.category)
-            .limit(blockSelection.quantity);
+          // Use metadata-based smart selection
+          const selectedSlugs = selectBlocks(
+            blockSelection.category,
+            blockSelection.tags,
+            blockSelection.industry || aiResult.industry,
+            blockSelection.style || aiResult.style,
+            blockSelection.quantity
+          );
 
-          // Filter by tags if provided
-          if (blockSelection.tags.length > 0) {
-            query = query.overlaps("tags", blockSelection.tags);
-          }
-
-          const { data: matchingBlocks, error: blocksError } = await query;
-
-          if (blocksError) {
-            console.error(
-              `Block query error for category "${blockSelection.category}":`,
-              blocksError.message
-            );
+          if (selectedSlugs.length === 0) {
+            console.warn(`No blocks found for category "${blockSelection.category}"`);
             continue;
           }
 
-          if (!matchingBlocks || matchingBlocks.length === 0) {
-            // Fallback: try DB without tag filter
-            const { data: fallbackBlocks } = await supabase
-              .from("blocks")
-              .select("id")
-              .eq("category", blockSelection.category)
-              .limit(blockSelection.quantity);
-
-            if (fallbackBlocks && fallbackBlocks.length > 0) {
-              const pageBlockRows = fallbackBlocks.map((block) => ({
+          // Store slugs in page_blocks via custom_props
+          // The editor/preview resolves these via the client-side block loader
+          for (const slug of selectedSlugs) {
+            const { error: insertError } = await supabase
+              .from("page_blocks")
+              .insert({
                 page_id: page.id,
-                block_id: block.id,
+                block_id: slug,
                 sort_order: blockSortOrder++,
-                custom_props: {},
-              }));
+                custom_props: { _registrySlug: slug },
+              });
 
-              const { error: insertError } = await supabase
-                .from("page_blocks")
-                .insert(pageBlockRows);
-
-              if (insertError) {
-                console.error("Failed to insert page_blocks:", insertError.message);
-              } else {
-                totalBlockCount += fallbackBlocks.length;
-              }
+            if (insertError) {
+              console.error(`Failed to insert page_block ${slug}:`, insertError.message);
+            } else {
+              totalBlockCount++;
             }
-            continue;
-          }
-
-          // 4. Create page_blocks linking blocks to pages
-          const pageBlockRows = matchingBlocks.map((block) => ({
-            page_id: page.id,
-            block_id: block.id,
-            sort_order: blockSortOrder++,
-            custom_props: {},
-          }));
-
-          const { error: insertError } = await supabase
-            .from("page_blocks")
-            .insert(pageBlockRows);
-
-          if (insertError) {
-            console.error("Failed to insert page_blocks:", insertError.message);
-          } else {
-            totalBlockCount += matchingBlocks.length;
           }
         }
       }
     } catch (innerError) {
-      // Rollback: delete the project (cascades to pages and page_blocks)
       console.error("Rolling back project due to error:", innerError);
       await supabase.from("projects").delete().eq("id", projectId);
-      return NextResponse.json(
-        { error: "Failed to build project. Please try again." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Failed to build project. Please try again." }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -171,9 +189,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("AI agent error:", error);
-    return NextResponse.json(
-      { error: "Failed to process prompt" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to process prompt" }, { status: 500 });
   }
 }
