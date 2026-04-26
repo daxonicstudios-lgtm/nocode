@@ -175,13 +175,28 @@ export async function POST(request: NextRequest) {
               continue;
             }
 
+            // Merge AI-generated content into custom_props
+            // These override the block's default text with industry-specific content
+            const customProps: Record<string, unknown> = {
+              _registrySlug: slug,
+            };
+            const content = blockSelection.content;
+            if (content) {
+              if (content.heading) customProps.heading = content.heading;
+              if (content.subheading) customProps.subheading = content.subheading;
+              if (content.bodyText) customProps.bodyText = content.bodyText;
+              if (content.buttonText) customProps.buttonText = content.buttonText;
+              if (content.buttonUrl) customProps.buttonUrl = content.buttonUrl;
+              if (content.items) customProps.items = content.items;
+            }
+
             const { error: insertError } = await supabase
               .from("page_blocks")
               .insert({
                 page_id: page.id,
                 block_id: blockId,
                 sort_order: blockSortOrder++,
-                custom_props: { _registrySlug: slug },
+                custom_props: customProps,
               });
 
             if (insertError) {

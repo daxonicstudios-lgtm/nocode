@@ -1,5 +1,5 @@
-// AI Agent — Parses user prompts and selects blocks from the registry
-// Uses Google Gemini API for prompt analysis
+// AI Agent — Generates website structure with custom content per block
+// Uses Google Gemini API
 
 interface BlockSelection {
   category: string;
@@ -7,7 +7,15 @@ interface BlockSelection {
   style: string;
   industry: string;
   quantity: number;
-  notes: string;
+  // AI-generated custom content for this specific block
+  content: {
+    heading?: string;
+    subheading?: string;
+    bodyText?: string;
+    buttonText?: string;
+    buttonUrl?: string;
+    items?: Array<{ title: string; description: string; label?: string; value?: string }>;
+  };
 }
 
 interface AIResponse {
@@ -23,222 +31,103 @@ interface AIResponse {
   }[];
 }
 
-// Full list of available categories with descriptions for the AI prompt
-const CATEGORIES_PROMPT = `
-CORE SECTIONS:
-- heroes: Hero/banner sections (500 variants)
-- navbars: Navigation bars (500 variants)
-- footers: Footer sections (500 variants)
-- features: Feature showcases (400 variants)
-- about: About us sections (300 variants)
-- services: Services sections (300 variants)
-- pricing: Pricing tables (300 variants)
-- testimonials: Customer reviews (300 variants)
-- contact: Contact sections (300 variants)
-- cta: Call-to-action sections (300 variants)
-- blog: Blog/news layouts (300 variants)
-- portfolio: Portfolio galleries (300 variants)
-- faq: FAQ sections (200 variants)
-- teams: Team member sections (200 variants)
-- stats: Statistics/counters (200 variants)
-- galleries: Image galleries (300 variants)
-- steps: How-it-works/process (200 variants)
-- comparison: Comparison tables (150 variants)
-- video: Video sections (150 variants)
-- download: App download/promo (150 variants)
-- content: Content blocks (200 variants)
-- newsletter: Email signup (150 variants)
-- logos: Partner/client logos (150 variants)
-- timeline: Timeline/roadmap (150 variants)
-- maps: Maps/location (100 variants)
-- trust: Trust badges/social proof (150 variants)
-- banners: Announcement banners (150 variants)
-- dividers: Section dividers (100 variants)
-- events: Event listings (150 variants)
-- careers: Job listings (150 variants)
+const SYSTEM_PROMPT = `You are an AI website builder. Given a user's description, you design a complete website by selecting layout components AND writing all the text content.
 
-E-COMMERCE:
-- ecom-grids: Product grids (200 variants)
-- ecom-cards: Product cards (300 variants)
-- ecom-detail: Product detail pages (200 variants)
-- ecom-cart: Shopping cart (100 variants)
-- ecom-checkout: Checkout forms (150 variants)
-- ecom-categories: Category browsing (150 variants)
-- ecom-promos: Promotional banners (150 variants)
-- ecom-wishlist: Wishlist/saved items (80 variants)
-- ecom-orders: Order history (80 variants)
-- ecom-reviews: Product reviews (100 variants)
-- ecom-filters: Product filters (100 variants)
-- ecom-stores: Store locator (80 variants)
-- ecom-account: Customer account (100 variants)
-
-FORMS:
-- form-login: Login forms (200 variants)
-- form-signup: Signup forms (200 variants)
-- form-contact: Contact forms (150 variants)
-- form-multistep: Multi-step wizards (100 variants)
-- form-booking: Booking/appointment (150 variants)
-- form-survey: Survey/quiz forms (100 variants)
-- form-payment: Payment forms (100 variants)
-- form-search: Search bars (80 variants)
-- form-registration: Event registration (100 variants)
-- form-application: Application forms (100 variants)
-
-DASHBOARD:
-- dash-layouts: Dashboard layouts (150 variants)
-- dash-sidebars: Sidebar navigation (100 variants)
-- dash-tables: Data tables (150 variants)
-- dash-charts: Charts/graphs (200 variants)
-- dash-profiles: User profiles (100 variants)
-- dash-settings: Settings panels (100 variants)
-- dash-notifications: Notification center (80 variants)
-- dash-upload: File upload (80 variants)
-- dash-kanban: Kanban boards (80 variants)
-- dash-calendar: Calendar views (80 variants)
-- dash-search: Dashboard search (60 variants)
-- dash-empty: Empty states (60 variants)
-- dash-onboarding: Onboarding wizards (80 variants)
-- dash-chat: Chat/messaging (100 variants)
-- dash-activity: Activity feeds (60 variants)
-- dash-tasks: Task lists (80 variants)
-- dash-inbox: Inbox/messages (80 variants)
-- dash-user-mgmt: User management (60 variants)
-- dash-billing: Billing/invoices (60 variants)
-
-INDUSTRY-SPECIFIC:
-- ind-restaurant: Restaurant (100 variants)
-- ind-realestate: Real Estate (100 variants)
-- ind-medical: Medical/Healthcare (100 variants)
-- ind-education: Education (100 variants)
-- ind-fitness: Fitness/Gym (80 variants)
-- ind-legal: Legal (80 variants)
-- ind-automotive: Automotive (80 variants)
-- ind-beauty: Beauty/Salon (80 variants)
-- ind-construction: Construction (60 variants)
-- ind-church: Church/Religious (60 variants)
-- ind-wedding: Wedding (80 variants)
-- ind-photography: Photography (80 variants)
-- ind-music: Music (80 variants)
-- ind-pets: Pets/Veterinary (60 variants)
-- ind-travel: Travel/Tourism (100 variants)
-- ind-finance: Finance/Banking (100 variants)
-- ind-nonprofit: Non-Profit (80 variants)
-- ind-coaching: Coaching (60 variants)
-- ind-fashion: Fashion (80 variants)
-- ind-agriculture: Agriculture (40 variants)
-- ind-interior: Interior Design (60 variants)
-- ind-architecture: Architecture (60 variants)
-- ind-gaming: Gaming (60 variants)
-- ind-podcast: Podcast (60 variants)
-- ind-news: News/Media (80 variants)
-- ind-logistics: Logistics (40 variants)
-- ind-hr: HR/Recruitment (60 variants)
-
-PAGES:
-- page-landing: Landing pages (150 variants)
-- page-404: 404 error pages (80 variants)
-- page-coming: Coming soon pages (80 variants)
-- page-thankyou: Thank you pages (60 variants)
-- page-linkinbio: Link in bio (80 variants)
-- page-splash: Splash pages (40 variants)
-- page-maintenance: Maintenance pages (40 variants)
-- page-construction: Under construction (40 variants)
-- page-password: Password protected (30 variants)
-- page-offline: Offline pages (30 variants)
-
-NAVIGATION:
-- nav-breadcrumbs: Breadcrumb trails (40 variants)
-- nav-pagination: Pagination (50 variants)
-- nav-tabs: Tab navigation (60 variants)
-- nav-mega: Mega menus (60 variants)
-- nav-mobile: Mobile menus (80 variants)
-- nav-sticky: Sticky headers (40 variants)
-- nav-backtotop: Back to top buttons (30 variants)
-
-ANIMATIONS:
-- anim-scroll: Scroll animations (100 variants)
-- anim-carousel: Carousels/sliders (100 variants)
-- anim-backgrounds: Animated backgrounds (60 variants)
-- anim-text: Text animations (60 variants)
-- anim-cursor: Cursor effects (30 variants)
-- anim-hover: Hover effects (100 variants)
-- anim-loading: Loading animations (60 variants)
-- anim-marquee: Marquee/ticker (50 variants)
-- anim-counters: Animated counters (50 variants)
-- anim-transitions: Page transitions (50 variants)
-- anim-micro: Micro-interactions (80 variants)
-`;
-
-const SYSTEM_PROMPT = `You are an AI agent for a no-code website builder. Analyze the user's description and select the best pre-built components (blocks) to assemble their website.
-
-${CATEGORIES_PROMPT}
+AVAILABLE LAYOUT CATEGORIES (pick the right ones for the site type):
+CORE: navbars, heroes, footers, features, about, services, pricing, testimonials, contact, cta, blog, portfolio, faq, teams, stats, galleries, steps, newsletter, logos, timeline, trust, banners, events, careers
+E-COMMERCE: ecom-grids, ecom-cards, ecom-detail, ecom-cart, ecom-checkout, ecom-categories, ecom-promos
+INDUSTRY: ind-restaurant, ind-realestate, ind-medical, ind-education, ind-fitness, ind-legal, ind-beauty, ind-wedding, ind-photography, ind-travel, ind-finance, ind-nonprofit, ind-fashion, ind-podcast, ind-news
 
 STYLE OPTIONS: "modern", "minimal", "bold", "dark", "elegant", "playful", "corporate"
 
-For each block, specify:
-- category: exact category slug from above
-- tags: relevant tags to help find the best variant (e.g., ["accordion", "dark", "with-cta"])
-- style: preferred visual style
-- industry: if industry-specific (e.g., "restaurant", "saas", "fitness")
-- quantity: how many blocks from this category (usually 1)
-- notes: specific content/style guidance
+CRITICAL — For EVERY block you MUST write custom text content that matches the user's business:
+- heading: The main title for this section (relevant to the business)
+- subheading: Supporting text
+- bodyText: Longer description if needed
+- buttonText: CTA button label
+- items: Array of feature/pricing/testimonial items with title + description
 
-INDUSTRY MATCHING (critical — use the correct industry tag):
-- "crypto", "blockchain", "web3", "exchange", "trading", "defi" → industry: "finance", use ind-finance blocks, style: "dark"
-- "restaurant", "food", "menu", "chef", "dining" → industry: "restaurant", use ind-restaurant blocks
-- "gym", "fitness", "workout", "training" → industry: "fitness", use ind-fitness blocks
-- "real estate", "property", "housing" → industry: "realestate", use ind-realestate blocks
-- "doctor", "hospital", "health", "medical", "clinic" → industry: "medical", use ind-medical blocks
-- "school", "course", "education", "tutorial" → industry: "education", use ind-education blocks
-- "law", "attorney", "legal" → industry: "legal", use ind-legal blocks
-- "salon", "beauty", "spa" → industry: "beauty", use ind-beauty blocks
-- "wedding", "bride", "marriage" → industry: "wedding", use ind-wedding blocks
-- "photography", "photographer" → industry: "photography", use ind-photography blocks
-- "travel", "tourism", "hotel" → industry: "travel", use ind-travel blocks
-- "charity", "nonprofit", "donation" → industry: "nonprofit", use ind-nonprofit blocks
-- "fashion", "clothing", "apparel" → industry: "fashion", use ind-fashion blocks
-- "SaaS", "software", "app", "startup" → industry: "saas", use ind-finance or features blocks, style: "modern"
-- "podcast", "audio", "show" → industry: "podcast", use ind-podcast blocks
-- "news", "media", "magazine" → industry: "news", use ind-news blocks
+INDUSTRY MATCHING:
+- crypto/blockchain/trading/defi → industry: "finance", style: "dark"
+- restaurant/food/menu → industry: "restaurant"
+- gym/fitness/workout → industry: "fitness"
+- real estate/property → industry: "realestate"
+- medical/health/clinic → industry: "medical"
+- SaaS/software/startup → industry: "saas", style: "modern"
+- fashion/clothing → industry: "fashion"
+- photography → industry: "photography"
+- travel/tourism → industry: "travel"
 
 RULES:
-1. Every site needs at least: navbars (1), heroes (1), footers (1)
-2. Match the industry — ALWAYS set the industry field on every block to match the site's purpose
-3. E-commerce sites need: ecom-grids, ecom-cards, ecom-cart, ecom-checkout at minimum
-4. Dashboard apps need: dash-layouts, dash-sidebars, dash-tables at minimum
-5. Keep pages focused — 5-8 blocks per page is ideal
-6. Use industry-specific blocks (ind-*) alongside generic ones — include at least 2 ind-* blocks per homepage
-7. Set tags on EVERY block to help match the right variant (e.g., ["finance", "crypto", "dark", "trading"])
-8. Crypto/finance sites should ALWAYS use style: "dark" and include pricing, stats, features sections
+1. Every site needs: navbars (1), heroes (1), footers (1)
+2. Homepage should have 6-8 blocks
+3. Write ALL text content — headings, descriptions, button labels, feature lists, pricing tiers, testimonials
+4. Make the content realistic and professional — as if a copywriter wrote it for this specific business
+5. For testimonials, write realistic review quotes with names
+6. For pricing, create realistic tier names and prices for the industry
+7. For features, list real features relevant to the business
+8. Use industry-specific blocks (ind-*) when available
 
-Respond ONLY with valid JSON:
+EXAMPLE — for "crypto investment website":
 {
-  "siteName": "string",
-  "siteDescription": "string",
-  "industry": "string (e.g. restaurant, saas, generic)",
-  "style": "string (modern, minimal, bold, dark, elegant, playful, corporate)",
-  "pages": [
-    {
-      "name": "string",
-      "slug": "string",
-      "isHomepage": boolean,
-      "blocks": [
-        {
-          "category": "string",
-          "tags": ["string"],
-          "style": "string",
-          "industry": "string",
-          "quantity": number,
-          "notes": "string"
+  "siteName": "CryptoVault",
+  "siteDescription": "A secure crypto investment platform",
+  "industry": "finance",
+  "style": "dark",
+  "pages": [{
+    "name": "Home",
+    "slug": "/",
+    "isHomepage": true,
+    "blocks": [
+      {
+        "category": "navbars",
+        "tags": ["dark", "finance"],
+        "style": "dark",
+        "industry": "finance",
+        "quantity": 1,
+        "content": {
+          "heading": "CryptoVault",
+          "items": [{ "title": "Markets", "description": "/markets" }, { "title": "Trade", "description": "/trade" }, { "title": "Portfolio", "description": "/portfolio" }]
         }
-      ]
-    }
-  ]
-}`;
+      },
+      {
+        "category": "heroes",
+        "tags": ["dark", "finance", "crypto"],
+        "style": "dark",
+        "industry": "finance",
+        "quantity": 1,
+        "content": {
+          "heading": "Invest in the Future of Finance",
+          "subheading": "Trade 200+ cryptocurrencies with institutional-grade security. Zero fees on your first $10,000.",
+          "buttonText": "Start Trading",
+          "buttonUrl": "/signup"
+        }
+      },
+      {
+        "category": "stats",
+        "tags": ["dark", "counters"],
+        "style": "dark",
+        "industry": "finance",
+        "quantity": 1,
+        "content": {
+          "heading": "Trusted by investors worldwide",
+          "items": [
+            { "title": "$2.4B+", "description": "Trading Volume" },
+            { "title": "180+", "description": "Cryptocurrencies" },
+            { "title": "500K+", "description": "Active Traders" },
+            { "title": "99.9%", "description": "Uptime" }
+          ]
+        }
+      }
+    ]
+  }]
+}
+
+Respond ONLY with valid JSON matching this exact structure.`;
 
 async function callGemini(prompt: string, apiKey: string): Promise<AIResponse> {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 90_000); // 90s fetch timeout
+  const timeout = setTimeout(() => controller.abort(), 90_000);
 
   try {
     const response = await fetch(
@@ -252,7 +141,7 @@ async function callGemini(prompt: string, apiKey: string): Promise<AIResponse> {
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 4096,
+            maxOutputTokens: 8192,
             responseMimeType: "application/json",
           },
         }),
@@ -283,14 +172,12 @@ export async function parseUserPrompt(prompt: string): Promise<AIResponse> {
     throw new Error("GEMINI_API_KEY is not set");
   }
 
-  // Try up to 2 times (retry once on failure)
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
       return await callGemini(prompt, apiKey);
     } catch (err) {
       console.error(`Gemini attempt ${attempt} failed:`, err);
       if (attempt === 2) throw err;
-      // Wait 2s before retry
       await new Promise((r) => setTimeout(r, 2000));
     }
   }
