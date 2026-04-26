@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="hidden w-60 flex-shrink-0 border-r bg-muted/30 md:block">
         <div className="flex h-14 items-center justify-between border-b px-4">
           <Link href="/admin/components" className="text-lg font-bold">
-            NoCode Admin
+            Xxel Admin
           </Link>
           <NotificationBell />
         </div>

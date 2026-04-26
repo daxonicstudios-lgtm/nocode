@@ -8,7 +8,7 @@ export function Footer() {
         <p>
           &copy; {year}{" "}
           <Link href="/" className="font-medium text-foreground hover:underline">
-            NoCode
+            Xxel
           </Link>
           . All rights reserved.
         </p>

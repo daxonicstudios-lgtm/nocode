@@ -11,7 +11,7 @@ interface PlatformSettings {
 }
 
 const defaults: PlatformSettings = {
-  platform_name: "NoCode",
+  platform_name: "Xxel",
   allow_signups: true,
   max_projects_free: 3,
   max_projects_pro: 50,

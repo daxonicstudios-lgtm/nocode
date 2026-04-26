@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NoCode - Build Your Website Without Code",
+  title: "Xxel - Build Your Website Without Code",
   description:
     "AI-powered no-code website builder. Describe what you want, and watch your website come to life. Mobile-first, fully customizable.",
 };

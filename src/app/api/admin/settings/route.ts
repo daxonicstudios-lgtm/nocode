@@ -36,7 +36,7 @@ export async function GET() {
   if (error) {
     // If table doesn't exist or no rows, return defaults
     return NextResponse.json({
-      platform_name: "NoCode",
+      platform_name: "Xxel",
       allow_signups: true,
       max_projects_free: 3,
       max_projects_pro: 50,

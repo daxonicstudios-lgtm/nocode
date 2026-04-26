@@ -104,7 +104,7 @@ export default async function PreviewPage({ params, searchParams }: PreviewPageP
     <div className="relative min-h-screen">
       {/* Watermark */}
       <div className="fixed bottom-4 right-4 z-50 rounded-full bg-black/80 px-4 py-2 text-xs font-medium text-white shadow-lg">
-        Built with NoCode
+        Built with Xxel
       </div>
 
       {/* Preview Content */}
