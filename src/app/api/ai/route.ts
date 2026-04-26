@@ -155,14 +155,31 @@ export async function POST(request: NextRequest) {
             continue;
           }
 
-          // Store slugs in page_blocks via custom_props
-          // The editor/preview resolves these via the client-side block loader
+          // Look up UUIDs from Supabase blocks table by slug
+          const { data: dbBlocks } = await supabase
+            .from("blocks")
+            .select("id, slug")
+            .in("slug", selectedSlugs);
+
+          const slugToId = new Map<string, string>();
+          if (dbBlocks) {
+            for (const b of dbBlocks) {
+              slugToId.set(b.slug, b.id);
+            }
+          }
+
           for (const slug of selectedSlugs) {
+            const blockId = slugToId.get(slug);
+            if (!blockId) {
+              console.warn(`Block ${slug} not found in DB, skipping`);
+              continue;
+            }
+
             const { error: insertError } = await supabase
               .from("page_blocks")
               .insert({
                 page_id: page.id,
-                block_id: slug,
+                block_id: blockId,
                 sort_order: blockSortOrder++,
                 custom_props: { _registrySlug: slug },
               });
