@@ -5,7 +5,7 @@ import type { Project, ProjectPage, PageBlock, Block } from "@/types";
  * Page block with its Block metadata joined.
  */
 export interface PageBlockWithMeta extends PageBlock {
-  block: Block;
+  block: Block | null;
 }
 
 /**

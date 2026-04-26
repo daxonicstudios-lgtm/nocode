@@ -121,7 +121,7 @@ export default async function PreviewPage({ params, searchParams }: PreviewPageP
             <BlockRenderer
               key={pageBlock.id}
               pageBlock={pageBlock}
-              block={pageBlock.block}
+              block={pageBlock.block ?? null}
               theme={theme}
             />
           ))

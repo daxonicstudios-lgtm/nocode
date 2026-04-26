@@ -216,7 +216,7 @@ export default function EditorPage() {
                     >
                       <BlockRenderer
                         pageBlock={pageBlock}
-                        block={pageBlock.block}
+                        block={pageBlock.block ?? null}
                         theme={theme}
                       />
                     </div>
