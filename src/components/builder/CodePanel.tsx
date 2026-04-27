@@ -3,11 +3,29 @@
 import { useBuilderStore } from "@/stores/builder-store";
 import FileExplorer from "./FileExplorer";
 import { Code2, Copy, Check } from "lucide-react";
-import { useState } from "react";
+import { useState, useCallback, lazy, Suspense } from "react";
+
+const MonacoEditor = lazy(() => import("@monaco-editor/react").then((m) => ({ default: m.Editor })));
+
+function getLanguage(path: string): string {
+  const ext = path.split(".").pop() || "";
+  const map: Record<string, string> = {
+    tsx: "typescript",
+    ts: "typescript",
+    jsx: "javascript",
+    js: "javascript",
+    css: "css",
+    json: "json",
+    html: "html",
+    md: "markdown",
+  };
+  return map[ext] || "plaintext";
+}
 
 export default function CodePanel() {
   const files = useBuilderStore((s) => s.files);
   const activeFilePath = useBuilderStore((s) => s.activeFilePath);
+  const updateFileLocally = useBuilderStore((s) => s.updateFileLocally);
   const [copied, setCopied] = useState(false);
 
   const activeContent = activeFilePath ? files[activeFilePath] : null;
@@ -18,6 +36,15 @@ export default function CodePanel() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const handleEditorChange = useCallback(
+    (value: string | undefined) => {
+      if (activeFilePath && value !== undefined) {
+        updateFileLocally(activeFilePath, value);
+      }
+    },
+    [activeFilePath, updateFileLocally]
+  );
 
   return (
     <div className="flex h-full bg-zinc-950 border-l border-zinc-800">
@@ -31,7 +58,7 @@ export default function CodePanel() {
         <FileExplorer />
       </div>
 
-      {/* Code viewer */}
+      {/* Code editor */}
       <div className="flex-1 flex flex-col min-w-0">
         {activeFilePath ? (
           <>
@@ -56,29 +83,44 @@ export default function CodePanel() {
               </button>
             </div>
 
-            {/* Code content */}
-            <div className="flex-1 overflow-auto">
-              <pre className="p-4 text-sm font-mono leading-relaxed">
-                <code className="text-zinc-300">
-                  {activeContent?.split("\n").map((line, i) => (
-                    <div key={i} className="flex">
-                      <span className="inline-block w-10 text-right mr-4 text-zinc-600 select-none flex-shrink-0">
-                        {i + 1}
-                      </span>
-                      <span className="flex-1 whitespace-pre-wrap break-all">
-                        {line || " "}
-                      </span>
-                    </div>
-                  ))}
-                </code>
-              </pre>
+            {/* Monaco Editor */}
+            <div className="flex-1">
+              <Suspense
+                fallback={
+                  <div className="flex-1 flex items-center justify-center text-zinc-600 p-4">
+                    Loading editor...
+                  </div>
+                }
+              >
+                <MonacoEditor
+                  height="100%"
+                  language={getLanguage(activeFilePath)}
+                  value={activeContent || ""}
+                  onChange={handleEditorChange}
+                  theme="vs-dark"
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 13,
+                    lineNumbers: "on",
+                    scrollBeyondLastLine: false,
+                    wordWrap: "on",
+                    tabSize: 2,
+                    automaticLayout: true,
+                    padding: { top: 8 },
+                    renderLineHighlight: "line",
+                    cursorBlinking: "smooth",
+                    smoothScrolling: true,
+                    bracketPairColorization: { enabled: true },
+                  }}
+                />
+              </Suspense>
             </div>
           </>
         ) : (
           <div className="flex-1 flex items-center justify-center text-zinc-600">
             <div className="text-center">
               <Code2 className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">Select a file to view its code</p>
+              <p className="text-sm">Select a file to edit its code</p>
             </div>
           </div>
         )}
