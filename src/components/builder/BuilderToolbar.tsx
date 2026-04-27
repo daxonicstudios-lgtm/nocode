@@ -2,18 +2,20 @@
 
 import { useState } from "react";
 import { useBuilderStore } from "@/stores/builder-store";
-import { Zap, Code2, History, Rocket, Database, GitBranch, BookOpen } from "lucide-react";
+import { Zap, Code2, History, Rocket, Database, GitBranch, BookOpen, Check, Loader2 } from "lucide-react";
 import Link from "next/link";
 import VersionHistory from "./VersionHistory";
 import SupabaseConnect from "./SupabaseConnect";
 import KnowledgeEditor from "./KnowledgeEditor";
 import DeployDialog from "./DeployDialog";
+import ModelSelector from "./ModelSelector";
 
 export default function BuilderToolbar() {
   const projectName = useBuilderStore((s) => s.projectName);
   const credits = useBuilderStore((s) => s.credits);
   const showCodePanel = useBuilderStore((s) => s.showCodePanel);
   const toggleCodePanel = useBuilderStore((s) => s.toggleCodePanel);
+  const isSaving = useBuilderStore((s) => s.isSaving);
   const [showVersions, setShowVersions] = useState(false);
   const [showSupabase, setShowSupabase] = useState(false);
   const [showKnowledge, setShowKnowledge] = useState(false);
@@ -38,8 +40,28 @@ export default function BuilderToolbar() {
 
         {/* Right: actions */}
         <div className="flex items-center gap-1.5">
+          {/* Model selector */}
+          <ModelSelector />
+
+          {/* Save indicator */}
+          <div className="flex items-center gap-1 px-2 text-xs">
+            {isSaving ? (
+              <>
+                <Loader2 className="w-3 h-3 animate-spin text-zinc-500" />
+                <span className="hidden sm:inline text-zinc-500">Saving...</span>
+              </>
+            ) : (
+              <>
+                <Check className="w-3 h-3 text-emerald-500/70" />
+                <span className="hidden sm:inline text-zinc-600">Saved</span>
+              </>
+            )}
+          </div>
+
+          <div className="w-px h-4 bg-zinc-800" />
+
           {/* Credits badge */}
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 mr-1">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800">
             <Zap className="w-3.5 h-3.5 text-yellow-400" />
             <span
               className={`text-xs font-medium ${

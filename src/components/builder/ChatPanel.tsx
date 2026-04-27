@@ -25,6 +25,9 @@ export default function ChatPanel() {
   const promptQueue = useBuilderStore((s) => s.promptQueue);
   const queuePrompt = useBuilderStore((s) => s.queuePrompt);
   const removeFromQueue = useBuilderStore((s) => s.removeFromQueue);
+  const setActiveFile = useBuilderStore((s) => s.setActiveFile);
+  const showCodePanel = useBuilderStore((s) => s.showCodePanel);
+  const toggleCodePanel = useBuilderStore((s) => s.toggleCodePanel);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -119,13 +122,18 @@ export default function ChatPanel() {
               {msg.file_changes && msg.file_changes.length > 0 && (
                 <div className="flex flex-wrap gap-1 mt-2 pt-2 border-t border-zinc-700">
                   {msg.file_changes.map((fc) => (
-                    <span
+                    <button
                       key={fc.path}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-zinc-800 text-xs text-zinc-400"
+                      onClick={() => {
+                        setActiveFile(fc.path);
+                        if (!showCodePanel) toggleCodePanel();
+                      }}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-zinc-800 text-xs text-zinc-400 hover:bg-violet-600/20 hover:text-violet-300 transition-colors cursor-pointer"
+                      title={fc.path}
                     >
                       <FileCode2 className="w-3 h-3" />
                       {fc.path.split("/").pop()}
-                    </span>
+                    </button>
                   ))}
                 </div>
               )}
