@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import type { Project } from "@/types";
-import { Wand2, ArrowRight, Pencil, Eye, Plus, Sparkles, FolderOpen } from "lucide-react";
+import { Wand2, ArrowRight, Pencil, Eye, Plus, Sparkles, FolderOpen, LayoutGrid, Settings } from "lucide-react";
+import TemplateGallery from "@/components/builder/TemplateGallery";
 
 export default function ProjectsPage() {
+  const [showTemplates, setShowTemplates] = useState(false);
   const router = useRouter();
   const [prompt, setPrompt] = useState("");
   const [creating, setCreating] = useState(false);
@@ -108,11 +110,29 @@ export default function ProjectsPage() {
     <div className="min-h-screen bg-[#FAF7F4]">
       <div className="mx-auto max-w-6xl px-5 py-10">
         {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold text-[#1A1A1A]">My Projects</h1>
-          <p className="mt-2 text-gray-500">
-            Create a new website or manage your existing projects.
-          </p>
+        <div className="flex items-start justify-between mb-10">
+          <div>
+            <h1 className="text-3xl font-bold text-[#1A1A1A]">My Projects</h1>
+            <p className="mt-2 text-gray-500">
+              Create a new app or manage your existing projects.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowTemplates(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <LayoutGrid className="w-4 h-4" />
+              Templates
+            </button>
+            <Link
+              href="/settings"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <Settings className="w-4 h-4" />
+              Settings
+            </Link>
+          </div>
         </div>
 
         {/* AI Builder Card */}
@@ -276,6 +296,11 @@ export default function ProjectsPage() {
           )}
         </div>
       </div>
+
+      {/* Template gallery modal */}
+      {showTemplates && (
+        <TemplateGallery onClose={() => setShowTemplates(false)} />
+      )}
     </div>
   );
 }
