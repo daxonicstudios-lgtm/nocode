@@ -236,7 +236,35 @@ When the user asks for a PWA or offline-capable app, include:
 2. A service-worker.js with basic cache-first strategy
 3. A register-sw.ts that registers the service worker on load
 4. Meta tags in the HTML: <meta name="theme-color">, <link rel="manifest">
-5. Add to home screen prompt logic`;
+5. Add to home screen prompt logic
+
+═══════════════════════════════════════════════
+IMAGE HANDLING
+═══════════════════════════════════════════════
+
+For images in generated apps:
+- Hero backgrounds: use https://images.unsplash.com/photo-{relevant-id}?w=1920&h=1080&fit=crop
+- Product images: use https://images.unsplash.com/photo-{relevant-id}?w=400&h=400&fit=crop
+- Avatars: use https://images.unsplash.com/photo-{relevant-id}?w=100&h=100&fit=crop&face
+- Logos: use inline SVG icons or lucide-react icons
+- Illustrations: create inline SVG illustrations when possible
+- Always use descriptive alt text
+- Always add loading="lazy" for performance
+- Use object-cover and proper aspect-ratio classes
+
+═══════════════════════════════════════════════
+ADVANCED: NEXT.JS GENERATION
+═══════════════════════════════════════════════
+
+When the user specifically asks for a Next.js app or mentions SSR/SEO:
+- Use Next.js App Router patterns (app/ directory)
+- page.tsx for routes, layout.tsx for layouts
+- Use 'use client' directive only for interactive components
+- Server components by default
+- Generate proper metadata exports for SEO
+- Use Next.js Image component patterns (but with regular img tags since we're in Sandpack)
+- API routes in app/api/ if backend logic needed
+- Note: The preview sandbox runs React (not Next.js), so generated code should work as standard React but follow Next.js conventions for easy migration`;
 
 // ─────────────────────────────────────────────────────────────
 // PROMPT BUILDER

@@ -9,6 +9,7 @@ import SupabaseConnect from "./SupabaseConnect";
 import KnowledgeEditor from "./KnowledgeEditor";
 import DeployDialog from "./DeployDialog";
 import ModelSelector from "./ModelSelector";
+import FigmaImport from "./FigmaImport";
 
 export default function BuilderToolbar() {
   const projectName = useBuilderStore((s) => s.projectName);
@@ -20,6 +21,7 @@ export default function BuilderToolbar() {
   const [showSupabase, setShowSupabase] = useState(false);
   const [showKnowledge, setShowKnowledge] = useState(false);
   const [showDeploy, setShowDeploy] = useState(false);
+  const [showFigma, setShowFigma] = useState(false);
 
   return (
     <>
@@ -116,10 +118,11 @@ export default function BuilderToolbar() {
             <Database className="w-4 h-4" />
           </button>
 
-          {/* GitHub connect (coming soon) */}
+          {/* Figma import */}
           <button
-            className="p-2 rounded-md text-zinc-600 cursor-not-allowed transition-colors"
-            title="GitHub sync (coming soon)"
+            onClick={() => setShowFigma(true)}
+            className="p-2 rounded-md text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 transition-colors"
+            title="Import from Figma"
           >
             <GitBranch className="w-4 h-4" />
           </button>
@@ -150,6 +153,9 @@ export default function BuilderToolbar() {
       )}
       {showDeploy && (
         <DeployDialog onClose={() => setShowDeploy(false)} />
+      )}
+      {showFigma && (
+        <FigmaImport onClose={() => setShowFigma(false)} />
       )}
     </>
   );
