@@ -64,19 +64,26 @@ export default function ProjectsPage() {
         return;
       }
 
-      const res = await fetch("/api/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, userId: user.id }),
-      });
+      // Create a new app-type project and redirect to the AI builder
+      const slug = prompt.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40) + "-" + Math.random().toString(36).slice(2, 8);
+      const { data: newProject, error: createErr } = await supabase
+        .from("projects")
+        .insert({
+          user_id: user.id,
+          name: prompt.trim().slice(0, 100),
+          slug,
+          description: prompt.trim(),
+          status: "draft",
+          project_type: "app",
+        })
+        .select("id")
+        .single();
 
-      if (!res.ok) {
-        const body = await res.json();
-        throw new Error(body.error || "Failed to create project");
+      if (createErr || !newProject) {
+        throw new Error(createErr?.message || "Failed to create project");
       }
 
-      const data = await res.json();
-      router.push(`/editor/${data.projectId}`);
+      router.push(`/builder/${newProject.id}?prompt=${encodeURIComponent(prompt.trim())}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setCreating(false);
@@ -246,19 +253,21 @@ export default function ProjectsPage() {
 
                     <div className="flex gap-2 pt-2">
                       <Link
-                        href={`/editor/${project.id}`}
+                        href={(project as Project & { project_type?: string }).project_type === "app" ? `/builder/${project.id}` : `/editor/${project.id}`}
                         className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#E8553D] text-xs font-semibold text-white hover:bg-[#D14832] transition-colors shadow-sm shadow-[#E8553D]/10"
                       >
                         <Pencil className="w-3 h-3" />
-                        Edit
+                        {(project as Project & { project_type?: string }).project_type === "app" ? "Open Builder" : "Edit"}
                       </Link>
-                      <Link
-                        href={`/preview/${project.id}`}
-                        className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors"
-                      >
-                        <Eye className="w-3 h-3" />
-                        Preview
-                      </Link>
+                      {(project as Project & { project_type?: string }).project_type !== "app" && (
+                        <Link
+                          href={`/preview/${project.id}`}
+                          className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                        >
+                          <Eye className="w-3 h-3" />
+                          Preview
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>
