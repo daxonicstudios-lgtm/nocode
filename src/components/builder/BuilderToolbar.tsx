@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useBuilderStore } from "@/stores/builder-store";
-import { Zap, Code2, History, Rocket, Database, Github, BookOpen } from "lucide-react";
+import { Zap, Code2, History, Rocket, Database, GitBranch, BookOpen } from "lucide-react";
 import Link from "next/link";
 import VersionHistory from "./VersionHistory";
 import SupabaseConnect from "./SupabaseConnect";
@@ -99,7 +99,7 @@ export default function BuilderToolbar() {
             className="p-2 rounded-md text-zinc-600 cursor-not-allowed transition-colors"
             title="GitHub sync (coming soon)"
           >
-            <Github className="w-4 h-4" />
+            <GitBranch className="w-4 h-4" />
           </button>
 
           {/* Deploy button */}

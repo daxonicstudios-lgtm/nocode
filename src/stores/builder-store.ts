@@ -30,9 +30,15 @@ interface BuilderState {
   // Credits
   credits: number;
 
+  // Prompt queue
+  promptQueue: string[];
+
   // Actions
   loadProject: (projectId: string) => Promise<void>;
   sendMessage: (content: string) => Promise<void>;
+  queuePrompt: (content: string) => void;
+  removeFromQueue: (index: number) => void;
+  autoFixError: (errorMessage: string) => void;
   setActiveFile: (path: string) => void;
   updateFileLocally: (path: string, content: string) => void;
   setActivePanel: (panel: BuilderPanel) => void;
@@ -54,6 +60,7 @@ const initialState = {
   showFileExplorer: true,
   showCodePanel: false,
   credits: 0,
+  promptQueue: [] as string[],
 };
 
 export const useBuilderStore = create<BuilderState>((set, get) => ({
@@ -225,6 +232,14 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
                   streamingText: "",
                   credits: get().credits - (parsed.creditsUsed || 0),
                 });
+
+                // Process next item in prompt queue
+                const queue = get().promptQueue;
+                if (queue.length > 0) {
+                  const [next, ...rest] = queue;
+                  set({ promptQueue: rest });
+                  setTimeout(() => get().sendMessage(next), 500);
+                }
                 break;
               }
 
@@ -256,6 +271,28 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
   setDeviceFrame: (frame: DeviceFrame) => set({ deviceFrame: frame }),
 
   toggleCodePanel: () => set({ showCodePanel: !get().showCodePanel }),
+
+  queuePrompt: (content: string) => {
+    if (get().isGenerating) {
+      set({ promptQueue: [...get().promptQueue, content] });
+    } else {
+      get().sendMessage(content);
+    }
+  },
+
+  removeFromQueue: (index: number) => {
+    const queue = [...get().promptQueue];
+    queue.splice(index, 1);
+    set({ promptQueue: queue });
+  },
+
+  autoFixError: (errorMessage: string) => {
+    const { isGenerating, sendMessage } = get();
+    if (isGenerating) return; // Don't auto-fix while already generating
+    sendMessage(
+      `The app has this error. Please fix it:\n\n\`\`\`\n${errorMessage}\n\`\`\``
+    );
+  },
 
   reset: () => set(initialState),
 }));

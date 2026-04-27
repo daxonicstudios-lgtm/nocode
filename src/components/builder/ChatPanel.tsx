@@ -22,6 +22,9 @@ export default function ChatPanel() {
   const isGenerating = useBuilderStore((s) => s.isGenerating);
   const streamingText = useBuilderStore((s) => s.streamingText);
   const sendMessage = useBuilderStore((s) => s.sendMessage);
+  const promptQueue = useBuilderStore((s) => s.promptQueue);
+  const queuePrompt = useBuilderStore((s) => s.queuePrompt);
+  const removeFromQueue = useBuilderStore((s) => s.removeFromQueue);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -38,9 +41,13 @@ export default function ChatPanel() {
 
   const handleSend = () => {
     const trimmed = input.trim();
-    if (!trimmed || isGenerating) return;
+    if (!trimmed) return;
     setInput("");
-    sendMessage(trimmed);
+    if (isGenerating) {
+      queuePrompt(trimmed);
+    } else {
+      sendMessage(trimmed);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -145,6 +152,31 @@ export default function ChatPanel() {
         <div ref={messagesEndRef} />
       </div>
 
+      {/* Prompt queue */}
+      {promptQueue.length > 0 && (
+        <div className="px-3 py-2 border-t border-zinc-800 space-y-1">
+          <span className="text-[10px] uppercase tracking-wide text-zinc-600 font-medium">
+            Queued ({promptQueue.length})
+          </span>
+          {promptQueue.map((p, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-zinc-900 border border-zinc-800"
+            >
+              <span className="text-xs text-zinc-400 truncate flex-1">
+                {p}
+              </span>
+              <button
+                onClick={() => removeFromQueue(i)}
+                className="text-zinc-600 hover:text-zinc-400 text-xs"
+              >
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Input area */}
       <div className="p-3 border-t border-zinc-800">
         <div className="flex items-end gap-2 bg-zinc-900 rounded-xl border border-zinc-800 p-2">
@@ -160,11 +192,11 @@ export default function ChatPanel() {
           />
           <button
             onClick={handleSend}
-            disabled={!input.trim() || isGenerating}
+            disabled={!input.trim()}
             className="flex-shrink-0 p-2 rounded-lg bg-violet-600 text-white hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             {isGenerating ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Send className="w-4 h-4 opacity-70" />
             ) : (
               <Send className="w-4 h-4" />
             )}
