@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useBuilderStore } from "@/stores/builder-store";
-import { Send, Loader2, FileCode2, Sparkles } from "lucide-react";
+import { Send, Loader2, FileCode2, Sparkles, Paperclip, Mic, MicOff, X, ImageIcon } from "lucide-react";
 
 const SUGGESTED_PROMPTS = [
   "Build a SaaS landing page with pricing tiers and testimonials",
@@ -15,8 +15,12 @@ const SUGGESTED_PROMPTS = [
 
 export default function ChatPanel() {
   const [input, setInput] = useState("");
+  const [attachedImage, setAttachedImage] = useState<string | null>(null); // base64
+  const [attachedImageName, setAttachedImageName] = useState<string | null>(null);
+  const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const messages = useBuilderStore((s) => s.messages);
   const isGenerating = useBuilderStore((s) => s.isGenerating);
@@ -44,13 +48,73 @@ export default function ChatPanel() {
 
   const handleSend = () => {
     const trimmed = input.trim();
-    if (!trimmed) return;
+    if (!trimmed && !attachedImage) return;
+
+    const message = attachedImage
+      ? `${trimmed || "Recreate this design as a React app"}\n\n[IMAGE:${attachedImage}]`
+      : trimmed;
+
     setInput("");
+    setAttachedImage(null);
+    setAttachedImageName(null);
+
     if (isGenerating) {
-      queuePrompt(trimmed);
+      queuePrompt(message);
     } else {
-      sendMessage(trimmed);
+      sendMessage(message);
     }
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return;
+    if (file.size > 10 * 1024 * 1024) return; // 10MB max
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAttachedImage(reader.result as string);
+      setAttachedImageName(file.name);
+    };
+    reader.readAsDataURL(file);
+    // Reset input so same file can be re-selected
+    e.target.value = "";
+  };
+
+  const toggleVoice = () => {
+    if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
+      return; // Not supported
+    }
+
+    if (isListening) {
+      setIsListening(false);
+      return;
+    }
+
+    setIsListening(true);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SR) {
+      setIsListening(false);
+      return;
+    }
+
+    const recognition = new SR();
+    recognition.lang = "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInput((prev: string) => prev + (prev ? " " : "") + transcript);
+      setIsListening(false);
+    };
+
+    recognition.onerror = () => setIsListening(false);
+    recognition.onend = () => setIsListening(false);
+    recognition.start();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -187,27 +251,83 @@ export default function ChatPanel() {
 
       {/* Input area */}
       <div className="p-3 border-t border-zinc-800">
+        {/* Attached image preview */}
+        {attachedImage && (
+          <div className="flex items-center gap-2 mb-2 px-2 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800">
+            <ImageIcon className="w-4 h-4 text-violet-400 flex-shrink-0" />
+            <span className="text-xs text-zinc-400 truncate flex-1">
+              {attachedImageName}
+            </span>
+            <button
+              onClick={() => {
+                setAttachedImage(null);
+                setAttachedImageName(null);
+              }}
+              className="text-zinc-600 hover:text-zinc-400"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
         <div className="flex items-end gap-2 bg-zinc-900 rounded-xl border border-zinc-800 p-2">
+          {/* Image upload */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="hidden"
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="flex-shrink-0 p-2 rounded-lg text-zinc-600 hover:text-zinc-400 hover:bg-zinc-800 transition-colors"
+            title="Upload screenshot or design"
+          >
+            <Paperclip className="w-4 h-4" />
+          </button>
+
+          {/* Voice input */}
+          <button
+            onClick={toggleVoice}
+            className={`flex-shrink-0 p-2 rounded-lg transition-colors ${
+              isListening
+                ? "text-red-400 bg-red-500/10"
+                : "text-zinc-600 hover:text-zinc-400 hover:bg-zinc-800"
+            }`}
+            title={isListening ? "Stop listening" : "Voice input"}
+          >
+            {isListening ? (
+              <MicOff className="w-4 h-4" />
+            ) : (
+              <Mic className="w-4 h-4" />
+            )}
+          </button>
+
+          {/* Text input */}
           <textarea
             ref={textareaRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Describe what you want to build..."
+            placeholder={
+              isListening
+                ? "Listening..."
+                : attachedImage
+                  ? "Describe what to do with this design..."
+                  : "Describe what you want to build..."
+            }
             rows={1}
-            className="flex-1 bg-transparent text-sm text-zinc-200 placeholder:text-zinc-600 resize-none outline-none px-2 py-1.5 max-h-[120px]"
-            disabled={isGenerating}
+            className="flex-1 bg-transparent text-sm text-zinc-200 placeholder:text-zinc-600 resize-none outline-none px-1 py-1.5 max-h-[120px]"
           />
+
+          {/* Send */}
           <button
             onClick={handleSend}
-            disabled={!input.trim()}
-            className="flex-shrink-0 p-2 rounded-lg bg-violet-600 text-white hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            disabled={!input.trim() && !attachedImage}
+            className="flex-shrink-0 p-2 rounded-lg bg-gradient-to-r from-violet-600 to-blue-600 text-white hover:from-violet-500 hover:to-blue-500 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
           >
-            {isGenerating ? (
-              <Send className="w-4 h-4 opacity-70" />
-            ) : (
-              <Send className="w-4 h-4" />
-            )}
+            <Send className="w-4 h-4" />
           </button>
         </div>
       </div>

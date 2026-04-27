@@ -171,7 +171,23 @@ ACCESSIBILITY — Not optional
 - Keyboard navigation: tabIndex, onKeyDown for custom controls
 - Color contrast: ensure text is readable (4.5:1 ratio minimum)
 - Alt text on all images (descriptive, not "image of...")
-- Skip to main content link (for multi-section pages)`;
+- Skip to main content link (for multi-section pages)
+
+═══════════════════════════════════════════════
+SCREENSHOT-TO-CODE — When you receive an image
+═══════════════════════════════════════════════
+
+When the user uploads a screenshot or design image:
+1. Analyze the layout carefully: header, sections, grid structure, sidebar, footer
+2. Identify the color palette from the image
+3. Identify typography sizes and weights
+4. Recreate the design PIXEL-PERFECTLY in React + Tailwind
+5. Match colors using Tailwind classes or hex values
+6. Match spacing and proportions as closely as possible
+7. Use proper semantic HTML structure
+8. Make it responsive (the image may show desktop — add mobile breakpoints)
+9. If the image shows data (tables, charts, cards), generate realistic mock data
+10. Output complete, working files — not a partial recreation`;
 
 // ─────────────────────────────────────────────────────────────
 // PROMPT BUILDER
@@ -190,6 +206,34 @@ export function buildPrompt(
 
   if (projectKnowledge) {
     systemPrompt += `\n\n═══════════════════════════════════════════════\nPROJECT KNOWLEDGE — Follow these for ALL generations\n═══════════════════════════════════════════════\n${projectKnowledge}`;
+  }
+
+  // Check if Supabase is connected (look for config in files)
+  if (files["__supabase_config__"]) {
+    try {
+      const config = JSON.parse(files["__supabase_config__"]);
+      systemPrompt += `\n\n═══════════════════════════════════════════════
+SUPABASE CONNECTED — Full-Stack Mode
+═══════════════════════════════════════════════
+
+The user has a Supabase project connected:
+- URL: ${config.url}
+- Anon Key: available in the app
+
+You can now generate FULL-STACK code:
+1. Import { createClient } from '@supabase/supabase-js'
+2. Initialize: const supabase = createClient('${config.url}', '${config.anonKey}')
+3. Use supabase.from('table').select/insert/update/delete for database operations
+4. Use supabase.auth.signUp/signInWithPassword for authentication
+5. Use supabase.storage for file uploads
+6. Generate proper TypeScript types for database tables
+7. Include Row Level Security (RLS) policy suggestions as SQL comments
+8. Handle auth state with useEffect + supabase.auth.onAuthStateChange
+9. Show login/signup forms when user is not authenticated
+10. Always handle loading and error states for async operations`;
+    } catch {
+      // Skip if config is not valid JSON
+    }
   }
 
   const filePaths = Object.keys(files);
@@ -233,15 +277,40 @@ export function buildPrompt(
   }
 
   const recentHistory = conversationHistory.slice(-20);
+
+  // Strip image data from history (too large for context)
+  const cleanHistory = recentHistory.map((msg) => ({
+    role: msg.role === "assistant" ? "assistant" : "user",
+    content: msg.content.replace(/\[IMAGE:data:[^\]]+\]/g, "[Image was attached]"),
+  }));
+
   const messages = [
-    ...recentHistory.map((msg) => ({
-      role: msg.role === "assistant" ? "assistant" : "user",
-      content: msg.content,
-    })),
+    ...cleanHistory,
     { role: "user", content: userMessage },
   ];
 
   return { systemPrompt, messages };
+}
+
+/**
+ * Extract image data from a message (if present)
+ * Format: [IMAGE:data:image/png;base64,...]
+ */
+export function extractImageFromMessage(message: string): {
+  text: string;
+  imageData: string | null;
+  mimeType: string | null;
+} {
+  const match = message.match(/\[IMAGE:(data:([^;]+);base64,([^\]]+))\]/);
+  if (!match) {
+    return { text: message, imageData: null, mimeType: null };
+  }
+
+  const text = message.replace(/\[IMAGE:data:[^\]]+\]/, "").trim();
+  const mimeType = match[2]; // e.g., "image/png"
+  const base64Data = match[3]; // raw base64 without prefix
+
+  return { text: text || "Recreate this design as a React application", imageData: base64Data, mimeType };
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -332,10 +401,29 @@ async function* streamGemini(
     return;
   }
 
-  const geminiMessages = messages.map((msg) => ({
-    role: msg.role === "user" ? "user" : "model",
-    parts: [{ text: msg.content }],
-  }));
+  // Build Gemini messages, handling image attachments in the last user message
+  const geminiMessages = messages.map((msg, i) => {
+    const role = msg.role === "user" ? "user" : "model";
+    const isLastMessage = i === messages.length - 1;
+
+    // Check if this message has an embedded image
+    if (isLastMessage && role === "user") {
+      const { text, imageData, mimeType } = extractImageFromMessage(msg.content);
+      if (imageData && mimeType) {
+        return {
+          role,
+          parts: [
+            { text },
+            { inline_data: { mime_type: mimeType, data: imageData } },
+          ],
+        };
+      }
+    }
+
+    // Strip any image markers from non-last messages
+    const cleanContent = msg.content.replace(/\[IMAGE:data:[^\]]+\]/g, "[Image was attached]");
+    return { role, parts: [{ text: cleanContent }] };
+  });
 
   try {
     const response = await fetch(
