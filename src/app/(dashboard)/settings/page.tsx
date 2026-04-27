@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Key, Zap, Save, Loader2, Check, ArrowLeft, Shield } from "lucide-react";
+import {
+  Key,
+  Zap,
+  Save,
+  Loader2,
+  Check,
+  ArrowLeft,
+  Shield,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function SettingsPage() {
@@ -21,7 +29,6 @@ export default function SettingsPage() {
       } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Load profile for BYOK key
       const { data: profile } = await supabase
         .from("profiles")
         .select("anthropic_api_key")
@@ -33,7 +40,6 @@ export default function SettingsPage() {
         setCurrentKeyMask(`${key.slice(0, 8)}...${key.slice(-4)}`);
       }
 
-      // Load credits
       const credRes = await fetch("/api/credits");
       if (credRes.ok) {
         const data = await credRes.json();
@@ -61,9 +67,7 @@ export default function SettingsPage() {
     if (!error) {
       setSaved(true);
       if (apiKey.trim()) {
-        setCurrentKeyMask(
-          `${apiKey.slice(0, 8)}...${apiKey.slice(-4)}`
-        );
+        setCurrentKeyMask(`${apiKey.slice(0, 8)}...${apiKey.slice(-4)}`);
       } else {
         setCurrentKeyMask(null);
       }
@@ -92,44 +96,46 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FAF7F4] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+      <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center">
+        <Loader2 className="w-6 h-6 animate-spin text-zinc-600" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F4]">
+    <div className="min-h-screen bg-[#0A0A0F]">
       <div className="mx-auto max-w-2xl px-5 py-10">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-6"
+          className="inline-flex items-center gap-1 text-sm text-zinc-600 hover:text-zinc-300 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Projects
         </Link>
 
-        <h1 className="text-2xl font-bold text-[#1A1A1A] mb-8">Settings</h1>
+        <h1 className="text-2xl font-bold text-zinc-100 mb-8">Settings</h1>
 
         {/* Credits Section */}
-        <div className="bg-white rounded-2xl border border-gray-200/60 shadow-sm p-6 mb-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-50">
-              <Zap className="h-5 w-5 text-yellow-500" />
+        <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800/50 p-6 mb-6">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-500/10">
+              <Zap className="h-5 w-5 text-yellow-400" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-[#1A1A1A]">Credits</h2>
-              <p className="text-sm text-gray-400">
+              <h2 className="text-base font-semibold text-zinc-200">
+                Credits
+              </h2>
+              <p className="text-xs text-zinc-600">
                 Each AI generation uses credits
               </p>
             </div>
           </div>
 
-          <div className="flex items-baseline gap-2 mb-4">
-            <span className="text-4xl font-bold text-[#1A1A1A]">
+          <div className="flex items-baseline gap-2 mb-5">
+            <span className="text-4xl font-bold text-white">
               {Math.round(credits)}
             </span>
-            <span className="text-gray-400">credits remaining</span>
+            <span className="text-zinc-600 text-sm">credits remaining</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -141,31 +147,32 @@ export default function SettingsPage() {
             ].map((pack) => (
               <button
                 key={pack.credits}
-                className="flex flex-col items-center gap-1 px-4 py-3 rounded-xl border border-gray-200 hover:border-[#E8553D] hover:bg-[#E8553D]/5 transition-colors"
+                className="flex flex-col items-center gap-1 px-4 py-3 rounded-xl border border-zinc-800 hover:border-violet-500/50 hover:bg-violet-500/5 transition-colors"
               >
-                <span className="text-lg font-bold text-[#1A1A1A]">
+                <span className="text-lg font-bold text-zinc-200">
                   {pack.credits}
                 </span>
-                <span className="text-xs text-gray-500">{pack.price}</span>
+                <span className="text-xs text-zinc-600">{pack.price}</span>
               </button>
             ))}
           </div>
-          <p className="text-xs text-gray-400 mt-3">
-            Stripe payment coming soon. For now, all users get 50 free credits.
+          <p className="text-xs text-zinc-700 mt-3">
+            Stripe payments coming soon. All users get 50 free credits on
+            signup.
           </p>
         </div>
 
         {/* BYOK Section */}
-        <div className="bg-white rounded-2xl border border-gray-200/60 shadow-sm p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50">
-              <Key className="h-5 w-5 text-violet-500" />
+        <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800/50 p-6">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10">
+              <Key className="h-5 w-5 text-violet-400" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-[#1A1A1A]">
+              <h2 className="text-base font-semibold text-zinc-200">
                 Bring Your Own Key
               </h2>
-              <p className="text-sm text-gray-400">
+              <p className="text-xs text-zinc-600">
                 Use your own API key for unlimited generations
               </p>
             </div>
@@ -173,35 +180,35 @@ export default function SettingsPage() {
 
           {currentKeyMask ? (
             <div className="space-y-3">
-              <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-100">
-                <Shield className="w-4 h-4 text-emerald-500" />
-                <span className="text-sm text-emerald-700">
+              <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                <Shield className="w-4 h-4 text-emerald-400" />
+                <span className="text-sm text-emerald-300">
                   API key connected: {currentKeyMask}
                 </span>
               </div>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-zinc-600">
                 Generations use your API key — no credits deducted.
               </p>
               <button
                 onClick={handleRemoveKey}
                 disabled={saving}
-                className="text-sm text-red-500 hover:text-red-600"
+                className="text-sm text-red-400 hover:text-red-300 transition-colors"
               >
                 Remove key
               </button>
             </div>
           ) : (
             <div className="space-y-3">
-              <p className="text-sm text-gray-500">
-                Paste your Gemini API key below. Your key is stored securely and
-                only used for your generations.
+              <p className="text-sm text-zinc-500">
+                Paste your Gemini or Anthropic API key. Stored securely, only
+                used for your generations.
               </p>
               <input
                 type="password"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                placeholder="AIzaSy..."
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-[#FAFAF9] text-sm text-gray-900 placeholder:text-gray-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-100 outline-none transition-all"
+                placeholder="AIzaSy... or sk-ant-..."
+                className="w-full h-11 rounded-xl bg-zinc-800/50 border border-zinc-700/50 px-4 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 outline-none transition-all"
               />
               <button
                 onClick={handleSaveKey}
