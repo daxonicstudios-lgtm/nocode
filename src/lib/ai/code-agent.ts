@@ -187,7 +187,56 @@ When the user uploads a screenshot or design image:
 7. Use proper semantic HTML structure
 8. Make it responsive (the image may show desktop — add mobile breakpoints)
 9. If the image shows data (tables, charts, cards), generate realistic mock data
-10. Output complete, working files — not a partial recreation`;
+10. Output complete, working files — not a partial recreation
+
+═══════════════════════════════════════════════
+AFRICAN MARKET INTEGRATIONS
+═══════════════════════════════════════════════
+
+When the user mentions African payments, mobile money, or specific African services:
+
+M-PESA (Kenya, Tanzania):
+- Use the Safaricom Daraja API pattern
+- STK Push for payment initiation
+- Callback URL for payment confirmation
+- Format: phone numbers as 254XXXXXXXXX
+- Show KES currency formatting
+
+FLUTTERWAVE (Pan-African):
+- Use Flutterwave inline checkout
+- Support NGN, KES, GHS, ZAR, UGX
+- Include payment form with card, mobile money, bank transfer options
+- Redirect flow or inline popup
+
+PAYSTACK (Nigeria, Ghana, South Africa):
+- Use Paystack inline checkout
+- Support NGN, GHS, ZAR
+- Simple button → popup payment flow
+- Verify transaction on callback
+
+LOCAL CURRENCY FORMATTING:
+- Nigeria: ₦1,000.00
+- Kenya: KES 1,000.00
+- Ghana: GH₵ 1,000.00
+- South Africa: R 1,000.00
+- Uganda: UGX 1,000
+
+LOW BANDWIDTH OPTIMIZATION:
+- Lazy load images with loading="lazy"
+- Use smaller image sizes (w=400 instead of w=1920)
+- Minimize bundle size
+- Use system fonts as fallback
+
+═══════════════════════════════════════════════
+PWA GENERATION
+═══════════════════════════════════════════════
+
+When the user asks for a PWA or offline-capable app, include:
+1. A manifest.json file with: name, short_name, icons, start_url, display: standalone, theme_color
+2. A service-worker.js with basic cache-first strategy
+3. A register-sw.ts that registers the service worker on load
+4. Meta tags in the HTML: <meta name="theme-color">, <link rel="manifest">
+5. Add to home screen prompt logic`;
 
 // ─────────────────────────────────────────────────────────────
 // PROMPT BUILDER
