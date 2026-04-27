@@ -5,6 +5,7 @@ import {
   streamGeneration,
   extractChatText,
   estimateCreditCost,
+  type AIModel,
 } from "@/lib/ai/code-agent";
 import type { FileChange } from "@/types/builder";
 
@@ -12,7 +13,7 @@ export const maxDuration = 120; // 2 min timeout for streaming
 
 export async function POST(request: NextRequest) {
   try {
-    const { projectId, message } = await request.json();
+    const { projectId, message, model } = await request.json();
 
     if (!projectId || !message) {
       return new Response(
@@ -96,11 +97,14 @@ export async function POST(request: NextRequest) {
           let fullResponse = "";
           const generatedFiles: Array<{ path: string; content: string }> = [];
 
+          const selectedModel: AIModel = (model as AIModel) || "gemini-flash";
+
           const generator = streamGeneration(
             message,
             files,
             history || [],
             project.knowledge || undefined,
+            selectedModel,
             profile?.anthropic_api_key || undefined
           );
 

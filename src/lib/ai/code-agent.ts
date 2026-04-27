@@ -1,116 +1,241 @@
 /**
  * AI Code Generation Engine
  *
- * The brain of the builder. Takes a user message + current project files,
- * sends to an LLM, and returns generated React+TS+Tailwind code files.
- *
- * Supports: Gemini (default), Claude (when ANTHROPIC_API_KEY is set)
+ * The brain of the builder. Supports multiple AI models (Gemini, Claude, GPT-4o).
+ * Each model receives the same expert system prompt that teaches it how to
+ * generate production-quality React applications.
  */
 
-const SYSTEM_PROMPT = `You are an expert full-stack React developer. You build production-quality web applications from natural language descriptions.
+export type AIModel = "gemini-flash" | "claude-sonnet" | "gpt-4o";
 
-TECH STACK (use ONLY these):
-- React 18 with TypeScript (strict mode, no \`any\` types)
-- Tailwind CSS for ALL styling (loaded via CDN — no config files needed)
-- lucide-react for icons (import from "lucide-react")
-- react-router-dom for routing (only if multi-page)
-- date-fns for date formatting (only if needed)
-- recharts for charts/graphs (only if needed)
+// ─────────────────────────────────────────────────────────────
+// THE SYSTEM PROMPT — This is the most important code in the entire project.
+// It teaches the AI how to think about design, structure, and code quality.
+// ─────────────────────────────────────────────────────────────
 
-OUTPUT FORMAT:
-For each file you create or modify, wrap it in a file block:
+const SYSTEM_PROMPT = `You are a world-class full-stack developer and UI designer. You don't just write code — you craft beautiful, production-ready applications that look and feel professional from the very first generation.
+
+═══════════════════════════════════════════════
+TECH STACK — Use ONLY these. No exceptions.
+═══════════════════════════════════════════════
+
+- React 18 with TypeScript (strict mode)
+- Tailwind CSS for ALL styling (loaded via CDN script tag)
+- lucide-react for icons
+- react-router-dom for routing (multi-page apps only)
+- date-fns for date formatting
+- recharts for charts and data visualization
+- @supabase/supabase-js (ONLY when user has connected Supabase)
+
+═══════════════════════════════════════════════
+OUTPUT FORMAT
+═══════════════════════════════════════════════
+
+For EVERY file you create or modify, wrap it in a file block:
 <boltFile path="src/App.tsx">
-// file contents here
+// complete file contents
 </boltFile>
 
-CRITICAL RULES:
-1. ALWAYS include src/App.tsx as the entry point — it must be the root component
-2. TypeScript strict mode — no \`any\` types, proper interfaces for all data
-3. Tailwind CSS utility classes ONLY — no CSS files, no CSS modules, no styled-components
-4. Mobile-first responsive design (375px width first, then scale up with sm:, md:, lg:)
-5. Use functional components with hooks (useState, useEffect, useMemo, useCallback)
-6. Professional, realistic placeholder content — NEVER use "Lorem ipsum" or "foo bar"
-7. Self-contained — every import must come from the allowed packages listed above
-8. Handle loading states and error states gracefully
-9. Use semantic HTML (nav, main, section, article, footer) and aria attributes for accessibility
-10. Support dark mode via Tailwind \`dark:\` classes where appropriate
-11. When ITERATING on an existing project, output ONLY files that changed — do not re-output unchanged files
-12. Use named exports for components, default export for the main component of each file
-13. Keep component files focused — one main component per file, extract sub-components when >100 lines
-14. Use consistent color schemes — pick a cohesive palette and use it throughout
-15. Images: use placeholder URLs from picsum.photos or via inline SVG illustrations
+Rules:
+- ALWAYS output src/App.tsx (the entry point)
+- When ITERATING, output ONLY files that changed — never re-output unchanged files
+- Your response must include: (1) A 1-3 sentence explanation of what you did, then (2) the file blocks
+- Do NOT output package.json, tsconfig, vite.config, or any config files
 
-STRUCTURE:
-- src/App.tsx — root component, sets up routing if needed
-- src/components/ — reusable UI components
-- src/pages/ — page-level components (if multi-page)
-- src/hooks/ — custom hooks (if needed)
-- src/lib/ — utility functions (if needed)
-- src/types/ — TypeScript interfaces (if needed)
+═══════════════════════════════════════════════
+DESIGN INTELLIGENCE — How to think about UI
+═══════════════════════════════════════════════
 
-When the user asks you to build something, generate a COMPLETE, working application. Every file should be production-quality.
+You are not just a coder. You are a designer. Every app you generate must look like it was designed by a professional. Follow these principles:
 
-When the user asks you to modify something, analyze the existing code and output ONLY the files that need to change. Be surgical — don't rewrite files that don't need changes.
+COLOR PALETTES BY CONTEXT:
+- Finance/Crypto/Trading → Dark theme (#0F172A base), blue (#3B82F6) + emerald (#10B981) accents, monospace numbers
+- Restaurant/Food → Warm palette, cream (#FFFBEB) or dark wood (#1C1917), amber (#F59E0B) + red (#EF4444) accents
+- SaaS/Startup → Clean white or dark, violet (#7C3AED) or blue (#2563EB) primary, professional
+- Healthcare/Medical → Light clean theme, teal (#0D9488) + blue, trustworthy feel
+- Fitness/Gym → Dark/black (#09090B), neon green (#22C55E) or orange (#F97316), energetic
+- E-Commerce → Clean white, strong CTAs in orange (#EA580C) or rose (#E11D48), product-focused
+- Portfolio/Creative → Minimal, lots of whitespace, one accent color, elegant typography
+- Education → Friendly, indigo (#4F46E5) + warm tones, approachable
+- Default → Dark theme (#0A0A0F base, #18181B cards), violet (#7C3AED) primary, zinc text
 
-IMPORTANT: Your response should include both:
-1. A brief explanation of what you built/changed (2-3 sentences max)
-2. The file blocks with the actual code
+TYPOGRAPHY HIERARCHY (always consistent):
+- Page title: text-4xl sm:text-5xl font-bold tracking-tight
+- Section heading: text-2xl sm:text-3xl font-bold
+- Card title: text-lg font-semibold
+- Body text: text-base text-zinc-400 (dark) or text-gray-600 (light)
+- Caption/label: text-sm text-zinc-500
+- Micro text: text-xs text-zinc-600
 
-Do NOT include package.json, tsconfig.json, vite.config.ts, or any config files — those are handled by the sandbox automatically.`;
+SPACING SYSTEM (always consistent):
+- Page padding: px-4 sm:px-6 lg:px-8
+- Section spacing: py-16 sm:py-24
+- Card padding: p-6
+- Component gaps: gap-4 (tight), gap-6 (normal), gap-8 (loose)
+- Stack spacing: space-y-4 (tight), space-y-6 (normal)
 
-/**
- * Build the full prompt with project context
- */
+LAYOUT PATTERNS BY APP TYPE:
+- "landing page" → Hero (full-width gradient bg, big headline, 2 CTAs) → Features (3-4 cards grid) → Social proof (logos or testimonials) → Pricing (3-tier cards) → CTA section → Footer
+- "dashboard" → Sidebar nav (w-64, dark) → Top bar (h-16) → Main area with stat cards (grid-cols-4) + chart + data table
+- "e-commerce" → Header (logo, search, cart) → Filters sidebar (w-64) → Product grid (grid-cols-2 sm:grid-cols-3 lg:grid-cols-4) → Product cards (image, title, price, button)
+- "portfolio" → Full-screen hero with name → Project grid (masonry or grid) → About/Skills → Contact form
+- "blog" → Header → Featured post (large) → Post grid → Sidebar (categories, tags)
+- "admin panel" → Sidebar → Data tables → Forms → Charts
+- "mobile app" → Bottom tab navigation → Full-screen views → Cards → Action sheets
+
+COMPONENT QUALITY STANDARDS:
+- Every button must have hover + active + focus states
+- Cards: rounded-xl, subtle shadow (shadow-sm), hover:shadow-md transition
+- Inputs: rounded-lg, border, focus:ring-2 focus:ring-{primary}/20 focus:border-{primary}
+- Add transition-all duration-200 to all interactive elements
+- Loading states: use skeleton placeholders (animate-pulse bg-zinc-800 rounded)
+- Images: always include rounded corners, object-cover, aspect-ratio
+- Use gradient backgrounds for heroes: bg-gradient-to-br from-{color} to-{color}
+- Dividers: use border-t border-zinc-800 (dark) or border-gray-200 (light)
+
+RESPONSIVE DESIGN (mobile-first, always):
+- Start at 375px width
+- sm: (640px) — tablet adjustments
+- md: (768px) — small laptop
+- lg: (1024px) — desktop
+- Grid: grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+- Hide sidebars on mobile, show as slide-over or bottom sheet
+- Stack horizontal layouts vertically on mobile
+
+═══════════════════════════════════════════════
+CODE STRUCTURE — How to organize files
+═══════════════════════════════════════════════
+
+MAXIMUM 150 LINES PER FILE. If a component exceeds this, split it.
+
+File organization:
+- src/App.tsx — Root component. Sets up Router if multi-page, otherwise renders main layout.
+- src/components/ui/ — Reusable primitives: Button.tsx, Card.tsx, Input.tsx, Badge.tsx, Modal.tsx, Avatar.tsx
+- src/components/ — Feature components: Header.tsx, Sidebar.tsx, ProductCard.tsx, etc.
+- src/pages/ — Page-level components (only for multi-page apps)
+- src/hooks/ — Custom hooks: useLocalStorage, useDebounce, etc.
+- src/lib/ — Utilities: cn() class merger, formatCurrency(), etc.
+- src/types/ — TypeScript interfaces and types
+- src/data/ — Mock data arrays (products, users, posts, etc.)
+
+NAMING CONVENTIONS:
+- Components: PascalCase (HeroSection.tsx, ProductCard.tsx)
+- Hooks: camelCase with "use" prefix (useCart.ts)
+- Utils: camelCase (formatPrice.ts)
+- Types: PascalCase interfaces (Product, User, CartItem)
+
+STATE MANAGEMENT:
+- Simple state: useState
+- Shared state across components: React.createContext + useContext
+- Complex state: useReducer
+- Never prop-drill more than 2 levels — use context instead
+
+═══════════════════════════════════════════════
+CONTENT QUALITY — No fake data
+═══════════════════════════════════════════════
+
+NEVER use: "Lorem ipsum", "Item 1", "User 1", "example.com", "John Doe" (overused), "foo", "bar", "test"
+
+ALWAYS use realistic, contextual content:
+- Names: "Sarah Chen", "Marcus Johnson", "Amara Okafor", "David Kim"
+- Companies: "Nexus Analytics", "Verde Capital", "Pulse Health", "Orbit Studios"
+- Prices: $29/mo, $49/mo, $99/mo (realistic SaaS pricing)
+- Dates: Use date-fns to show relative dates like "2 hours ago", "Mar 15, 2026"
+- Descriptions: Write real, compelling copy that matches the industry
+- Images: Use https://images.unsplash.com/photo-{id}?w=400&h=300&fit=crop for real photos
+  - Hero backgrounds: ?w=1920&h=1080&fit=crop
+  - Avatars: ?w=100&h=100&fit=crop&face
+  - Products: ?w=400&h=400&fit=crop
+
+═══════════════════════════════════════════════
+ITERATION RULES — When user asks for changes
+═══════════════════════════════════════════════
+
+1. "Change the color/style" → Output ONLY the file(s) where the change applies
+2. "Add a new section/page" → Output the new file + update App.tsx imports/routing
+3. "Fix the bug/error" → Analyze the error, output the minimal surgical fix
+4. "Make it responsive" → Output only files with layout changes
+5. "Add dark mode" → Add dark: classes to existing Tailwind, output changed files
+6. NEVER rewrite files that don't need changes
+7. NEVER remove existing features unless explicitly asked
+8. When adding features, maintain the existing design language and color palette
+
+═══════════════════════════════════════════════
+ACCESSIBILITY — Not optional
+═══════════════════════════════════════════════
+
+- Semantic HTML: <nav>, <main>, <section>, <article>, <aside>, <footer>
+- aria-label on interactive elements without visible text
+- role="button" on non-button clickable elements
+- Focus management: focus:outline-none focus:ring-2 focus:ring-{primary}
+- Keyboard navigation: tabIndex, onKeyDown for custom controls
+- Color contrast: ensure text is readable (4.5:1 ratio minimum)
+- Alt text on all images (descriptive, not "image of...")
+- Skip to main content link (for multi-section pages)`;
+
+// ─────────────────────────────────────────────────────────────
+// PROMPT BUILDER
+// ─────────────────────────────────────────────────────────────
+
 export function buildPrompt(
   userMessage: string,
   files: Record<string, string>,
   conversationHistory: Array<{ role: string; content: string }>,
   projectKnowledge?: string
-): { systemPrompt: string; messages: Array<{ role: string; content: string }> } {
+): {
+  systemPrompt: string;
+  messages: Array<{ role: string; content: string }>;
+} {
   let systemPrompt = SYSTEM_PROMPT;
 
-  // Add project knowledge if set
   if (projectKnowledge) {
-    systemPrompt += `\n\nPROJECT KNOWLEDGE (follow these instructions for all generations):\n${projectKnowledge}`;
+    systemPrompt += `\n\n═══════════════════════════════════════════════\nPROJECT KNOWLEDGE — Follow these for ALL generations\n═══════════════════════════════════════════════\n${projectKnowledge}`;
   }
 
-  // Add current file context
   const filePaths = Object.keys(files);
   if (filePaths.length > 0) {
-    systemPrompt += `\n\nCURRENT PROJECT FILES (${filePaths.length} files):`;
+    systemPrompt += `\n\n═══════════════════════════════════════════════\nCURRENT PROJECT (${filePaths.length} files)\n═══════════════════════════════════════════════`;
     systemPrompt += `\nFile tree:\n${filePaths.map((p) => `  ${p}`).join("\n")}`;
 
-    // For small projects, include all file contents
-    // For large projects, include only key files + file tree
     const totalChars = Object.values(files).reduce(
-      (sum, content) => sum + content.length,
+      (sum, c) => sum + c.length,
       0
     );
-    const MAX_CONTEXT_CHARS = 100_000; // ~25K tokens
 
-    if (totalChars < MAX_CONTEXT_CHARS) {
-      // Include all files
+    if (totalChars < 120_000) {
       for (const [path, content] of Object.entries(files)) {
         systemPrompt += `\n\n--- ${path} ---\n${content}`;
       }
     } else {
-      // Include only App.tsx and referenced files
-      const keyFiles = ["src/App.tsx", "src/index.tsx"];
-      for (const path of keyFiles) {
-        if (files[path]) {
-          systemPrompt += `\n\n--- ${path} ---\n${files[path]}`;
+      // Large project: include key files + tree
+      const priorities = [
+        "src/App.tsx",
+        "src/main.tsx",
+        "src/types/index.ts",
+      ];
+      for (const p of priorities) {
+        if (files[p]) {
+          systemPrompt += `\n\n--- ${p} ---\n${files[p]}`;
+        }
+      }
+      // Include files referenced in the user's message
+      for (const [path, content] of Object.entries(files)) {
+        if (
+          !priorities.includes(path) &&
+          userMessage.toLowerCase().includes(path.toLowerCase().replace("src/", ""))
+        ) {
+          systemPrompt += `\n\n--- ${path} ---\n${content}`;
         }
       }
       systemPrompt +=
-        "\n\n(Large project — only key files shown. Reference the file tree above for full structure.)";
+        "\n\n(Large project — showing key files + referenced files. Full tree shown above.)";
     }
   }
 
-  // Build message history (last 10 messages for context window management)
-  const recentHistory = conversationHistory.slice(-10);
+  const recentHistory = conversationHistory.slice(-20);
   const messages = [
     ...recentHistory.map((msg) => ({
-      role: msg.role === "assistant" ? "model" : "user",
+      role: msg.role === "assistant" ? "assistant" : "user",
       content: msg.content,
     })),
     { role: "user", content: userMessage },
@@ -119,56 +244,49 @@ export function buildPrompt(
   return { systemPrompt, messages };
 }
 
-/**
- * Parse file blocks from LLM response
- * Extracts <boltFile path="...">content</boltFile> blocks
- */
+// ─────────────────────────────────────────────────────────────
+// FILE PARSER
+// ─────────────────────────────────────────────────────────────
+
 export function parseFileBlocks(
   response: string
 ): Array<{ path: string; content: string }> {
   const files: Array<{ path: string; content: string }> = [];
   const regex = /<boltFile\s+path="([^"]+)">([\s\S]*?)<\/boltFile>/g;
-
   let match;
   while ((match = regex.exec(response)) !== null) {
-    const path = match[1].trim();
-    // Remove leading/trailing newlines from content but preserve internal formatting
-    const content = match[2].replace(/^\n/, "").replace(/\n$/, "");
-    files.push({ path, content });
+    files.push({
+      path: match[1].trim(),
+      content: match[2].replace(/^\n/, "").replace(/\n$/, ""),
+    });
   }
-
   return files;
 }
 
-/**
- * Extract the chat text (non-file content) from LLM response
- */
 export function extractChatText(response: string): string {
-  // Remove all file blocks, leaving just the explanation text
   return response
     .replace(/<boltFile\s+path="[^"]+">[\s\S]*?<\/boltFile>/g, "")
     .trim();
 }
 
-/**
- * Estimate credit cost based on response complexity
- */
 export function estimateCreditCost(filesChanged: number): number {
-  if (filesChanged === 0) return 0.25; // chat-only response
-  if (filesChanged <= 2) return 0.5; // small change
-  if (filesChanged <= 5) return 1.0; // medium change
-  return 1.5 + (filesChanged - 5) * 0.1; // large change
+  if (filesChanged === 0) return 0.25;
+  if (filesChanged <= 2) return 0.5;
+  if (filesChanged <= 5) return 1.0;
+  return 1.5 + (filesChanged - 5) * 0.1;
 }
 
-/**
- * Stream code generation via Gemini API
- */
+// ─────────────────────────────────────────────────────────────
+// MULTI-MODEL STREAMING
+// ─────────────────────────────────────────────────────────────
+
 export async function* streamGeneration(
   userMessage: string,
   files: Record<string, string>,
   conversationHistory: Array<{ role: string; content: string }>,
   projectKnowledge?: string,
-  apiKey?: string // BYOK support
+  model: AIModel = "gemini-flash",
+  byokKey?: string
 ): AsyncGenerator<
   | { type: "token"; content: string }
   | { type: "file"; path: string; content: string }
@@ -182,13 +300,38 @@ export async function* streamGeneration(
     projectKnowledge
   );
 
-  const geminiKey = apiKey || process.env.GEMINI_API_KEY;
-  if (!geminiKey) {
-    yield { type: "error", message: "No API key configured" };
+  switch (model) {
+    case "claude-sonnet":
+      yield* streamClaude(systemPrompt, messages, byokKey);
+      break;
+    case "gpt-4o":
+      yield* streamOpenAI(systemPrompt, messages, byokKey);
+      break;
+    case "gemini-flash":
+    default:
+      yield* streamGemini(systemPrompt, messages, byokKey);
+      break;
+  }
+}
+
+// ─── Gemini Streaming ───────────────────────────────────────
+
+async function* streamGemini(
+  systemPrompt: string,
+  messages: Array<{ role: string; content: string }>,
+  apiKey?: string
+): AsyncGenerator<
+  | { type: "token"; content: string }
+  | { type: "file"; path: string; content: string }
+  | { type: "done"; fullResponse: string }
+  | { type: "error"; message: string }
+> {
+  const key = apiKey || process.env.GEMINI_API_KEY;
+  if (!key) {
+    yield { type: "error", message: "No Gemini API key configured" };
     return;
   }
 
-  // Build Gemini request
   const geminiMessages = messages.map((msg) => ({
     role: msg.role === "user" ? "user" : "model",
     parts: [{ text: msg.content }],
@@ -196,7 +339,7 @@ export async function* streamGeneration(
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?key=${geminiKey}&alt=sse`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?key=${key}&alt=sse`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -213,11 +356,8 @@ export async function* streamGeneration(
     );
 
     if (!response.ok) {
-      const errorText = await response.text();
-      yield {
-        type: "error",
-        message: `API error (${response.status}): ${errorText.slice(0, 200)}`,
-      };
+      const err = await response.text();
+      yield { type: "error", message: `Gemini error (${response.status}): ${err.slice(0, 200)}` };
       return;
     }
 
@@ -236,8 +376,6 @@ export async function* streamGeneration(
       if (done) break;
 
       buffer += decoder.decode(value, { stream: true });
-
-      // Parse SSE events
       const lines = buffer.split("\n");
       buffer = lines.pop() || "";
 
@@ -248,29 +386,228 @@ export async function* streamGeneration(
 
         try {
           const parsed = JSON.parse(data);
-          const text =
-            parsed.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text || "";
           if (text) {
             fullResponse += text;
             yield { type: "token", content: text };
           }
         } catch {
-          // Skip malformed JSON chunks
+          // skip malformed chunks
         }
       }
     }
 
-    // After stream complete, parse file blocks and yield them
     const fileBlocks = parseFileBlocks(fullResponse);
     for (const file of fileBlocks) {
       yield { type: "file", path: file.path, content: file.content };
     }
-
     yield { type: "done", fullResponse };
   } catch (err) {
-    yield {
-      type: "error",
-      message: err instanceof Error ? err.message : "Unknown error",
-    };
+    yield { type: "error", message: err instanceof Error ? err.message : "Gemini error" };
+  }
+}
+
+// ─── Claude Streaming ───────────────────────────────────────
+
+async function* streamClaude(
+  systemPrompt: string,
+  messages: Array<{ role: string; content: string }>,
+  apiKey?: string
+): AsyncGenerator<
+  | { type: "token"; content: string }
+  | { type: "file"; path: string; content: string }
+  | { type: "done"; fullResponse: string }
+  | { type: "error"; message: string }
+> {
+  const key = apiKey || process.env.ANTHROPIC_API_KEY;
+  if (!key || key === "your_anthropic_api_key_here") {
+    yield { type: "error", message: "No Anthropic API key configured. Add ANTHROPIC_API_KEY to your environment or switch to Gemini." };
+    return;
+  }
+
+  // Claude messages format: alternate user/assistant, starting with user
+  const claudeMessages: Array<{ role: "user" | "assistant"; content: string }> = [];
+  for (const msg of messages) {
+    const role = msg.role === "assistant" ? "assistant" as const : "user" as const;
+    // Claude requires alternating roles — merge consecutive same-role messages
+    if (claudeMessages.length > 0 && claudeMessages[claudeMessages.length - 1].role === role) {
+      claudeMessages[claudeMessages.length - 1].content += "\n\n" + msg.content;
+    } else {
+      claudeMessages.push({ role, content: msg.content });
+    }
+  }
+
+  // Ensure first message is from user
+  if (claudeMessages.length > 0 && claudeMessages[0].role !== "user") {
+    claudeMessages.unshift({ role: "user", content: "Begin." });
+  }
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": key,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 16384,
+        system: systemPrompt,
+        messages: claudeMessages,
+        stream: true,
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      yield { type: "error", message: `Claude error (${response.status}): ${err.slice(0, 200)}` };
+      return;
+    }
+
+    if (!response.body) {
+      yield { type: "error", message: "No response body" };
+      return;
+    }
+
+    let fullResponse = "";
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const events = buffer.split("\n\n");
+      buffer = events.pop() || "";
+
+      for (const event of events) {
+        const lines = event.split("\n");
+        let eventType = "";
+        let eventData = "";
+
+        for (const line of lines) {
+          if (line.startsWith("event: ")) eventType = line.slice(7);
+          if (line.startsWith("data: ")) eventData = line.slice(6);
+        }
+
+        if (eventType === "content_block_delta" && eventData) {
+          try {
+            const parsed = JSON.parse(eventData);
+            const text = parsed.delta?.text || "";
+            if (text) {
+              fullResponse += text;
+              yield { type: "token", content: text };
+            }
+          } catch {
+            // skip
+          }
+        }
+      }
+    }
+
+    const fileBlocks = parseFileBlocks(fullResponse);
+    for (const file of fileBlocks) {
+      yield { type: "file", path: file.path, content: file.content };
+    }
+    yield { type: "done", fullResponse };
+  } catch (err) {
+    yield { type: "error", message: err instanceof Error ? err.message : "Claude error" };
+  }
+}
+
+// ─── OpenAI Streaming ───────────────────────────────────────
+
+async function* streamOpenAI(
+  systemPrompt: string,
+  messages: Array<{ role: string; content: string }>,
+  apiKey?: string
+): AsyncGenerator<
+  | { type: "token"; content: string }
+  | { type: "file"; path: string; content: string }
+  | { type: "done"; fullResponse: string }
+  | { type: "error"; message: string }
+> {
+  const key = apiKey || process.env.OPENAI_API_KEY;
+  if (!key) {
+    yield { type: "error", message: "No OpenAI API key configured. Add your key in Settings or switch to Gemini." };
+    return;
+  }
+
+  const openaiMessages = [
+    { role: "system" as const, content: systemPrompt },
+    ...messages.map((msg) => ({
+      role: (msg.role === "assistant" ? "assistant" : "user") as "system" | "user" | "assistant",
+      content: msg.content,
+    })),
+  ];
+
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${key}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o",
+        messages: openaiMessages,
+        max_tokens: 16384,
+        temperature: 0.7,
+        stream: true,
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      yield { type: "error", message: `OpenAI error (${response.status}): ${err.slice(0, 200)}` };
+      return;
+    }
+
+    if (!response.body) {
+      yield { type: "error", message: "No response body" };
+      return;
+    }
+
+    let fullResponse = "";
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || "";
+
+      for (const line of lines) {
+        if (!line.startsWith("data: ")) continue;
+        const data = line.slice(6).trim();
+        if (data === "[DONE]") continue;
+
+        try {
+          const parsed = JSON.parse(data);
+          const text = parsed.choices?.[0]?.delta?.content || "";
+          if (text) {
+            fullResponse += text;
+            yield { type: "token", content: text };
+          }
+        } catch {
+          // skip
+        }
+      }
+    }
+
+    const fileBlocks = parseFileBlocks(fullResponse);
+    for (const file of fileBlocks) {
+      yield { type: "file", path: file.path, content: file.content };
+    }
+    yield { type: "done", fullResponse };
+  } catch (err) {
+    yield { type: "error", message: err instanceof Error ? err.message : "OpenAI error" };
   }
 }

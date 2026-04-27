@@ -4,8 +4,8 @@ import type {
   BuilderPanel,
   DeviceFrame,
   FileChange,
-  GenerateEvent,
 } from "@/types/builder";
+import type { AIModel } from "@/lib/ai/code-agent";
 
 interface BuilderState {
   // Project
@@ -19,7 +19,7 @@ interface BuilderState {
   // Chat
   messages: ConversationMessage[];
   isGenerating: boolean;
-  streamingText: string; // partial assistant message while streaming
+  streamingText: string;
 
   // UI
   activePanel: BuilderPanel;
@@ -27,11 +27,18 @@ interface BuilderState {
   showFileExplorer: boolean;
   showCodePanel: boolean;
 
-  // Credits
+  // Credits + model
   credits: number;
+  selectedModel: AIModel;
 
   // Prompt queue
   promptQueue: string[];
+
+  // Save state
+  isSaving: boolean;
+
+  // Auto-fix tracking
+  autoFixAttempts: number;
 
   // Actions
   loadProject: (projectId: string) => Promise<void>;
@@ -41,8 +48,10 @@ interface BuilderState {
   autoFixError: (errorMessage: string) => void;
   setActiveFile: (path: string) => void;
   updateFileLocally: (path: string, content: string) => void;
+  saveFileToServer: (path: string, content: string) => Promise<void>;
   setActivePanel: (panel: BuilderPanel) => void;
   setDeviceFrame: (frame: DeviceFrame) => void;
+  setSelectedModel: (model: AIModel) => void;
   toggleCodePanel: () => void;
   reset: () => void;
 }
@@ -60,27 +69,36 @@ const initialState = {
   showFileExplorer: true,
   showCodePanel: false,
   credits: 0,
+  selectedModel: "gemini-flash" as AIModel,
   promptQueue: [] as string[],
+  isSaving: false,
+  autoFixAttempts: 0,
 };
+
+// Debounce timer for auto-saving file edits
+let saveTimer: ReturnType<typeof setTimeout> | null = null;
 
 export const useBuilderStore = create<BuilderState>((set, get) => ({
   ...initialState,
 
   loadProject: async (projectId: string) => {
-    set({ projectId, loading: true } as Partial<BuilderState>);
+    set({ projectId });
 
     try {
-      // Load project details
-      const projRes = await fetch(`/api/projects/${projectId}`);
-      if (projRes.ok) {
-        const proj = await projRes.json();
+      const [projRes, filesRes, convRes, credRes] = await Promise.allSettled([
+        fetch(`/api/projects/${projectId}`),
+        fetch(`/api/projects/${projectId}/files`),
+        fetch(`/api/projects/${projectId}/conversation`),
+        fetch("/api/credits"),
+      ]);
+
+      if (projRes.status === "fulfilled" && projRes.value.ok) {
+        const proj = await projRes.value.json();
         set({ projectName: proj.name || "Untitled Project" });
       }
 
-      // Load existing files
-      const filesRes = await fetch(`/api/projects/${projectId}/files`);
-      if (filesRes.ok) {
-        const data = await filesRes.json();
+      if (filesRes.status === "fulfilled" && filesRes.value.ok) {
+        const data = await filesRes.value.json();
         const files: Record<string, string> = {};
         for (const f of data.files || []) {
           files[f.path] = f.content;
@@ -88,19 +106,13 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
         set({ files });
       }
 
-      // Load conversation history
-      const convRes = await fetch(
-        `/api/projects/${projectId}/conversation`
-      );
-      if (convRes.ok) {
-        const data = await convRes.json();
+      if (convRes.status === "fulfilled" && convRes.value.ok) {
+        const data = await convRes.value.json();
         set({ messages: data.messages || [] });
       }
 
-      // Load credits
-      const credRes = await fetch("/api/credits");
-      if (credRes.ok) {
-        const data = await credRes.json();
+      if (credRes.status === "fulfilled" && credRes.value.ok) {
+        const data = await credRes.value.json();
         set({ credits: data.balance ?? 50 });
       }
     } catch (err) {
@@ -109,10 +121,14 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
   },
 
   sendMessage: async (content: string) => {
-    const { projectId, files, messages } = get();
+    const { projectId, messages, selectedModel } = get();
     if (!projectId || get().isGenerating) return;
 
-    // Add user message optimistically
+    // Reset auto-fix counter on user-initiated messages
+    if (!content.startsWith("The app has this error")) {
+      set({ autoFixAttempts: 0 });
+    }
+
     const userMsg: ConversationMessage = {
       id: crypto.randomUUID(),
       project_id: projectId,
@@ -133,7 +149,11 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ projectId, message: content }),
+        body: JSON.stringify({
+          projectId,
+          message: content,
+          model: selectedModel,
+        }),
       });
 
       if (!response.ok) {
@@ -143,6 +163,7 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
 
       if (!response.body) throw new Error("No response body");
 
+      // ─── Clean single-pass SSE parser ───
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
@@ -155,41 +176,24 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
         if (done) break;
 
         buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
 
-        for (const line of lines) {
-          if (line.startsWith("event: ")) {
-            // SSE event type is on this line, data on next
-            continue;
-          }
-          if (!line.startsWith("data: ")) continue;
+        // Split on double newline (SSE event boundary)
+        const blocks = buffer.split("\n\n");
+        // Keep the last incomplete block in the buffer
+        buffer = blocks.pop() || "";
 
-          try {
-            // Parse the event type from the previous line
-            const dataStr = line.slice(6);
-            const event = JSON.parse(dataStr) as GenerateEvent;
+        for (const block of blocks) {
+          if (!block.trim()) continue;
 
-            // We need the event type — check the raw buffer for "event: " prefix
-            // Since our server sends "event: type\ndata: ...\n\n", we handle it
-          } catch {
-            // Try to parse as a typed event by checking content
-          }
-        }
-
-        // Re-parse: our SSE format is "event: type\ndata: json\n\n"
-        // Process complete SSE blocks
-        const sseBuffer = decoder.decode(value, { stream: true });
-        const events = sseBuffer.split("\n\n").filter(Boolean);
-
-        for (const eventBlock of events) {
-          const eventLines = eventBlock.split("\n");
           let eventType = "";
           let eventData = "";
 
-          for (const l of eventLines) {
-            if (l.startsWith("event: ")) eventType = l.slice(7);
-            if (l.startsWith("data: ")) eventData = l.slice(6);
+          for (const line of block.split("\n")) {
+            if (line.startsWith("event: ")) {
+              eventType = line.slice(7).trim();
+            } else if (line.startsWith("data: ")) {
+              eventData = line.slice(6);
+            }
           }
 
           if (!eventType || !eventData) continue;
@@ -213,14 +217,17 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
                 break;
 
               case "done": {
+                const cleanText =
+                  streamedText
+                    .replace(/<boltFile[\s\S]*?<\/boltFile>/g, "")
+                    .trim() ||
+                  `Generated ${fileChanges.length} files`;
+
                 const assistantMsg: ConversationMessage = {
                   id: crypto.randomUUID(),
                   project_id: projectId,
                   role: "assistant",
-                  content: streamedText.replace(
-                    /<boltFile[\s\S]*?<\/boltFile>/g,
-                    ""
-                  ).trim() || `Generated ${fileChanges.length} files`,
+                  content: cleanText,
                   file_changes: fileChanges,
                   credits_used: parsed.creditsUsed || 0,
                   created_at: new Date().toISOString(),
@@ -246,6 +253,17 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
               case "error":
                 set({ isGenerating: false, streamingText: "" });
                 console.error("Generation error:", parsed.message);
+                // Add error as assistant message so user sees it
+                const errorMsg: ConversationMessage = {
+                  id: crypto.randomUUID(),
+                  project_id: projectId,
+                  role: "assistant",
+                  content: `Error: ${parsed.message}`,
+                  file_changes: [],
+                  credits_used: 0,
+                  created_at: new Date().toISOString(),
+                };
+                set({ messages: [...get().messages, errorMsg] });
                 break;
             }
           } catch {
@@ -253,23 +271,79 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
           }
         }
       }
+
+      // If stream ended without a "done" event, finalize
+      if (get().isGenerating) {
+        const cleanText =
+          streamedText
+            .replace(/<boltFile[\s\S]*?<\/boltFile>/g, "")
+            .trim() || "Generation complete";
+
+        const assistantMsg: ConversationMessage = {
+          id: crypto.randomUUID(),
+          project_id: projectId,
+          role: "assistant",
+          content: cleanText,
+          file_changes: fileChanges,
+          credits_used: 0,
+          created_at: new Date().toISOString(),
+        };
+
+        set({
+          messages: [...get().messages, assistantMsg],
+          isGenerating: false,
+          streamingText: "",
+        });
+      }
     } catch (err) {
       set({ isGenerating: false, streamingText: "" });
-      console.error("Send message failed:", err);
+      const errorMsg: ConversationMessage = {
+        id: crypto.randomUUID(),
+        project_id: projectId,
+        role: "assistant",
+        content: `Error: ${err instanceof Error ? err.message : "Something went wrong"}`,
+        file_changes: [],
+        credits_used: 0,
+        created_at: new Date().toISOString(),
+      };
+      set({ messages: [...get().messages, errorMsg] });
     }
   },
 
   setActiveFile: (path: string) => set({ activeFilePath: path }),
 
+  // Update file in memory + debounced save to server
   updateFileLocally: (path: string, content: string) => {
     const files = { ...get().files, [path]: content };
     set({ files });
+
+    // Debounced auto-save to DB
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      get().saveFileToServer(path, content);
+    }, 1000);
+  },
+
+  saveFileToServer: async (path: string, content: string) => {
+    const { projectId } = get();
+    if (!projectId) return;
+
+    set({ isSaving: true });
+    try {
+      await fetch(`/api/projects/${projectId}/files`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path, content }),
+      });
+    } catch (err) {
+      console.error("Failed to save file:", err);
+    }
+    set({ isSaving: false });
   },
 
   setActivePanel: (panel: BuilderPanel) => set({ activePanel: panel }),
-
   setDeviceFrame: (frame: DeviceFrame) => set({ deviceFrame: frame }),
-
+  setSelectedModel: (model: AIModel) => set({ selectedModel: model }),
   toggleCodePanel: () => set({ showCodePanel: !get().showCodePanel }),
 
   queuePrompt: (content: string) => {
@@ -286,10 +360,17 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
     set({ promptQueue: queue });
   },
 
+  // Auto-fix with max 3 attempts to prevent death loops
   autoFixError: (errorMessage: string) => {
-    const { isGenerating, sendMessage } = get();
-    if (isGenerating) return; // Don't auto-fix while already generating
-    sendMessage(
+    const { isGenerating, autoFixAttempts } = get();
+    if (isGenerating) return;
+    if (autoFixAttempts >= 3) {
+      console.warn("Auto-fix limit reached (3 attempts). Stopping.");
+      return;
+    }
+
+    set({ autoFixAttempts: autoFixAttempts + 1 });
+    get().sendMessage(
       `The app has this error. Please fix it:\n\n\`\`\`\n${errorMessage}\n\`\`\``
     );
   },
